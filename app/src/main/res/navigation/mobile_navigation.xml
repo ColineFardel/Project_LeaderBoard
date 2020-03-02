@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_league">
+
+    <fragment
+        android:id="@+id/nav_league"
+        android:name="com.example.project_leaderboard.ui.league.LeagueFragment"
+        android:label="@string/menu_league"
+        tools:layout="@layout/fragment_league" />
+
+    <fragment
+        android:id="@+id/nav_club"
+        android:name="com.example.project_leaderboard.ui.club.ClubFragment"
+        android:label="@string/menu_club"
+        tools:layout="@layout/fragment_club" />
+
+    <fragment
+        android:id="@+id/nav_favorites"
+        android:name="com.example.project_leaderboard.ui.favorites.FavoritesFragment"
+        android:label="@string/menu_favorites"
+        tools:layout="@layout/fragment_favorites" />
+
+    <fragment
+        android:id="@+id/nav_match"
+        android:name="com.example.project_leaderboard.ui.match.MatchFragment"
+        android:label="@string/menu_match"
+        tools:layout="@layout/fragment_match" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.project_leaderboard.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
