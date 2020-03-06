@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_league"
+            android:icon="@drawable/ic_trophy"
+            android:title="Leagues" />
+        <item
+            android:id="@+id/nav_club"
+            android:icon="@drawable/ic_club"
+            android:title="Add Club" />
+
+        <item
+            android:id="@+id/nav_match"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="Add match" />
+
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="Favorites" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_applications_black_24dp"
+            android:title="Settings" />
+    </group>
+
+
+</menu>
