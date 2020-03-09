@@ -31,5 +31,11 @@
         <item>Manchester City</item>
     </string-array>
 
+
+    <string-array name="language">
+        <item>Français</item>
+        <item>English</item>
+    </string-array>
+
     <item name="menu_search" type="id" />
 </resources>

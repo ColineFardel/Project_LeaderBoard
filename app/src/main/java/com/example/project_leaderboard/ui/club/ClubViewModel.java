@@ -10,7 +10,7 @@ public class ClubViewModel extends ViewModel {
 
     public ClubViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Clubs");
+        mText.setValue("Add club");
     }
 
     public LiveData<String> getText() {

@@ -22,8 +22,8 @@ public class MatchFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         matchViewModel =
                 ViewModelProviders.of(this).get(MatchViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_league, container, false);
-        final TextView textView = root.findViewById(R.id.text_league);
+        View root = inflater.inflate(R.layout.fragment_match, container, false);
+        final TextView textView = root.findViewById(R.id.text_match);
         matchViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

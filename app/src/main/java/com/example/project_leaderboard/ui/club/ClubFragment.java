@@ -16,15 +16,15 @@ import com.example.project_leaderboard.R;
 
 public class ClubFragment extends Fragment {
 
-    private ClubViewModel galleryViewModel;
+    private ClubViewModel clubViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
+        clubViewModel =
                 ViewModelProviders.of(this).get(ClubViewModel.class);
         View root = inflater.inflate(R.layout.fragment_club, container, false);
         final TextView textView = root.findViewById(R.id.text_club);
-        galleryViewModel.getText().observe(this, new Observer<String>() {
+        clubViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

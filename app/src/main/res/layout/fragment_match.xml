@@ -31,7 +31,7 @@
         android:gravity="left"
         android:text="League"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/spinner2"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match" />
 
@@ -47,7 +47,7 @@
         android:gravity="left"
         android:text="Club home"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/spinner2"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match" />
@@ -64,7 +64,7 @@
         android:gravity="left"
         android:text="Club visitor"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/spinner2"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match" />
@@ -81,7 +81,7 @@
         android:gravity="left"
         android:text="Score"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/spinner2"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match" />
@@ -98,13 +98,13 @@
         android:gravity="left"
         android:text="Score"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/spinner2"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match" />
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/league_spinner"
         android:layout_width="185dp"
         android:layout_height="69dp"
         android:layout_marginStart="16dp"
@@ -118,7 +118,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_match" />
 
     <Spinner
-        android:id="@+id/spinner3"
+        android:id="@+id/home_spinner"
         android:layout_width="190dp"
         android:layout_height="65dp"
         android:layout_marginStart="33dp"
@@ -133,7 +133,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_match" />
 
     <Spinner
-        android:id="@+id/spinner4"
+        android:id="@+id/visitor_spinner"
         android:layout_width="190dp"
         android:layout_height="65dp"
         android:layout_marginStart="33dp"
@@ -174,7 +174,7 @@
         app:layout_constraintStart_toEndOf="@+id/button3" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/score_home"
         android:layout_width="92dp"
         android:layout_height="47dp"
         android:layout_marginStart="52dp"
@@ -187,10 +187,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/spinner3" />
+        app:layout_constraintTop_toBottomOf="@+id/home_spinner" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/score_visitor"
         android:layout_width="92dp"
         android:layout_height="47dp"
         android:layout_marginStart="52dp"
@@ -203,6 +203,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/spinner3" />
+        app:layout_constraintTop_toBottomOf="@+id/home_spinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
