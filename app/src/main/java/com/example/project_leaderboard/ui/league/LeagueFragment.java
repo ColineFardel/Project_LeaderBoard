@@ -20,9 +20,9 @@ public class LeagueFragment extends Fragment {
 
     private LeagueViewModel leagueViewModel;
 
-    private String[] leagues= getResources().getStringArray(R.array.league);
+   /* private String[] leagues= getResources().getStringArray(R.array.league);
     ListView list;
-    View v;
+    View v;*/
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -37,10 +37,10 @@ public class LeagueFragment extends Fragment {
                 textView.setText(s);
             }
         });
-        v=root;
+       // v=root;
         return root;
     }
-
+/*
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -68,5 +68,5 @@ public class LeagueFragment extends Fragment {
                 return view;
             }
         });
-    }
+    }*/
 }
