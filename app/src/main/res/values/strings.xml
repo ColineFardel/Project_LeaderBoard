@@ -22,13 +22,93 @@
     </string-array>
 
 
-    <string-array name="clubs">
+    <string-array name="clubs_premierLeague">
         <item>Arsenal</item>
         <item>Cheslea</item>
         <item>Liverpool</item>
         <item>Tottenham</item>
         <item>Manchester United</item>
-        <item>Manchester City</item>
+        <item>Leicester</item>
+        <item>Wolves</item>
+        <item>Sheffield United</item>
+        <item>Burnley</item>
+        <item>Crystal Palace</item>
+        <item>Everton</item>
+        <item>Newcastle</item>
+        <item>Southampton</item>
+        <item>Brighton</item>
+        <item>West Ham</item>
+        <item>Watford</item>
+        <item>Bournemouth</item>
+        <item>Aston Villa</item>
+        <item>Norwich</item>
+    </string-array>
+
+    <string-array name="clubs_budesliga">
+        <item>Bayern</item>
+        <item>Dortmund</item>
+        <item>Leipzig</item>
+        <item>Leverkusen</item>
+        <item>Möchengladbach</item>
+        <item>Schalke</item>
+        <item>Wolfsbourg</item>
+        <item>Fribourg</item>
+        <item>Hoffenheim</item>
+        <item>Cologne</item>
+        <item>Union Berlin</item>
+        <item>Eintracht</item>
+        <item>Herta BSC</item>
+        <item>Augsbourg</item>
+        <item>Mainz 05</item>
+        <item>Düsseldorf</item>
+        <item>Werder</item>
+        <item>Padeborn 07</item>
+    </string-array>
+
+    <string-array name="clubs_ligue1">
+        <item>Paris-SG</item>
+        <item>Marseille</item>
+        <item>Rennes</item>
+        <item>Lille</item>
+        <item>Reims</item>
+        <item>Nice</item>
+        <item>Lyon</item>
+        <item>Montpellier</item>
+        <item>Monaco</item>
+        <item>Angers</item>
+        <item>Strasbourg</item>
+        <item>Bordeaux</item>
+        <item>Nantes</item>
+        <item>Brest</item>
+        <item>Metz</item>
+        <item>Dijon</item>
+        <item>Saint-Etienne</item>
+        <item>Nîmes</item>
+        <item>Amiens</item>
+        <item>Toulouse</item>
+    </string-array>
+
+    <string-array name="clubs_seria">
+        <item>Juventus</item>
+        <item>Lazio</item>
+        <item>Inter</item>
+        <item>Atalanta</item>
+        <item>Roma</item>
+        <item>Naples</item>
+        <item>Milan</item>
+        <item>Hellas Vérone</item>
+        <item>Parme</item>
+        <item>Bologne</item>
+        <item>Sassuolo</item>
+        <item>Cagliari</item>
+        <item>Fiorentina</item>
+        <item>Udinese</item>
+        <item>Torino</item>
+        <item>Sampdoria</item>
+        <item>Genoa</item>
+        <item>Lecce</item>
+        <item>SPAL 2013</item>
+        <item>Brescia</item>
     </string-array>
 
 
