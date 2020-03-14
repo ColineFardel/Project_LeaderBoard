@@ -15,7 +15,7 @@ public interface ClubDao {
     @Query("SELECT * FROM club")
     List<Club> getAll();
 
-    @Query("SELECT * FROM club WHERE id IN (:ClubIds)")
+    @Query("SELECT * FROM club WHERE ClubId IN (:ClubIds)")
     List<Club> loadAllByIds(int[] ClubIds);
 
     @Query("SELECT * FROM club WHERE NameClub LIKE :ClubName LIMIT 1")

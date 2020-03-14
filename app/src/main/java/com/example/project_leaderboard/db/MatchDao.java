@@ -16,7 +16,7 @@ public interface MatchDao {
     List<Match> getAll();
 
     @Query("SELECT * FROM `match` WHERE id IN (:MatchIds)")
-    List<Club> loadAllByIds(int[] MatchIds);
+    List<Match> loadAllByIds(int[] MatchIds);
 
 
     @Insert

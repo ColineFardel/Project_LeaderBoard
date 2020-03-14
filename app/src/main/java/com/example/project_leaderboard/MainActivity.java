@@ -2,6 +2,7 @@ package com.example.project_leaderboard;
 
 import android.os.Bundle;
 
+import com.example.project_leaderboard.db.AppDatabase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     Spinner dropdownmenu;
+    AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,5 +94,4 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
 }

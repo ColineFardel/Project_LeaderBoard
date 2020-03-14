@@ -15,20 +15,20 @@ public interface LeagueDao {
     @Query("SELECT * FROM league")
     List<League> getAll();
 
-    @Query("SELECT * FROM league WHERE id IN (:LeagueIds)")
+    @Query("SELECT * FROM league WHERE LeagueId IN (:LeagueIds)")
     List<League> loadAllByIds(int[] LeagueIds);
 
     @Query("SELECT * FROM league WHERE NameLeague LIKE :LeagueName LIMIT 1")
     League findByName(String LeagueName);
 
     @Insert
-    void insertAll(League... league) throws SQLiteConstraintException;
+    void insertLeague(League league) throws SQLiteConstraintException;
 
     @Update
-    void updateFruits(League... league);
+    void updateLeague(League league);
 
     @Delete
-    void delete(League league);
+    void deleteLeague(League league);
 
     @Query("DELETE FROM league")
     void deleteAll();

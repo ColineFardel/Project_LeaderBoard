@@ -4,19 +4,22 @@ package com.example.project_leaderboard.db;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Fts4;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.util.jar.Attributes;
 
-@Entity(tableName = "club", indices = {@Index(value = {"NameClub"}, unique = true)})
+@Entity(foreignKeys = @ForeignKey(entity = League.class, parentColumns = "LeagueId", childColumns = "LeagueId"))
 public class Club {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private int ClubId;
 
     @ColumnInfo(name = "NameClub")
     private String NameClub;
+
+    @ColumnInfo(name="LeagueId")
+    private int LeagueId;
 
     @ColumnInfo (name="Points")
     private int points;
@@ -31,20 +34,29 @@ public class Club {
     private int draws;
 
 
-    public Club(String NameClub, int points, int victories,int losses, int draws) {
+    public Club(String NameClub, int points, int victories,int losses, int draws, int LeagueId) {
         this.NameClub = NameClub;
         this.points=points;
         this.victories=victories;
         this.losses=losses;
         this.draws=draws;
+        this.LeagueId=LeagueId;
     }
 
-    public int getId() {
-        return id;
+    public int getLeagueId(){
+        return LeagueId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLeagueId(){
+        this.LeagueId=LeagueId;
+    }
+
+    public int getClubId() {
+        return ClubId;
+    }
+
+    public void setClubId(int id) {
+        this.ClubId = ClubId;
     }
 
     public String getNameClub() {
@@ -81,5 +93,6 @@ public class Club {
     public void setDraws(int draws) {
         this.draws = draws;
     }
+
 }
 

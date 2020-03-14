@@ -2,6 +2,7 @@ package com.example.project_leaderboard.db;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Fts4;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 

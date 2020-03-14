@@ -4,6 +4,7 @@ package com.example.project_leaderboard.db;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Fts4;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -11,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class League{
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private int LeagueId;
 
     @ColumnInfo(name = "NameLeague")
     private String LeagueName;
@@ -20,12 +21,12 @@ public class League{
         this.LeagueName = LeagueName;
     }
 
-    public int getId() {
-        return id;
+    public int getLeagueId() {
+        return LeagueId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLeagueId(int id) {
+        this.LeagueId = LeagueId;
     }
 
     public String getLeagueName() {
