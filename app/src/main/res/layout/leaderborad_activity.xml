@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/leader_clubs">
+    android:id="@+id/leader_clubs"
+    tools:openDrawer="start"
+    android:fitsSystemWindows="true">
+
 
     <TextView
         android:id="@+id/league_name"
@@ -40,6 +43,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+
+
+
     <ImageButton
         android:id="@+id/button_add"
         android:layout_width="wrap_content"
@@ -51,3 +59,4 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+

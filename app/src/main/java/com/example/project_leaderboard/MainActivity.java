@@ -34,19 +34,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    Spinner dropdownmenu;
-    AppDatabase db;
-    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
+     Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -61,35 +55,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
-
-
-
-     /* dropdownmenu = (Spinner) findViewById(R.id.spinner);
-
-      List<String> list = new ArrayList<>();
-        list.add("Liverpool");
-        list.add("Arsenal");
-        list.add("Manchester united");
-        list.add("Manchester city");
-        list.add("Tottenham");
-        list.add("Chelsea");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        dropdownmenu.setAdapter(adapter);
-
-        dropdownmenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String value = parent.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this,"Selected: " + value, Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
 
     }
 
