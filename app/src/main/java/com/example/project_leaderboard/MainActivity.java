@@ -1,5 +1,6 @@
 package com.example.project_leaderboard;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.example.project_leaderboard.db.AppDatabase;
@@ -23,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,11 +36,16 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     Spinner dropdownmenu;
     AppDatabase db;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -50,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_settings, R.id.nav_match)
                 .setDrawerLayout(drawer)
                 .build();
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+
+
+
 
      /* dropdownmenu = (Spinner) findViewById(R.id.spinner);
 
@@ -76,9 +91,6 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
     @Override
@@ -94,4 +106,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }
