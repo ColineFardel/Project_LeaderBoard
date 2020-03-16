@@ -1,72 +1,45 @@
 package com.example.project_leaderboard.ui.league;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.example.project_leaderboard.R;
 
 public class LeagueFragment extends Fragment {
 
-    private LeagueViewModel leagueViewModel;
+    private String[] leagues;
 
-   /* private String[] leagues= getResources().getStringArray(R.array.league);
-    ListView list;
-    View v;*/
-
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        leagueViewModel =
-                ViewModelProviders.of(this).get(LeagueViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_league, container, false);
-        final TextView textView = root.findViewById(R.id.text_league);
-        leagueViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-       // v=root;
-        return root;
-    }
-/*
+    @Nullable
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        leagues = v.getResources().getStringArray(R.array.league);
-        list = (ListView) v.findViewById(R.id.list_leagues);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        leagues = getResources().getStringArray(R.array.league);
 
-        list.setAdapter(new ArrayAdapter<String>(v.getContext(),
-                android.R.layout.simple_list_item_1 , leagues){
+        View view = inflater.inflate(R.layout.fragment_league,container,false);
+        ListView listView = view.findViewById(R.id.list_leagues);
+
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_list_item_1,
+                    leagues);
+
+        listView.setAdapter(listViewAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view;
-                //If View doesn't exist create a new view
-                if (convertView == null) {
-                    // Create the Layout
-                    LayoutInflater inflater = getLayoutInflater();
-                    view = inflater.inflate(R.layout.fragment_league, parent, false);
-                } else {
-                    view = convertView;
-                }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i;
+                i = new Intent(getActivity(), LeagueBoard.class);
+                startActivity(i);
+            }});
 
-                //Add Text to the layout
-                TextView textView1 = (TextView) view.findViewById(R.id.list_text_league);
-                textView1.setText(leagues[position]);
-
-                return view;
-            }
-        });
-    }*/
+        return view;
+        //return super.onCreateView(inflater, container, savedInstanceState);
+    }
 }
