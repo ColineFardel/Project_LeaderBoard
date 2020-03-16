@@ -14,7 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.example.project_leaderboard.R;
 
 public class LeagueFragment extends Fragment {
-
+    public static final String EXTRA_ID_ARRAY = "to get array";
+    public static final String EXTRA_TEXT = "to get league name";
     private String[] leagues;
 
     @Nullable
@@ -36,6 +37,25 @@ public class LeagueFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i;
                 i = new Intent(getActivity(), LeagueBoard.class);
+                switch (position){
+                    case 0:
+                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_premierLeague);
+                        i.putExtra(EXTRA_TEXT, "Premier league");
+                        break;
+                    case 1:
+                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_budesliga);
+                        i.putExtra(EXTRA_TEXT, "Bundesliga");
+                        break;
+                    case 2:
+                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_ligue1);
+                        i.putExtra(EXTRA_TEXT, "Ligue 1");
+                        break;
+                    case 3:
+                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_seria);
+                        i.putExtra(EXTRA_TEXT, "Serie A");
+                        break;
+                }
+
                 startActivity(i);
             }});
 
