@@ -4,25 +4,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/leader_clubs">
 
     <TextView
         android:id="@+id/league_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="176dp"
-        android:layout_marginRight="176dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/button_add"
+        app:layout_constraintStart_toEndOf="@+id/button_delete"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+        android:id="@+id/leaderboard_clubs"
         android:layout_width="409dp"
         android:layout_height="678dp"
         android:layout_marginTop="24dp"
-        android:entries="@array/clubs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/league_name" />
+
+    <ImageButton
+        android:id="@+id/button_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>
