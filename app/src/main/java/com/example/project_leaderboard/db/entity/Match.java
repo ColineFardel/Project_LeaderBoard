@@ -1,4 +1,4 @@
-package com.example.project_leaderboard.db;
+package com.example.project_leaderboard.db.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

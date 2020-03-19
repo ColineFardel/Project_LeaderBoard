@@ -27,8 +27,8 @@ public class LeagueFragment extends Fragment {
         ListView listView = view.findViewById(R.id.list_leagues);
 
         ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(getActivity(),
-                    android.R.layout.simple_list_item_1,
-                    leagues);
+                android.R.layout.simple_list_item_1,
+                leagues);
 
         listView.setAdapter(listViewAdapter);
 

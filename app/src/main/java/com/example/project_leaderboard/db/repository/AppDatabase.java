@@ -1,4 +1,4 @@
-package com.example.project_leaderboard.db;
+package com.example.project_leaderboard.db.repository;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,6 +6,13 @@ import android.os.AsyncTask;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.example.project_leaderboard.db.dao.ClubDao;
+import com.example.project_leaderboard.db.dao.LeagueDao;
+import com.example.project_leaderboard.db.dao.MatchDao;
+import com.example.project_leaderboard.db.entity.Club;
+import com.example.project_leaderboard.db.entity.League;
+import com.example.project_leaderboard.db.entity.Match;
 
 
 @Database(entities = {League.class, Club.class, Match.class}, version = 1)

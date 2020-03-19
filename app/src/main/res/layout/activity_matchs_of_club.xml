@@ -20,6 +20,9 @@
         app:layout_constraintStart_toEndOf="@+id/button_delete"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+
     <ListView
         android:id="@+id/all_matchs"
         android:layout_width="409dp"

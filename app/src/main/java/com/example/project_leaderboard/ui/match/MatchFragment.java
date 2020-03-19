@@ -32,4 +32,5 @@ public class MatchFragment extends Fragment {
         });
         return root;
     }
+
 }
