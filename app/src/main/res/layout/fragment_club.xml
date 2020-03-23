@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/club_container"
+    android:background="?attr/backgroundcolor">
 
     <TextView
         android:id="@+id/text_club"
@@ -17,7 +19,8 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="?attr/textcolor"/>
 
     <TextView
         android:id="@+id/textView"
@@ -31,7 +34,8 @@
         android:text="Name "
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_club" />
+        app:layout_constraintTop_toBottomOf="@+id/text_club"
+        android:textColor="?attr/textcolor"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -47,7 +51,8 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/spinner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:textColor="?attr/textcolor"/>
 
     <EditText
         android:id="@+id/editText"
