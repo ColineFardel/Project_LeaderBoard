@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.db.async;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -9,13 +10,14 @@ import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
 public class DeleteMatch extends AsyncTask<Match,Void,Void> {
 
-    private AppDatabase database;
+    AppDatabase database;
+    private Application application;
     private OnAsyncEventListener callback;
     private Exception exception;
 
 
-    public DeleteMatch(Context context, OnAsyncEventListener callback) {
-        database = AppDatabase.getAppDatabase(context);
+    public DeleteMatch(Application application, OnAsyncEventListener callback) {
+        this.application = application;
         this.callback=callback;
     }
 
@@ -40,7 +42,7 @@ public class DeleteMatch extends AsyncTask<Match,Void,Void> {
             callback.onSuccess();
         }
         else{
-            callback.onFeilure(exception);
+            callback.onFailure(exception);
         }
     }
 }

@@ -25,7 +25,7 @@ public interface MatchDao {
     void insertAll(Match... match) throws SQLiteConstraintException;
 
     @Update
-    void updateFruits(Match... match);
+    void updateMatch(Match... match);
 
     @Delete
     void delete(Match match);

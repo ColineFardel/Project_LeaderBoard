@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void toastMsg (String msg){
+        Toast toast = Toast.makeText(this,msg,Toast.LENGTH_LONG);
+        toast.show();
+    }
+    public void displayToastmsg(View v){
+        toastMsg("Match successfully added");
     }
 
 

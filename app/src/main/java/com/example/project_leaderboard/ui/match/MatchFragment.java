@@ -20,11 +20,13 @@ public class MatchFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         matchViewModel =
                 ViewModelProviders.of(this).get(MatchViewModel.class);
         View root = inflater.inflate(R.layout.fragment_match, container, false);
         final TextView textView = root.findViewById(R.id.text_match);
-        matchViewModel.getText().observe(this, new Observer<String>() {
+        matchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

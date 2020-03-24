@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.db.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
@@ -7,7 +8,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "match")
-public class Match {
+public class Match implements Comparable{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -69,5 +70,15 @@ public class Match {
 
     public void setScoreVisitor(int scoreVisitor) {
         ScoreVisitor = scoreVisitor;
+    }
+
+    @Override
+    public String toString(){
+        return "Home " + ScoreHome + "- "+ "Visitonr" + ScoreVisitor;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        return toString().compareTo(o.toString());
     }
 }
