@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
+    >
 
     <TextView
         android:id="@+id/text_settings"
@@ -18,7 +20,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:textColor="?attr/textcolor"/>
 
     <Switch
         android:id="@+id/night_switch"
@@ -27,6 +30,7 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="32dp"
         android:text="Switch"
+        android:textColor="?attr/textcolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_settings" />
 
@@ -38,11 +42,11 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="184dp"
         android:text="Night Mode"
-        android:textColor="@android:color/black"
         app:layout_constraintEnd_toStartOf="@+id/night_switch"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_settings" />
+        app:layout_constraintTop_toBottomOf="@+id/text_settings"
+        android:textColor="?attr/textcolor"/>
 
     <TextView
         android:id="@+id/langue_text"
@@ -52,7 +56,8 @@
         android:layout_marginTop="30dp"
         android:text="Language"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/night_text" />
+        app:layout_constraintTop_toBottomOf="@+id/night_text"
+        android:textColor="?attr/textcolor"/>
 
     <Spinner
         android:id="@+id/langue_spinner"

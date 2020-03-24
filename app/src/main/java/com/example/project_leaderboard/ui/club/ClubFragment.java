@@ -20,6 +20,12 @@ public class ClubFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_club,container,false);
+        TextView textView = view.findViewById(R.id.text_club);
+
+        return view;
+        /*
         clubViewModel =
                 ViewModelProviders.of(this).get(ClubViewModel.class);
         View root = inflater.inflate(R.layout.fragment_club, container, false);
@@ -30,6 +36,6 @@ public class ClubFragment extends Fragment {
                 textView.setText(s);
             }
         });
-        return root;
+        return root;*/
     }
 }

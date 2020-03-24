@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/matchs_of_club">
+    android:id="@+id/matchs_of_club"
+    android:background="?attr/backgroundcolor">
 
     <TextView
         android:id="@+id/club_name"
@@ -13,8 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Club Name"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/black"
+        android:textColor="?attr/textcolor"
+        android:textColorHint="?attr/tintcolor"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/button_add"
         app:layout_constraintStart_toEndOf="@+id/button_delete"

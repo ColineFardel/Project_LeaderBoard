@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/leader_clubs"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="?attr/backgroundcolor">
 
     <TextView
         android:id="@+id/league_name"
@@ -14,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/black"
+        android:textColor="?attr/textcolor"
+        android:textColorHint="?attr/tintcolor"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/button_add"
         app:layout_constraintStart_toEndOf="@+id/button_delete"
@@ -41,7 +42,6 @@
         android:src="@drawable/ic_delete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ImageButton
         android:id="@+id/button_add"
