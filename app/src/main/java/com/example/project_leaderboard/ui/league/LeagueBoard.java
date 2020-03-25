@@ -45,6 +45,9 @@ public class LeagueBoard extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderborad_activity);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         sharedPref = new SharedPref(this);
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
@@ -53,8 +56,7 @@ public class LeagueBoard extends AppCompatActivity{
             setTheme(R.style.AppTheme);
         }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         /*
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

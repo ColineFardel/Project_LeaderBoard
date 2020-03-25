@@ -119,10 +119,10 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:entries="@array/league"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/text_match" />
+        app:layout_constraintTop_toBottomOf="@+id/text_match"
+        android:backgroundTint="?attr/tintcolor"/>
 
     <Spinner
         android:id="@+id/home_spinner"
@@ -133,11 +133,11 @@
         android:layout_marginTop="176dp"
         android:layout_marginEnd="26dp"
         android:layout_marginRight="26dp"
-        android:entries="@array/clubs_premierLeague"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/text_match" />
+        app:layout_constraintTop_toBottomOf="@+id/text_match"
+        android:backgroundTint="?attr/tintcolor"/>
 
     <Spinner
         android:id="@+id/visitor_spinner"
@@ -148,11 +148,11 @@
         android:layout_marginTop="356dp"
         android:layout_marginEnd="26dp"
         android:layout_marginRight="26dp"
-        android:entries="@array/clubs_premierLeague"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/text_match" />
+        app:layout_constraintTop_toBottomOf="@+id/text_match"
+        android:backgroundTint="?attr/tintcolor"/>
 
     <Button
         android:id="@+id/button3"
@@ -196,7 +196,8 @@
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/home_spinner"
         android:textColor="?attr/textcolor"
-        android:textColorHint="?attr/tintcolor"/>
+        android:textColorHint="?attr/tintcolor"
+        android:backgroundTint="?attr/tintcolor"/>
 
     <EditText
         android:id="@+id/score_visitor"
@@ -214,6 +215,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/home_spinner"
         android:textColor="?attr/textcolor"
-        android:textColorHint="?attr/tintcolor"/>
+        android:textColorHint="?attr/tintcolor"
+        android:backgroundTint="?attr/tintcolor"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

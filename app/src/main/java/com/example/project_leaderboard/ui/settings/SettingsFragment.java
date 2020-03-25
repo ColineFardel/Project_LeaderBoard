@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -27,6 +30,7 @@ public class SettingsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        /*
         toolsViewModel =
                 ViewModelProviders.of(this).get(SettingsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
@@ -38,6 +42,25 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+         */
+
+        //Colored Spinner
+
+        View root = inflater.inflate(R.layout.fragment_settings,container,false);
+
+        Spinner coloredSpinner = root.findViewById(R.id.langue_spinner);
+
+        String [] list = getResources().getStringArray(R.array.language);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,list);
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
+        coloredSpinner.setAdapter(adapter);
+
+
+
+
+        //Preferences
         sharedPref = new SharedPref(getContext());
         if(sharedPref.loadNightMode()==true){
             getContext().setTheme(R.style.NightTheme);

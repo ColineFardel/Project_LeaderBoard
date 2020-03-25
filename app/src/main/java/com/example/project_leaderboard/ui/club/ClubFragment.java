@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,13 @@ public class ClubFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_club,container,false);
         TextView textView = view.findViewById(R.id.text_club);
+
+
+        Spinner colorspinner = view.findViewById(R.id.spinner);
+        String [] list = getResources().getStringArray(R.array.league);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,list);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
+        colorspinner.setAdapter(adapter);
 
         return view;
         /*
