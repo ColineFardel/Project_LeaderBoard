@@ -2,10 +2,15 @@ package com.example.project_leaderboard.db.repository;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.project_leaderboard.db.dao.ClubDao;
 import com.example.project_leaderboard.db.dao.LeagueDao;
@@ -14,32 +19,34 @@ import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.entity.Match;
 
+import java.util.concurrent.Executors;
+
 
 @Database(entities = {League.class, Club.class, Match.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
+
+    private static final String TAG = "AppDatabase";
+
+    private static final String DATABASE_NAME = "leaderboardDB";
     private static AppDatabase INSTANCE;
+    private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
     // For Singleton instantiation
     private static final Object LOCK = new Object();
 
+    public abstract LeagueDao leagueDao();
 
-    public synchronized static AppDatabase getAppDatabase(Context context) {
+    public abstract MatchDao matchDao();
+
+    public abstract ClubDao clubDao();
+
+
+    public synchronized static AppDatabase getInstance(final Context context) {
         if (INSTANCE == null) {
-            synchronized (LOCK) {
+            synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "leaderboardDB")
-                            /*
-                            allow queries on the main thread.
-                            Don't do this in a real app!
-                            See PersistenceBasicSample
-                            https://github.com/googlesamples/android-architecture-components/tree/master/BasicSample
-                            for an example.
-
-                            Would throw java.lang.IllegalStateException:
-                            Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
-                            */
-                            .allowMainThreadQueries()
-                            .build();
+                   INSTANCE = buildDatabase(context.getApplicationContext());
+                   INSTANCE.updateDatabaseCreated(context.getApplicationContext());
                 }
             }
         }
@@ -47,11 +54,41 @@ public abstract class AppDatabase extends RoomDatabase {
 
     }
 
-    public abstract LeagueDao leagueDao();
+    private static AppDatabase buildDatabase(final Context appContext) {
+        Log.i(TAG, "Database will be initialized.");
+        return Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME)
+                .addCallback(new Callback() {
+                    @Override
+                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                        super.onCreate(db);
+                        Executors.newSingleThreadExecutor().execute(() -> {
+                            AppDatabase database = AppDatabase.getInstance(appContext);
+                            // notify that the database was created and it's ready to be used
+                            database.setDatabaseCreated();
+                        });
+                    }
+                }).build();
+    }
 
-    public abstract MatchDao matchDao();
+    private void setDatabaseCreated(){
+        mIsDatabaseCreated.postValue(true);
+    }
 
-    public abstract ClubDao clubDao();
+
+    private void updateDatabaseCreated(final Context context) {
+        if (context.getDatabasePath(DATABASE_NAME).exists()) {
+            Log.i(TAG, "Database initialized.");
+            setDatabaseCreated();
+        }
+    }
+
+
+    public LiveData<Boolean> getDatabaseCreated() {
+        return mIsDatabaseCreated;
+    }
+
+
+
 
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {

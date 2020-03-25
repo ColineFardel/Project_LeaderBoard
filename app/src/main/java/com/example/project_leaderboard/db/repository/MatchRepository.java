@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.db.repository;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
@@ -14,19 +15,38 @@ import java.util.List;
 
 public class MatchRepository {
 
-    public LiveData<List<Match>> getAllMatch (Context context){
-        return (LiveData<List<Match>>) AppDatabase.getAppDatabase(context).matchDao().getAll();
+    private static MatchRepository instance;
+
+    private MatchRepository(){
+
     }
 
-   public void insert (final Match match, OnAsyncEventListener callback, Context context){
-        new CreateMatch(context,callback).execute(match);
+    public static MatchRepository getInstance(){
+        if(instance==null){
+            synchronized (MatchRepository.class){
+                if(instance==null){
+                    instance = new MatchRepository();
+                }
+            }
+        }
+        return instance;
     }
 
-    public void update (final Match match, OnAsyncEventListener callback, Context context){
-        new UpdateMatch (context,callback).execute(match);
+   /* public LiveData<List<Match>> getMatch (final int MatchId, Application application){
+        new CreateMatch(MatchId,application).execute(getMatch());
     }
-    public void delete (final Match match, OnAsyncEventListener callback, Context context){
-        new DeleteMatch(context,callback).execute(match);
+
+    */
+
+   public void insert (final Match match, OnAsyncEventListener callback, Application application){
+        new CreateMatch(application,callback).execute(match);
+    }
+
+    public void update (final Match match, OnAsyncEventListener callback, Application application){
+        new UpdateMatch (application,callback).execute(match);
+    }
+    public void delete (final Match match, OnAsyncEventListener callback, Application application){
+        new DeleteMatch(application,callback).execute(match);
     }
 
 }
