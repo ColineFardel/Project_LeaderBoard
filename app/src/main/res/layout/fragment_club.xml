@@ -41,7 +41,7 @@
         android:id="@+id/textView4"
         android:layout_width="147dp"
         android:layout_height="54dp"
-        android:layout_alignBaseline="@id/spinner"
+        android:layout_alignBaseline="@id/league_spinner"
         android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -49,13 +49,13 @@
         android:gravity="left"
         android:text="League"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/spinner"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:textColor="?attr/textcolor"/>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/club_name"
         android:layout_width="148dp"
         android:layout_height="67dp"
         android:layout_alignBaseline="@id/textView"
@@ -101,15 +101,17 @@
         tools:ignore="MissingConstraints" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/league_spinner"
         android:layout_width="187dp"
         android:layout_height="50dp"
         android:layout_marginTop="164dp"
         android:layout_marginEnd="76dp"
         android:layout_marginRight="76dp"
+        android:entries="@array/league"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/club_name"
         android:backgroundTint="?attr/tintcolor"/>
+        app:layout_constraintTop_toBottomOf="@+id/club_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

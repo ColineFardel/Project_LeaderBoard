@@ -1,6 +1,7 @@
 package com.example.project_leaderboard.db.entity;
 
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -32,20 +33,18 @@ public class Club {
     private int draws;
 
 
-    public Club(String NameClub, int points, int victories,int losses, int draws, int LeagueId) {
-        this.NameClub = NameClub;
-        this.points=points;
-        this.victories=victories;
-        this.losses=losses;
-        this.draws=draws;
+    public Club(String NameClub, @Nullable int points,@Nullable int victories, @Nullable int losses, @Nullable int draws, int LeagueId) {
+       this.NameClub = NameClub;
         this.LeagueId=LeagueId;
     }
+
+
 
     public int getLeagueId(){
         return LeagueId;
     }
 
-    public void setLeagueId(){
+    public void setLeagueId(int leagueId){
         this.LeagueId=LeagueId;
     }
 
@@ -67,7 +66,7 @@ public class Club {
 
     public int getPoints(){return points;}
 
-    public void setPoints (int points) {this.points=points;};
+    public void setPoints (Integer points) {this.points=points;};
 
     public int getVictories() {
         return victories;

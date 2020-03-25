@@ -2,6 +2,7 @@ package com.example.project_leaderboard.db.dao;
 
 import android.database.sqlite.SQLiteConstraintException;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -14,8 +15,8 @@ import java.util.List;
 
 @Dao
 public interface ClubDao {
-    @Query("SELECT * FROM club")
-    List<Club> getAll();
+    @Query("SELECT * FROM club WHERE LeagueId = :LeagueId")
+    LiveData<List<Club>> getByLeague(int LeagueId);
 
     @Query("SELECT * FROM club WHERE ClubId IN (:ClubIds)")
     List<Club> loadAllByIds(int[] ClubIds);
@@ -27,7 +28,7 @@ public interface ClubDao {
     void insertAll(Club... club) throws SQLiteConstraintException;
 
     @Update
-    void updateFruits(Club... club);
+    void updateClubs(Club... club);
 
     @Delete
     void delete(Club club);
