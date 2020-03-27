@@ -27,7 +27,7 @@ public class ClubFragment extends Fragment {
         TextView textView = view.findViewById(R.id.text_club);
 
 
-        Spinner colorspinner = view.findViewById(R.id.spinner);
+        Spinner colorspinner = view.findViewById(R.id.league_spinner);
         String [] list = getResources().getStringArray(R.array.league);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,list);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);

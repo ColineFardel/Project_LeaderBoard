@@ -196,6 +196,10 @@ public abstract class AppDatabase extends RoomDatabase {
             Club spal = new Club("SPAL 2013", 15, 5, 0, 0, 4);
             Club brescia = new Club("Brescia", 15, 5, 0, 0, 4);
             clubDao.insertAll(lazio,inter,atalanta,roma,naples,milan,hellas,parme,bologne,sassulo, cagliari,fiorentina,udinese,torino,sampdoria,genoa,lecce,spal,brescia);
+            Match match1 = new Match(2,4,6,3);
+            Match match2 = new Match(5,6,2,1);
+            Match match3 = new Match(15,25,0,0);
+            matchDao.insertAll(match1,match2,match3);
             return null;
         }
     }

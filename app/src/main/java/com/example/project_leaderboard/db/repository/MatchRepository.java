@@ -32,11 +32,11 @@ public class MatchRepository {
         return instance;
     }
 
-   /* public LiveData<List<Match>> getMatch (final int MatchId, Application application){
-        new CreateMatch(MatchId,application).execute(getMatch());
+    public LiveData<List<Match>> getAllMatches (final int MatchId, Context context){
+        return (LiveData<List<Match>>) AppDatabase.getInstance(context).matchDao().getAll();
     }
 
-    */
+
 
    public void insert (final Match match, OnAsyncEventListener callback, Application application){
         new CreateMatch(application,callback).execute(match);

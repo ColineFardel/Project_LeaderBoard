@@ -26,7 +26,8 @@
     <fragment
         android:id="@+id/nav_match"
         android:name="com.example.project_leaderboard.ui.match.MatchFragment"
-        android:label="@string/menu_match" />
+        android:label="@string/menu_match"
+        tools:layout="@layout/fragment_match"/>
 
     <fragment
         android:id="@+id/nav_settings"
