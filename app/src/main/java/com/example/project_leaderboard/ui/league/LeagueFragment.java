@@ -43,7 +43,6 @@ public class LeagueFragment extends Fragment {
         else{
             getContext().setTheme(R.style.AppTheme);
         }
-
          */
 
         MyAdapter listViewAdapter = new MyAdapter(getContext(), leagues);

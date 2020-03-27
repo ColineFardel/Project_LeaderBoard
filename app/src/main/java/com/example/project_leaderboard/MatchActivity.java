@@ -11,11 +11,18 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_leaderboard.adapter.ListAdapter;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.ui.match.AddMatchViewModel;
+import com.example.project_leaderboard.ui.match.MatchListAdapter;
+
+import java.util.List;
 
 public class MatchActivity extends BaseActivity {
 
@@ -28,7 +35,8 @@ public class MatchActivity extends BaseActivity {
 
     private Spinner LeagueSpinner;
     private Spinner ClubSpinner;
-
+    private AddMatchViewModel matchViewModel;
+    private MatchListAdapter matchListAdapter;
     private ListAdapter<Match> adapterMatch;
 
     private AddMatchViewModel viewModel;
@@ -45,17 +53,30 @@ public class MatchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         navigationView.setCheckedItem(position);
+        setContentView(R.layout.fragment_club);
 
-        setupLeagueSpinner();
-        setupClubSpinner();
+    //    setupLeagueSpinner();
+   //     setupClubSpinner();
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        matchListAdapter = new MatchListAdapter(this);
+        recyclerView.setAdapter(matchListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        matchViewModel = ViewModelProviders.of(this).get(AddMatchViewModel.class);
+        matchViewModel.getAllMatches().observe(this, new Observer<List<Match>>() {
+            @Override
+            public void onChanged(List<Match> matches) {
+                matchListAdapter.setMatches(matches);
+            }
+        });
 
 
 
-      //  getLayoutInflater().inflate(R.layout.fragment_match, frameLayout);
-        setContentView(R.layout.fragment_match);
+      //  getLayoutInflater().inflate(R.layout.list_match, frameLayout);
+      //  setContentView(R.layout.list_match);
     }
 
-    @SuppressLint("ResourceType")
+  /*  @SuppressLint("ResourceType")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == EDIT_MATCH) {
@@ -73,7 +94,7 @@ public class MatchActivity extends BaseActivity {
             alertDialog.setCancelable(false);
             alertDialog.setMessage(getString(R.string.delete_msg));
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_delete), (dialog, which) -> {
-                viewModel.deleteMatch(match, new OnAsyncEventListener() {
+                viewModel.delete(match, new OnAsyncEventListener() {
                     @Override
                     public void onSuccess() {
                     }
@@ -137,7 +158,7 @@ public class MatchActivity extends BaseActivity {
         match.setScoreHome(ScoreHome);
         match.setScoreVisitor(ScoreVisitor);
 
-        viewModel.updateMatch(match, new OnAsyncEventListener() {
+        viewModel.update(match, new OnAsyncEventListener() {
             @Override
             public void onSuccess() {
                 setResponse(true);
@@ -177,6 +198,6 @@ public class MatchActivity extends BaseActivity {
             ScoreVisitor.setText(match.getScoreVisitor());
         }
     }
-
+*/
 
 }

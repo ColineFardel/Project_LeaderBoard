@@ -3,11 +3,23 @@ package com.example.project_leaderboard.db.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Fts4;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "match")
+@Entity(foreignKeys = {
+        @ForeignKey(
+                entity = Club.class,
+                parentColumns = "ClubId",
+                childColumns = "IdClubHome"
+        ),
+        @ForeignKey(
+                entity = Club.class,
+                parentColumns = "ClubId",
+                childColumns = "IdClubVisitor"
+        )
+})
 public class Match implements Comparable{
 
     @PrimaryKey(autoGenerate = true)

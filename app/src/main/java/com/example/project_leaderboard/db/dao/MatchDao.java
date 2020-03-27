@@ -2,6 +2,7 @@ package com.example.project_leaderboard.db.dao;
 
 import android.database.sqlite.SQLiteConstraintException;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,7 +16,10 @@ import java.util.List;
 @Dao
 public interface MatchDao {
     @Query("SELECT * FROM `match`")
-    List<Match> getAll();
+    LiveData<List<Match> >getAll();
+
+    @Query("SELECT * FROM `match`")
+    List<Match> getMatchbyClub();
 
     @Query("SELECT * FROM `match` WHERE id IN (:MatchIds)")
     List<Match> loadAllByIds(int[] MatchIds);
