@@ -1,5 +1,7 @@
 package com.example.project_leaderboard;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.navigation.NavController;
@@ -24,18 +26,13 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPref sharedPref;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPref = new SharedPref(this);
-        if(sharedPref.loadNightMode()==true){
-            setTheme(R.style.NightTheme);
-        }
-        else{
-            setTheme(R.style.AppTheme);
-        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,6 +50,19 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        sharedPref = new SharedPref(this);
+        if(sharedPref.loadNightMode()==true){
+            setTheme(R.style.NightTheme);
+            int grey = Color.parseColor("#FF303030");
+            navigationView.setBackgroundColor(grey);
+            //navigationView.getBackground().setAlpha(255);
+            //textView.getBackground().setAlpha(51);
+        }
+        else{
+            setTheme(R.style.AppTheme);
+        }
+
 
     }
 

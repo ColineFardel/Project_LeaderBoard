@@ -14,6 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 
@@ -32,9 +35,6 @@ public class LeagueFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_league,container,false);
         ListView listView = view.findViewById(R.id.list_leagues);
 
-        /*ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1,
-                leagues);*/
         /*
         sharedPref = new SharedPref(getContext());
         if(sharedPref.loadNightMode()==true){
