@@ -21,8 +21,8 @@ public interface LeagueDao {
     @Query("SELECT * FROM league WHERE LeagueId IN (:LeagueIds)")
     List<League> loadAllByIds(int[] LeagueIds);
 
-    @Query("SELECT * FROM league WHERE NameLeague LIKE :LeagueName")
-    LiveData<List<League>> GetLeagueName(String LeagueName);
+    @Query("SELECT NameLeague FROM league ")
+    LiveData<List<String>> GetLeagueName();
 
     @Insert
     void insertLeague(League league) throws SQLiteConstraintException;

@@ -28,27 +28,26 @@ public class LeagueViewModel extends AndroidViewModel {
     private LeagueDao leagueDao;
     private AppDatabase db;
     private String LeagueName;
-    private LiveData<List<League>> mAllLeagues;
+    private LiveData<List<String>> mAllLeagues;
     private String TAG = this.getClass().getSimpleName();
 
     public LeagueViewModel(Application application) {
         super(application);
         db = AppDatabase.getInstance(application);
         leagueDao = db.leagueDao();
-        mAllLeagues = (LiveData<List<League>>) leagueDao.GetLeagueName(LeagueName);
+        mAllLeagues = leagueDao.GetLeagueName();
         mText = new MutableLiveData<>();
         mText.setValue("Leagues");
     }
 
-public LiveData<List<League>> getLeagueName(){
+    public LiveData<List<String>> getLeagueName(){
         return mAllLeagues;
-}
+    }
 /*
-    public LiveData<List<League>> getmAllLeagues() {
+    public LiveData<List<String>> getmAllLeagues() {
         return mAllLeagues;
     }
 */
-
 
     /*
     public LeagueViewModel() {

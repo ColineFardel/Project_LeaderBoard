@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.ui.league;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,22 +17,37 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.ui.settings.SharedPref;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeagueFragment extends Fragment {
     public static final String EXTRA_ID_ARRAY = "to get array";
     public static final String EXTRA_TEXT = "to get league name";
     private String[] leagues;
+    private LiveData<List<String>> allLeagues;
     private SharedPref sharedPref;
     private LeagueViewModel leagueViewModel;
+    private Application app;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        app= new Application();
+        leagueViewModel = new LeagueViewModel(app);
+        allLeagues = leagueViewModel.getLeagueName();
 
-        leagues = getResources().getStringArray(R.array.league);
+        for(int i=0;allLeagues.getValue().size()>i;i++){
+            leagues[i]=allLeagues.getValue().get(i);
+        }
+
+
+        //leagues = getResources().getStringArray(R.array.league);
 
         View view = inflater.inflate(R.layout.fragment_league,container,false);
         ListView listView = view.findViewById(R.id.list_leagues);
