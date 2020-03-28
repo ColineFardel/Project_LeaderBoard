@@ -99,9 +99,7 @@ public class LeagueBoard extends AppCompatActivity{
             }
         });
 
-
         textView.setText(text);
-
 
     }
 

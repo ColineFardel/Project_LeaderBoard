@@ -36,13 +36,15 @@ public class MatchViewModel extends AndroidViewModel {
         db = AppDatabase.getInstance(application);
         matchDao = db.matchDao();
         mAllMatches = (LiveData<List<Match>>) matchDao.getAll();
+        mText = new MutableLiveData<>();
+        mText.setValue("Add Match");
     }
-
-    /* public MatchViewModel() {
+/*
+     public MatchViewModel(Application application) {
          mText = new MutableLiveData<>();
          mText.setValue("Leagues");
      }
- */
+*/
     public LiveData<String> getText() {
         return mText;
     }
@@ -62,13 +64,13 @@ public class MatchViewModel extends AndroidViewModel {
     public void delete(Match match, OnAsyncEventListener onAsyncEventListener) {
         new MatchViewModel.DeleteAsyncTask(matchDao).execute(match);
     }
-
+/*
     @Override
     protected void onCleared() {
         super.onCleared();
         Log.i(TAG, "ViewModel Destroyed");
     }
-
+*/
     public class OperationAsyncTask extends AsyncTask<Match, Void, Void> {
         MatchDao mAsyncTaskDao;
 
