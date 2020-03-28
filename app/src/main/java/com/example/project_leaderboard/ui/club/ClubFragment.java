@@ -26,7 +26,7 @@ public class ClubFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_club,container,false);
         TextView textView = view.findViewById(R.id.text_club);
 
-
+        //Make a customized spinner
         Spinner colorspinner = view.findViewById(R.id.league_spinner);
         String [] list = getResources().getStringArray(R.array.league);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,list);

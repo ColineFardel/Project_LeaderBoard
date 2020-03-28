@@ -25,6 +25,7 @@ public class LeagueFragment extends Fragment {
     public static final String EXTRA_TEXT = "to get league name";
     private String[] leagues;
     private SharedPref sharedPref;
+    private LeagueViewModel leagueViewModel;
 
     @Nullable
     @Override
@@ -34,16 +35,6 @@ public class LeagueFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_league,container,false);
         ListView listView = view.findViewById(R.id.list_leagues);
-
-        /*
-        sharedPref = new SharedPref(getContext());
-        if(sharedPref.loadNightMode()==true){
-            getContext().setTheme(R.style.NightTheme);
-        }
-        else{
-            getContext().setTheme(R.style.AppTheme);
-        }
-         */
 
         MyAdapter listViewAdapter = new MyAdapter(getContext(), leagues);
 

@@ -44,6 +44,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPref = new SharedPref(this);
+        if(sharedPref.loadNightMode()==true){
+            setTheme(R.style.NightTheme);
+            //int grey = Color.parseColor("#FF303030");
+            //navigationView.setBackgroundColor(grey);
+        }
+        else{
+            setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_main);
 
        /* RecyclerView recyclerView = findViewById(R.id.recyclerview);
@@ -75,19 +86,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        sharedPref = new SharedPref(this);
-        if(sharedPref.loadNightMode()==true){
-            setTheme(R.style.NightTheme);
-            int grey = Color.parseColor("#FF303030");
-            navigationView.setBackgroundColor(grey);
-            //navigationView.getBackground().setAlpha(255);
-            //textView.getBackground().setAlpha(51);
-        }
-        else{
-            setTheme(R.style.AppTheme);
-        }
-
 
     }
 

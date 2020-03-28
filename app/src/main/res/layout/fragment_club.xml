@@ -112,6 +112,5 @@
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/club_name"
         android:backgroundTint="?attr/tintcolor"/>
-        app:layout_constraintTop_toBottomOf="@+id/club_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

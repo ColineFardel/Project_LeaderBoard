@@ -1,8 +1,6 @@
 package com.example.project_leaderboard.ui.league;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -12,41 +10,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.project_leaderboard.MainActivity;
+import com.example.project_leaderboard.ui.club.ModifyClub;
+import com.example.project_leaderboard.ui.match.MatchsOfClub;
 import com.example.project_leaderboard.ui.settings.SharedPref;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.ui.AppBarConfiguration;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.club.ClubFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class LeagueBoard extends AppCompatActivity{
 
-    private AppBarConfiguration mAppBarConfiguration;
     private String[] clubs;
     private ImageButton imageButton;
     private SharedPref sharedPref;
@@ -55,48 +42,22 @@ public class LeagueBoard extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.leaderborad_activity);
-
-
-        //Set background color of the layout because it don't work with the xml
-        int grey = Color.parseColor("#FF303030");
-        //getWindow().getDecorView().setBackgroundColor(grey);
-        View someView = findViewById(R.id.leader_clubs);
-        //View root = someView.getRootView();
-
-        TextView textView = findViewById(R.id.league_name);
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Load the night mode or the normal mode
         sharedPref = new SharedPref(this);
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
-            someView.setBackgroundColor(grey);
-            textView.setTextColor(Color.WHITE);
         }
         else{
             setTheme(R.style.AppTheme);
         }
 
+        setContentView(R.layout.leaderborad_activity);
 
-        /*
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_league, R.id.nav_club, R.id.nav_favorites,
-                R.id.nav_settings, R.id.nav_match)
-                .setDrawerLayout(drawer)
-                .build();
-         */
-        /*
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-        */
-
-
+        TextView textView = findViewById(R.id.league_name);
 
         //Set the button to open a new fragment
         imageButton = findViewById(R.id.button_add);
@@ -109,7 +70,6 @@ public class LeagueBoard extends AppCompatActivity{
                 ft.replace(R.id.leader_clubs,fragment).commit();
             }
         });
-        //Set the button to delete a club
 
         //Get the info from the last fragment
         Intent intent = getIntent();
@@ -129,6 +89,15 @@ public class LeagueBoard extends AppCompatActivity{
 
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(modeListener);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //open a new activity with the matches of the club selected
+                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
+                startActivity(i);
+            }
+        });
 
 
         textView.setText(text);
@@ -167,7 +136,22 @@ public class LeagueBoard extends AppCompatActivity{
                     //call remove items from adapter
                     break;
                 case R.id.modify_bar:
-                    //call another fragment
+                    if(userSelection.size()>1){
+                        Toast toast=Toast. makeText(getBaseContext(),"You must select only one item to modify it",Toast. LENGTH_SHORT);
+                        toast. setMargin(50,50);
+                        toast. show();
+                    }
+                    else{
+                        String value = userSelection.get(0);
+                        Bundle b = new Bundle();
+                        b.putString("ClubName",value);
+
+                        Intent i;
+                        i = new Intent(getBaseContext(), ModifyClub.class);
+                        i.putExtras(b);
+                        startActivity(i);
+                    }
+
                 default:
                     return false;
             }
