@@ -125,5 +125,13 @@
         <item>English</item>
     </string-array>
 
+    <string-array name="query_suggestions">
+    <item>Arsenal</item>
+    <item>Manchester United</item>
+        <item>Serie A</item>
+
+    </string-array>
+
+
     <item name="menu_search" type="id" />
 </resources>

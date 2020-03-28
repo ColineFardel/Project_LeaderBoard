@@ -8,7 +8,8 @@ import androidx.room.Fts4;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = {
+@Entity
+        (foreignKeys = {
         @ForeignKey(
                 entity = Club.class,
                 parentColumns = "ClubId",

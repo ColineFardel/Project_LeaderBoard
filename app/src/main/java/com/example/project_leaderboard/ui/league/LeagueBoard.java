@@ -81,9 +81,10 @@ public class LeagueBoard extends AppCompatActivity{
         }
 
 
-        /*
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        /*
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_league, R.id.nav_club, R.id.nav_favorites,
                 R.id.nav_settings, R.id.nav_match)

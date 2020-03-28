@@ -27,7 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     //  private AddMatchViewModel matchViewModel;
     //   private MatchListAdapter matchListAdapter;
     Intent intent;
+    MaterialSearchView searchView;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -95,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem item = menu.findItem(R.layout.suggest_item);
+    //   searchView.setMenuItem(item);
+        //searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
         return true;
     }
 
@@ -112,6 +118,4 @@ public class MainActivity extends AppCompatActivity {
     public void displayToastmsg(View v){
         toastMsg("Match successfully added");
     }
-
-
 }
