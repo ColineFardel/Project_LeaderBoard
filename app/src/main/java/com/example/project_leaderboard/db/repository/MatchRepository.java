@@ -5,11 +5,12 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.project_leaderboard.db.async.DeleteMatch;
+import com.example.project_leaderboard.db.AppDatabase;
+import com.example.project_leaderboard.db.async.Match.DeleteMatch;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-import com.example.project_leaderboard.db.async.CreateMatch;
-import com.example.project_leaderboard.db.async.UpdateMatch;
+import com.example.project_leaderboard.db.async.Match.CreateMatch;
+import com.example.project_leaderboard.db.async.Match.UpdateMatch;
 
 import java.util.List;
 

@@ -6,17 +6,11 @@ import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.project_leaderboard.db.entity.Match;
-import com.example.project_leaderboard.ui.match.AddMatchViewModel;
-import com.example.project_leaderboard.ui.match.MatchListAdapter;
-import com.example.project_leaderboard.ui.match.MatchViewModel;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import com.google.android.material.navigation.NavigationView;
 
@@ -24,8 +18,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -46,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     Intent intent;
     MaterialSearchView searchView;
 
-    @SuppressLint("ResourceAsColor")
+
+    @SuppressLint({"ResourceAsColor", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,11 +120,13 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void toastMsg (String msg){
+   /* public void toastMsg (String msg){
         Toast toast = Toast.makeText(this,msg,Toast.LENGTH_LONG);
         toast.show();
     }
     public void displayToastmsg(View v){
         toastMsg("Match successfully added");
     }
+
+    */
 }

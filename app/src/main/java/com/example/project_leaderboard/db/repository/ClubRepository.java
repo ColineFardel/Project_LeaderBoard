@@ -5,9 +5,10 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.project_leaderboard.db.async.CreateClub;
-import com.example.project_leaderboard.db.async.DeleteClub;
-import com.example.project_leaderboard.db.async.UpdateClub;
+import com.example.project_leaderboard.db.AppDatabase;
+import com.example.project_leaderboard.db.async.Club.CreateClub;
+import com.example.project_leaderboard.db.async.Club.DeleteClub;
+import com.example.project_leaderboard.db.async.Club.UpdateClub;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 

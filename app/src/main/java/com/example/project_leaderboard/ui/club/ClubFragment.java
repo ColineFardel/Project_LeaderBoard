@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ public class ClubFragment extends Fragment {
 
     private ClubViewModel clubViewModel;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -32,6 +35,7 @@ public class ClubFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,list);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         colorspinner.setAdapter(adapter);
+
 
         return view;
         /*
