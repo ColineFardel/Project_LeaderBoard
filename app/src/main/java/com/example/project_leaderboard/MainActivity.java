@@ -1,6 +1,7 @@
 package com.example.project_leaderboard;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +35,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,8 +50,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         sharedPref = new SharedPref(this);
+
+        //Loading the language from the preferences
+        String languageToLoad = sharedPref.getLanguage();
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+
+        DisplayMetrics dm= getResources().getDisplayMetrics();
+        Configuration config = getResources().getConfiguration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, dm);
+
+        //Loading Night mode from preferences
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
             //int grey = Color.parseColor("#FF303030");
@@ -59,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
+
+
+
+
 
        /* RecyclerView recyclerView = findViewById(R.id.recyclerview);
         matchListAdapter = new MatchListAdapter(this);

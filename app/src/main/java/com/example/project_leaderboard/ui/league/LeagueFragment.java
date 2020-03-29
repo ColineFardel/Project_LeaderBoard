@@ -38,7 +38,8 @@ public class LeagueFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        app= new Application();
+        /*
+        app= getActivity().getApplication();
         leagueViewModel = new LeagueViewModel(app);
         allLeagues = leagueViewModel.getLeagueName();
 
@@ -47,7 +48,9 @@ public class LeagueFragment extends Fragment {
         }
 
 
-        //leagues = getResources().getStringArray(R.array.league);
+         */
+
+        leagues = getResources().getStringArray(R.array.league);
 
         View view = inflater.inflate(R.layout.fragment_league,container,false);
         ListView listView = view.findViewById(R.id.list_leagues);

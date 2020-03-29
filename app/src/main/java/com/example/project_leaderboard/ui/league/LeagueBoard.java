@@ -1,7 +1,9 @@
 package com.example.project_leaderboard.ui.league;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +33,7 @@ import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.club.ClubFragment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class LeagueBoard extends AppCompatActivity{
 
@@ -46,8 +49,19 @@ public class LeagueBoard extends AppCompatActivity{
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Load the night mode or the normal mode
         sharedPref = new SharedPref(this);
+
+        //Loading the language from the preferences
+        String languageToLoad = sharedPref.getLanguage();
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+
+        DisplayMetrics dm= getResources().getDisplayMetrics();
+        Configuration config = getResources().getConfiguration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, dm);
+
+        //Loading the Night mode from the preferences
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
         }
@@ -135,7 +149,7 @@ public class LeagueBoard extends AppCompatActivity{
                     break;
                 case R.id.modify_bar:
                     if(userSelection.size()>1){
-                        Toast toast=Toast. makeText(getBaseContext(),"You must select only one item to modify it",Toast. LENGTH_SHORT);
+                        Toast toast=Toast. makeText(LeagueBoard.this,"You must select only one item to modify it",Toast. LENGTH_SHORT);
                         toast. setMargin(50,50);
                         toast. show();
                     }
