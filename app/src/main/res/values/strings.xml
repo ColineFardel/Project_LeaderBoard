@@ -18,6 +18,14 @@
     <string name="club_visitor">Club Visitor</string>
     <string name="score">Score</string>
 
+    <string name="club_name">Club Name</string>
+    <string name="wins">Wins</string>
+    <string name="loses">Loses</string>
+    <string name="draws">Draws</string>
+    <string name="points">Points</string>
+
+
+
     <string name="app_name">Project_LeaderBoard</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

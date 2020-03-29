@@ -19,21 +19,21 @@
         android:paddingLeft="20px"
         android:text="Name"
         android:textColor="?attr/textcolor"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/club_visitor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="16dp"
         android:padding="10px"
         android:text="Name"
         android:textColor="?attr/textcolor"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/club_home"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,8 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginRight="145dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
         android:padding="10px"
         android:text="20"
         android:textColor="?attr/textcolor"
@@ -56,13 +56,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="65dp"
-        android:layout_marginRight="65dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:padding="10px"
         android:text="20"
         android:textColor="?attr/textcolor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text=" - "
+        app:layout_constraintEnd_toStartOf="@+id/score_visitor_list"
+        app:layout_constraintStart_toEndOf="@+id/score_home_list"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="?attr/textcolor"/>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text=" - "
+        app:layout_constraintEnd_toStartOf="@+id/club_visitor"
+        app:layout_constraintStart_toEndOf="@+id/club_home"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="?attr/textcolor"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

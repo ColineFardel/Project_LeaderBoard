@@ -24,11 +24,11 @@
     <ListView
         android:id="@+id/all_matchs"
         android:layout_width="409dp"
-        android:layout_height="678dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="543dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/league_name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/button_add"
@@ -40,4 +40,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_add" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="@string/club_home"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/all_matchs"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/club_home"
+        android:textColor="?attr/textcolor"/>
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:text="@string/club_visitor"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/all_matchs"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        tools:text="@string/club_visitor"
+        android:textColor="?attr/textcolor"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

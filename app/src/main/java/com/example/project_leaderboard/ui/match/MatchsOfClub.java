@@ -40,8 +40,8 @@ public class MatchsOfClub extends AppCompatActivity {
         //put data
         String score_visitor[] = {"3","2","3","0","1"};
         String score_home[] = {"0","3","1","1","0"};
-        String club_name_visitor[] = {"Fuck","ce","projet","de","merde"};
-        String club_name_home[] = {"kill","me","please","help","me"};
+        String club_name_visitor[] = {"Liverpool","Arsenal","Arsenal","Arsenal","Manchester United"};
+        String club_name_home[] = {"Arsenal","Manchester United","Liverpool","Liverpool","Arsenal"};
 
         MyAdapter listViewAdapter = new MyAdapter(this, score_visitor,score_home,club_name_visitor,club_name_home);
         listView.setAdapter(listViewAdapter);
