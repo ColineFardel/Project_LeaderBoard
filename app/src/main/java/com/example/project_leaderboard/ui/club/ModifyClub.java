@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,14 +34,32 @@ public class ModifyClub extends AppCompatActivity {
         else{
             setTheme(R.style.AppTheme);
         }
-
         setContentView(R.layout.activity_modify_club);
+
+        //Get the arguments from last activity
         String value = getIntent().getExtras().getString("ClubName");
 
-        TextView textView = findViewById(R.id.modify_clubName);
-        TextView textView2 = findViewById(R.id.modify_clubLeague);
+        //Set the edit text with the name of the club
         EditText editText = findViewById(R.id.modify_club_name);
         editText.setText(value);
+
+        //Setting the action for cancel button
+        Button cancel_button = findViewById(R.id.cancel_modify_club);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        //Setting the action for save button
+        Button save_button = findViewById(R.id.save_modify_club);
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //save the club in the database
+            }
+        });
 
         //customized spinner
         Spinner colorspinner = findViewById(R.id.league_spinner_modify);
