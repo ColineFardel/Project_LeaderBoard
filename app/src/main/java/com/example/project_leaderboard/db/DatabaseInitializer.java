@@ -1,9 +1,11 @@
-package com.example.project_leaderboard.db.repository;
+package com.example.project_leaderboard.db;
 
 import android.util.Log;
 import android.os.AsyncTask;
 
 import com.example.project_leaderboard.db.entity.Match;
+import com.example.project_leaderboard.db.entity.League;
+import com.example.project_leaderboard.db.entity.Club;
 
 public class DatabaseInitializer {
 
@@ -21,11 +23,24 @@ public class DatabaseInitializer {
         db.matchDao().insertAll(match);
     }
 
+    private static void AddClub (final AppDatabase db, final String name, final int points, final int victories, final int draws, final int losses, final int leagueId){
+        Club club = new Club(name, points,victories,draws,losses, leagueId);
+        db.clubDao().insertAll(club);
+    }
+    private static void AddLeague (final AppDatabase db, final String name){
+        League league = new League(name);
+        db.leagueDao().insertLeague(league);
+    }
+
     private static void populateWithTestData (AppDatabase db){
-        db.matchDao().deleteAll();
+     //   db.matchDao().deleteAll();
 
+        AddClub(db,"Arsenal", 15,3,0,0,1);
+        AddClub(db,"Chelsea", 15,3,0,0,1);
+        AddClub(db,"Manchester United", 15,3,0,0,1);
+        AddClub(db,"Manchester City", 15,3,0,0,1);
+        AddClub(db,"Liverpool", 15,3,0,0,1);
 
-        addMatch(db,1,1,3,2);
 
         try {
             Thread.sleep(1000);
@@ -33,11 +48,14 @@ public class DatabaseInitializer {
             e.printStackTrace();
         }
 
+        addMatch(db,1,2,3,3);
+        addMatch(db,4,3,2,1);
+
+        AddLeague(db,"Premier League");
+        AddLeague(db,"Ligue 1");
+        AddLeague(db,"Serie A");
+        AddLeague(db,"Bundesliga");
     }
-
-
-
-
     private static class PopulateDbAsync extends AsyncTask<Void,Void,Void>{
         private final AppDatabase database;
 

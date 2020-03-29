@@ -15,25 +15,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LeagueFragment extends Fragment {
     public static final String EXTRA_ID_ARRAY = "to get array";
     public static final String EXTRA_TEXT = "to get league name";
     private String[] leagues;
-    private LiveData<List<String>> allLeagues;
+    private LiveData<List<League>> allLeagues;
     private SharedPref sharedPref;
     private LeagueViewModel leagueViewModel;
     private Application app;
+    private RecyclerAdapter recyclerAdapter;
+   private LeagueViewModel viewModel;
 
     @Nullable
     @Override
@@ -42,19 +42,27 @@ public class LeagueFragment extends Fragment {
         leagueViewModel = new LeagueViewModel(app);
         allLeagues = leagueViewModel.getLeagueName();
 
+
+
         for(int i=0;allLeagues.getValue().size()>i;i++){
-            leagues[i]=allLeagues.getValue().get(i);
+            leagues[i]= String.valueOf(allLeagues.getValue().get(i));
         }
 
 
-        //leagues = getResources().getStringArray(R.array.league);
+
+
+
+
+        leagues = getResources().getStringArray(R.array.league);
 
         View view = inflater.inflate(R.layout.fragment_league,container,false);
+
+
         ListView listView = view.findViewById(R.id.list_leagues);
+
 
         MyAdapter listViewAdapter = new MyAdapter(getContext(), leagues);
 
-        listView.setAdapter(listViewAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -85,8 +93,12 @@ public class LeagueFragment extends Fragment {
             }});
 
         return view;
+
+
         //return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+
     class MyAdapter extends ArrayAdapter{
         Context context;
         String name[];

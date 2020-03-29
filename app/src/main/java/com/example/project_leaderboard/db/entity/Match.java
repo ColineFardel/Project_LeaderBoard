@@ -26,6 +26,10 @@ public class Match implements Comparable{
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @ColumnInfo(name = "IdLeague")
+    private int IdLeague;
+
+
     @ColumnInfo(name = "IdClubHome")
     private int IdClubHome;
 
@@ -47,6 +51,14 @@ public class Match implements Comparable{
 
     public int getId() {
         return id;
+    }
+
+    public int getIdLeague(){
+        return IdLeague;
+    }
+
+    public void setIdLeague (int idLeague){
+        IdLeague=idLeague;
     }
 
     public void setId(int id) {

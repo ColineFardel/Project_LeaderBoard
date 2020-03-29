@@ -1,13 +1,13 @@
-package com.example.project_leaderboard.db.async;
+package com.example.project_leaderboard.db.async.Match;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import com.example.project_leaderboard.db.entity.Match;
-import com.example.project_leaderboard.db.repository.AppDatabase;
+import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
-public class DeleteClub extends AsyncTask<Match,Void,Void> {
+public class DeleteMatch extends AsyncTask<Match,Void,Void> {
 
     AppDatabase database;
     private Application application;
@@ -15,7 +15,7 @@ public class DeleteClub extends AsyncTask<Match,Void,Void> {
     private Exception exception;
 
 
-    public DeleteClub(Application application, OnAsyncEventListener callback) {
+    public DeleteMatch(Application application, OnAsyncEventListener callback) {
         this.application = application;
         this.callback=callback;
     }
@@ -25,15 +25,15 @@ public class DeleteClub extends AsyncTask<Match,Void,Void> {
 
     @Override
     protected Void doInBackground(Match... matches) {
-        try{
-            database.matchDao().deleteAll();
+            try{
+                database.matchDao().deleteAll();
 
-        }catch (Exception e){
-            exception = e;
+            }catch (Exception e){
+                exception = e;
+            }
+
+            return null;
         }
-
-        return null;
-    }
 
     @Override
     protected void onPostExecute (Void aVoid){
@@ -44,6 +44,4 @@ public class DeleteClub extends AsyncTask<Match,Void,Void> {
             callback.onFailure(exception);
         }
     }
-
-
 }

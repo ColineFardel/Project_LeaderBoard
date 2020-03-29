@@ -11,18 +11,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_leaderboard.adapter.ListAdapter;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-import com.example.project_leaderboard.ui.match.AddMatchViewModel;
 import com.example.project_leaderboard.ui.match.MatchListAdapter;
+import com.example.project_leaderboard.ui.match.MatchViewModel;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class MatchActivity extends BaseActivity {
 
@@ -34,17 +31,17 @@ public class MatchActivity extends BaseActivity {
     private boolean isEditable;
 
     private Spinner LeagueSpinner;
-    private Spinner ClubSpinner;
-    private AddMatchViewModel matchViewModel;
+    private Spinner HomeSpinner;
+    private Spinner VisitorSpinner;
+    private MatchViewModel matchViewModel;
     private MatchListAdapter matchListAdapter;
     private ListAdapter<Match> adapterMatch;
 
-    private AddMatchViewModel viewModel;
+    private MatchViewModel viewModel;
 
     private Match match;
 
-    private EditText IdClubHome;
-    private EditText IdClubVisitor;
+
     private EditText ScoreHome;
     private EditText ScoreVisitor;
 
@@ -59,24 +56,24 @@ public class MatchActivity extends BaseActivity {
    //     setupClubSpinner();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        matchListAdapter = new MatchListAdapter(this);
-        recyclerView.setAdapter(matchListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        matchViewModel = ViewModelProviders.of(this).get(AddMatchViewModel.class);
-        matchViewModel.getAllMatches().observe(this, new Observer<List<Match>>() {
+      //  matchListAdapter = new MatchListAdapter(this);
+      //  recyclerView.setAdapter(matchListAdapter);
+       // recyclerView.setLayoutManager(new LinearLayoutManager(this));
+      //  matchViewModel = ViewModelProviders.of(this).get(MatchViewModel.class);
+       /* matchViewModel.getAllMatches().observe(this, new Observer<List<Match>>() {
             @Override
             public void onChanged(List<Match> matches) {
                 matchListAdapter.setMatches(matches);
             }
         });
-
+*/
 
 
       //  getLayoutInflater().inflate(R.layout.list_match, frameLayout);
       //  setContentView(R.layout.list_match);
     }
 
-  /*  @SuppressLint("ResourceType")
+    @SuppressLint("ResourceType")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == EDIT_MATCH) {
@@ -94,7 +91,7 @@ public class MatchActivity extends BaseActivity {
             alertDialog.setCancelable(false);
             alertDialog.setMessage(getString(R.string.delete_msg));
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.action_delete), (dialog, which) -> {
-                viewModel.delete(match, new OnAsyncEventListener() {
+               viewModel.delete(match, new OnAsyncEventListener() {
                     @Override
                     public void onSuccess() {
                     }
@@ -103,9 +100,11 @@ public class MatchActivity extends BaseActivity {
                     public void onFailure(Exception e) {}
                 });
             });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.id.button_delete), (dialog, which) -> alertDialog.dismiss());
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.id.button_add), (dialog, which) -> alertDialog.dismiss());
             alertDialog.show();
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -113,13 +112,17 @@ public class MatchActivity extends BaseActivity {
         if (!isEditable) {
             LinearLayout linearLayout = findViewById(R.id.nav_match);
             linearLayout.setVisibility(View.VISIBLE);
-            IdClubHome.setFocusable(true);
-            IdClubHome.setEnabled(true);
-            IdClubHome.setFocusableInTouchMode(true);
+            LeagueSpinner.setFocusable(true);
+            LeagueSpinner.setEnabled(true);
+            LeagueSpinner.setFocusableInTouchMode(true);
 
-            IdClubVisitor.setFocusable(true);
-            IdClubVisitor.setEnabled(true);
-            IdClubVisitor.setFocusableInTouchMode(true);
+            HomeSpinner.setFocusable(true);
+            HomeSpinner.setEnabled(true);
+            HomeSpinner.setFocusableInTouchMode(true);
+
+            VisitorSpinner.setFocusable(true);
+            VisitorSpinner.setEnabled(true);
+            VisitorSpinner.setFocusableInTouchMode(true);
 
             ScoreVisitor.setFocusable(true);
             ScoreVisitor.setEnabled(true);
@@ -133,17 +136,20 @@ public class MatchActivity extends BaseActivity {
             ScoreHome.requestFocus();
         } else {
             saveChanges(
-                    IdClubHome.getId(),
-                    IdClubVisitor.getId(),
+                    LeagueSpinner.getId(),
+                    HomeSpinner.getId(),
+                    VisitorSpinner.getId(),
                     ScoreHome.getId(),
                     ScoreVisitor.getId()
             );
             LinearLayout linearLayout = findViewById(R.id.nav_match);
             linearLayout.setVisibility(View.GONE);
-            IdClubHome.setFocusable(false);
-            IdClubHome.setEnabled(false);
-            IdClubVisitor.setFocusable(false);
-            IdClubHome.setEnabled(false);
+            LeagueSpinner.setFocusable(false);
+            LeagueSpinner.setEnabled(false);
+            HomeSpinner.setFocusable(false);
+            HomeSpinner.setEnabled(false);
+            VisitorSpinner.setFocusable(false);
+            VisitorSpinner.setEnabled(false);
             ScoreVisitor.setFocusable(false);
             ScoreVisitor.setEnabled(false);
             ScoreHome.setFocusable(false);
@@ -152,11 +158,20 @@ public class MatchActivity extends BaseActivity {
         isEditable = !isEditable;
     }
 
-    private void saveChanges(int IdClubHome, int IdClubVisitor, int ScoreHome, int ScoreVisitor) {
-        match.setIdClubHome(IdClubHome);
-        match.setIdClubVisitor(IdClubVisitor);
-        match.setScoreHome(ScoreHome);
+
+    private void saveChanges(int LeagueSpinner, int HomeSpinner, int VisitorSpinner, int ScoreHome, int ScoreVisitor) {
+        LeagueSpinner = R.id.league_spinner;
+        HomeSpinner = R.id.home_spinner;
+        VisitorSpinner= R.id.visitor_spinner;
+        ScoreHome= R.id.score_home;
+        ScoreVisitor=R.id.score_visitor;
+
         match.setScoreVisitor(ScoreVisitor);
+        match.setScoreHome(ScoreHome);
+        match.setIdClubHome(HomeSpinner);
+        match.setScoreVisitor(VisitorSpinner);
+        match.setIdLeague(LeagueSpinner);
+
 
         viewModel.update(match, new OnAsyncEventListener() {
             @Override
@@ -179,25 +194,29 @@ public class MatchActivity extends BaseActivity {
 
     private void setupLeagueSpinner() {
         LeagueSpinner = findViewById(R.id.league_spinner);
-    //    LeagueSpinner = new Spinner(this, R.layout.fragment_match, new ArrayList<>());
+        adapterMatch = new ListAdapter<>(this, R.layout.list_match,new ArrayList<>());
         LeagueSpinner.setAdapter(adapterMatch);
     }
 
-    private void setupClubSpinner() {
-        ClubSpinner = findViewById(R.id.home_spinner);
-        ClubSpinner = findViewById(R.id.visitor_spinner);
-      //  ClubSpinner = new Spinner(this, R.layout.fragment_match, new ArrayList<>());
-        ClubSpinner.setAdapter(adapterMatch);
+    private void setupHomeSpinner() {
+        HomeSpinner = findViewById(R.id.home_spinner);
+        adapterMatch = new ListAdapter<>(this,R.layout.list_match,new ArrayList<>());
+        HomeSpinner.setAdapter(adapterMatch);
+
+    }
+
+    private void setupVisitorSpinner() {
+    VisitorSpinner = findViewById(R.id.visitor_spinner);
+    adapterMatch = new ListAdapter<>(this,R.layout.list_match,new ArrayList<>());
+    VisitorSpinner.setAdapter(adapterMatch);
     }
 
     private void updateContent() {
         if (match != null) {
-            IdClubHome.setText(match.getIdClubHome());
-            IdClubVisitor.setText(match.getIdClubVisitor());
             ScoreHome.setText(match.getScoreHome());
             ScoreVisitor.setText(match.getScoreVisitor());
         }
     }
-*/
+
 
 }

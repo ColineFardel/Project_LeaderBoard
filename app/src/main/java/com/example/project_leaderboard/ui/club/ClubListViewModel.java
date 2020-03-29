@@ -10,9 +10,9 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.project_leaderboard.db.async.CreateClub;
-import com.example.project_leaderboard.db.async.DeleteClub;
-import com.example.project_leaderboard.db.async.UpdateClub;
+import com.example.project_leaderboard.db.async.Club.CreateClub;
+import com.example.project_leaderboard.db.async.Club.DeleteClub;
+import com.example.project_leaderboard.db.async.Club.UpdateClub;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.repository.ClubRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;

@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.project_leaderboard.MatchActivity;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Match;
+import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.ui.club.ClubFragment;
 import com.example.project_leaderboard.ui.league.LeagueBoard;
 
@@ -34,28 +38,47 @@ public class MatchFragment extends Fragment {
     private MatchViewModel matchViewModel;
     private MatchListAdapter matchListAdapter;
     private Application application;
-    ImageButton imageButton;
-    Intent intent;
     private Match match;
-
-
-
+    private OnAsyncEventListener callback;
+    Button add;
+    EditText ScoreHome, ScoreVisitor;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View root = inflater.inflate(R.layout.fragment_match,container,false);
 
-        matchViewModel = ViewModelProviders.of(this).get(MatchViewModel.class);
+       /* matchViewModel = ViewModelProviders.of(this).get(MatchViewModel.class);
         matchViewModel.getAllMatches().observe(getViewLifecycleOwner(), new Observer<List<Match>>() {
             @Override
             public void onChanged(List<Match> matches) {
                 matchListAdapter.setMatches(matches);
             }
         });
+*/
+ScoreHome = (EditText) root.findViewById(R.id.score_home);
+ScoreVisitor = (EditText) root.findViewById(R.id.score_visitor);
+add = root.findViewById(R.id.button_add);
+
+/*add.setOnClickListener(new View.OnClickListener(){
 
 
-
+    @Override
+    public void onClick(View v) {
+        if(ScoreHome.getText().length()==0){
+            add.setEnabled(false);
+            add.setError("Please enter a score");
+        }
+        if(ScoreVisitor.getText().length()==0){
+            add.setEnabled(false);
+            add.setError("Please enter a score");
+        }
+        else{
+            add.setEnabled(true);
+        }
+    }
+});
+*/
         //Colored Spinner
 
         Spinner leaguespinner = root.findViewById(R.id.league_spinner);
@@ -74,15 +97,17 @@ public class MatchFragment extends Fragment {
         clubvisitor.setAdapter(adapter2);
         return root;
     }
-
+/*
     public void buttonClick(View v) {
         switch (v.getId()) {
             case R.id.button_add:
-            matchViewModel.insert(match);
-                Intent myIntent = new Intent(getActivity(),MatchActivity.class);
-                startActivity(myIntent);
+                //Intent myIntent = new Intent(getActivity(),MatchActivity.class);
+             //   startActivity(myIntent);
+                matchViewModel.insert(match);
                 break;
+            case R.id.button3 :
+                matchViewModel.delete(match, callback);
         }
     }
-
+*/
 }

@@ -21,7 +21,7 @@ public interface LeagueDao {
     @Query("SELECT * FROM league WHERE LeagueId IN (:LeagueIds)")
     List<League> loadAllByIds(int[] LeagueIds);
 
-    @Query("SELECT NameLeague FROM league ")
+    @Query("SELECT NameLeague FROM league")
     LiveData<List<String>> GetLeagueName();
 
     @Insert

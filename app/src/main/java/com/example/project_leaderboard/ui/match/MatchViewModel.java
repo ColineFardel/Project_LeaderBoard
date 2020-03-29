@@ -2,16 +2,14 @@ package com.example.project_leaderboard.ui.match;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.project_leaderboard.db.dao.MatchDao;
 import com.example.project_leaderboard.db.entity.Match;
-import com.example.project_leaderboard.db.repository.AppDatabase;
+import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.repository.MatchRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
@@ -31,7 +29,7 @@ public class MatchViewModel extends AndroidViewModel {
     private String TAG = this.getClass().getSimpleName();
 
 
-    public MatchViewModel(Application application) {
+   /* public MatchViewModel(Application application) {
         super(application);
         db = AppDatabase.getInstance(application);
         matchDao = db.matchDao();
@@ -39,12 +37,15 @@ public class MatchViewModel extends AndroidViewModel {
         mText = new MutableLiveData<>();
         mText.setValue("Add Match");
     }
-/*
-     public MatchViewModel(Application application) {
-         mText = new MutableLiveData<>();
-         mText.setValue("Leagues");
-     }
-*/
+    */
+
+
+    public MatchViewModel(Application application) {
+        super(application);
+        mText = new MutableLiveData<>();
+        mText.setValue("Leagues");
+    }
+
     public LiveData<String> getText() {
         return mText;
     }
@@ -64,6 +65,8 @@ public class MatchViewModel extends AndroidViewModel {
     public void delete(Match match, OnAsyncEventListener onAsyncEventListener) {
         new MatchViewModel.DeleteAsyncTask(matchDao).execute(match);
     }
+
+
 /*
     @Override
     protected void onCleared() {
@@ -71,6 +74,7 @@ public class MatchViewModel extends AndroidViewModel {
         Log.i(TAG, "ViewModel Destroyed");
     }
 */
+
     public class OperationAsyncTask extends AsyncTask<Match, Void, Void> {
         MatchDao mAsyncTaskDao;
 
@@ -121,4 +125,5 @@ public class MatchViewModel extends AndroidViewModel {
         }
     }
 }
+
 

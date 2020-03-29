@@ -1,15 +1,14 @@
-package com.example.project_leaderboard.db.async;
+package com.example.project_leaderboard.db.async.Match;
 
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.project_leaderboard.db.entity.Match;
-import com.example.project_leaderboard.db.repository.AppDatabase;
+import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
-public class CreateClub extends AsyncTask<Match,Void,Void> {
-
+public class CreateMatch extends AsyncTask<Match,Void,Void> {
 
     private AppDatabase database;
     private Application application;
@@ -18,14 +17,14 @@ public class CreateClub extends AsyncTask<Match,Void,Void> {
     private Context context;
 
 
-    public CreateClub(Application application, OnAsyncEventListener callback) {
+    public CreateMatch(Application application, OnAsyncEventListener callback) {
         this.application=application;
         this.callback=callback;
     }
 
-    /*  public void execute(Match match) {
-      }
-  */
+  /*  public void execute(Match match) {
+    }
+*/
     @Override
     protected Void doInBackground(Match... matches) {
         try{

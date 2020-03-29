@@ -1,7 +1,6 @@
-package com.example.project_leaderboard.db.repository;
+package com.example.project_leaderboard.db;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -28,11 +27,11 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
 
     private static final String DATABASE_NAME = "leaderboardDB";
-    private static AppDatabase INSTANCE;
+    private static AppDatabase instance;
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
     // For Singleton instantiation
-    private static final Object LOCK = new Object();
+   // private static final Object LOCK = new Object();
 
     public abstract LeagueDao leagueDao();
 
@@ -41,16 +40,16 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ClubDao clubDao();
 
 
-    public synchronized static AppDatabase getInstance(final Context context) {
-        if (INSTANCE == null) {
+    public static AppDatabase getInstance(final Context context) {
+        if (instance == null) {
             synchronized (AppDatabase.class) {
-                if (INSTANCE == null) {
-                   INSTANCE = buildDatabase(context.getApplicationContext());
-                   INSTANCE.updateDatabaseCreated(context.getApplicationContext());
+                if (instance == null) {
+                   instance = buildDatabase(context);
+                   instance.updateDatabaseCreated(context.getApplicationContext());
                 }
             }
         }
-        return INSTANCE;
+        return instance;
 
     }
 
@@ -63,11 +62,25 @@ public abstract class AppDatabase extends RoomDatabase {
                         super.onCreate(db);
                         Executors.newSingleThreadExecutor().execute(() -> {
                             AppDatabase database = AppDatabase.getInstance(appContext);
+                            initializeDemoData(database);
                             // notify that the database was created and it's ready to be used
                             database.setDatabaseCreated();
                         });
                     }
                 }).build();
+    }
+
+    public static void initializeDemoData(final AppDatabase database) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            database.runInTransaction(() -> {
+                Log.i(TAG, "Wipe database.");
+                database.matchDao().deleteAll();
+                database.leagueDao().deleteAll();
+                database.clubDao().deleteAll();
+
+                DatabaseInitializer.populateDatabase(database);
+            });
+        });
     }
 
     private void setDatabaseCreated(){
@@ -90,7 +103,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
 
 
-
+/*
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final LeagueDao leagueDao;
         private final MatchDao matchDao;
@@ -203,4 +216,6 @@ public abstract class AppDatabase extends RoomDatabase {
             return null;
         }
     }
+
+   */
 }
