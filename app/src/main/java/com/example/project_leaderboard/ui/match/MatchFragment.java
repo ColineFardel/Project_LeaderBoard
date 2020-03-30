@@ -17,6 +17,9 @@ import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
+/**
+ * This class is used to add a new match to the database
+ */
 public class MatchFragment extends Fragment {
 
     private MatchViewModel matchViewModel;
@@ -39,10 +42,11 @@ public class MatchFragment extends Fragment {
                 matchListAdapter.setMatches(matches);
             }
         });
-*/
-ScoreHome = (EditText) root.findViewById(R.id.score_home);
-ScoreVisitor = (EditText) root.findViewById(R.id.score_visitor);
-add = root.findViewById(R.id.button_add);
+*/      /*
+        ScoreHome = root.findViewById(R.id.score_home);
+        ScoreVisitor = root.findViewById(R.id.score_visitor);
+        add = root.findViewById(R.id.button_add);
+        */
 
 /*add.setOnClickListener(new View.OnClickListener(){
 

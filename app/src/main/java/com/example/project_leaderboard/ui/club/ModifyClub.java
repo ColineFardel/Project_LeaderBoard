@@ -1,22 +1,24 @@
 package com.example.project_leaderboard.ui.club;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 
+import java.util.Locale;
+
+/**
+ * This class is used to modify a club
+ */
 public class ModifyClub extends AppCompatActivity {
     private SharedPref sharedPref;
     @Override
@@ -34,6 +36,16 @@ public class ModifyClub extends AppCompatActivity {
         else{
             setTheme(R.style.AppTheme);
         }
+
+        //Loading the language from the preferences
+        String languageToLoad = sharedPref.getLanguage();
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        DisplayMetrics dm= getResources().getDisplayMetrics();
+        Configuration config = getResources().getConfiguration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, dm);
+
         setContentView(R.layout.activity_modify_club);
 
         //Get the arguments from last activity
@@ -67,11 +79,6 @@ public class ModifyClub extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,R.layout.spinner_dropdown_layout,list);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         colorspinner.setAdapter(adapter);
-
-
-
-
-
 
     }
 }

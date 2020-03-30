@@ -11,19 +11,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.ui.settings.SharedPref;
-
 import java.util.List;
 
+/**
+ * This class shows all the leagues
+ * When you click on one league it will open the class LeagueBoard to show all the clubs of this league
+ */
 public class LeagueFragment extends Fragment {
     public static final String EXTRA_ID_ARRAY = "to get array";
     public static final String EXTRA_TEXT = "to get league name";
@@ -57,10 +58,11 @@ public class LeagueFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_league,container,false);
         ListView listView = view.findViewById(R.id.list_leagues);
 
+        //Assign an adapter to the list view
         MyAdapter listViewAdapter = new MyAdapter(getContext(), leagues);
-
         listView.setAdapter(listViewAdapter);
 
+        //Open the activity LeagueBoard when you click on one league and give it the array of the clubs and the name of the league
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,7 +94,7 @@ public class LeagueFragment extends Fragment {
         return view;
     }
 
-
+    //Create an adapter for the list view
     class MyAdapter extends ArrayAdapter{
         Context context;
         String name[];

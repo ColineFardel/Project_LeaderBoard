@@ -2,31 +2,20 @@ package com.example.project_leaderboard;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.SearchView;
-import android.widget.Toast;
-
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
-
         DisplayMetrics dm= getResources().getDisplayMetrics();
         Configuration config = getResources().getConfiguration();
         config.locale = locale;

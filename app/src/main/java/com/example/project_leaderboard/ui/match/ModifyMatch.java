@@ -2,7 +2,6 @@ package com.example.project_leaderboard.ui.match;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -10,12 +9,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.settings.SharedPref;
-
 import java.util.Locale;
 
+/**
+ * This class is used to modify a match
+ */
 public class ModifyMatch extends AppCompatActivity {
 
     SharedPref sharedPref;
@@ -32,7 +32,6 @@ public class ModifyMatch extends AppCompatActivity {
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
-
         DisplayMetrics dm= getResources().getDisplayMetrics();
         Configuration config = getResources().getConfiguration();
         config.locale = locale;
@@ -48,6 +47,7 @@ public class ModifyMatch extends AppCompatActivity {
 
         setContentView(R.layout.activity_modify_match);
 
+        //Customized spinners
         Spinner leaguespinner = findViewById(R.id.league_spinner_modify_match);
         String[] list = getResources().getStringArray(R.array.league);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_layout, list);
