@@ -33,8 +33,6 @@ public class DatabaseInitializer {
     }
 
     private static void populateWithTestData (AppDatabase db){
-       // db.clubDao().deleteAll();
-
     db.leagueDao().deleteAll();
 
         AddLeague(db,"Premier League");
@@ -51,6 +49,7 @@ public class DatabaseInitializer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        db.clubDao().deleteAll();
 
         AddClub(db,"Arsenal", 15,3,0,0,1);
         AddClub(db,"Chelsea", 15,3,0,0,1);
@@ -58,7 +57,7 @@ public class DatabaseInitializer {
         AddClub(db,"Manchester City", 15,3,0,0,1);
         AddClub(db,"Liverpool", 15,3,0,0,1);
 
-
+db.matchDao().deleteAll();
         addMatch(db,"Arsenal","Chelsea",3,3,1);
         addMatch(db,"Manchester United","Manchester City",2,1,1);
     }
