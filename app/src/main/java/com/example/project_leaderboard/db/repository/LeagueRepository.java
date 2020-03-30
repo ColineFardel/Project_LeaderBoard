@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.db.repository;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
@@ -13,7 +14,7 @@ public class LeagueRepository {
 
     private static LeagueRepository instance;
 
-    private LeagueRepository(){
+    public LeagueRepository(){
 
     }
 
@@ -27,9 +28,14 @@ public class LeagueRepository {
         }
         return instance;
     }
+    /*
 public LiveData<List<League>> getAllLeagues (Context context){
         return AppDatabase.getInstance(context).leagueDao().getAllLeagues();
 }
+*/
+    public LiveData<List<League>> getAllLeagues (Application application){
+        return AppDatabase.getInstance(application).leagueDao().getAllLeagues();
+    }
 
 public LiveData<List<String>> getLeagueName(Context context){
         return AppDatabase.getInstance(context).leagueDao().GetLeagueName();

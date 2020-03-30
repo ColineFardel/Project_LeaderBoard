@@ -47,7 +47,8 @@ public LeagueViewModel (@NonNull Application application, LeagueRepository leagu
 
     public Factory(@NonNull Application application){
         this.application=application;
-        leagueRepository = ((BaseApp)application).getLeagueRepository();
+        //leagueRepository = ((BaseApp)application).getLeagueRepository();
+        leagueRepository = new LeagueRepository();
     }
 
         @NonNull

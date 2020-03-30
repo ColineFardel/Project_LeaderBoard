@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.ui.league;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
@@ -77,7 +78,7 @@ public class LeagueFragment extends Fragment {
 
         //Open the activity LeagueBoard when you click on one league and give it the array of the clubs and the name of the league
         //listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+      RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener(){
             @Override
