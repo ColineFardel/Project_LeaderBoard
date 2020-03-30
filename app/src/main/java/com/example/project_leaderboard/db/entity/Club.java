@@ -9,7 +9,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(foreignKeys = @ForeignKey(entity = League.class, parentColumns = "LeagueId", childColumns = "LeagueId"))
+@Entity(foreignKeys = @ForeignKey(entity = League.class, parentColumns = "LeagueId", childColumns = "LeagueId"), indices = @Index(value = {"LeagueId"}))
 public class Club {
 
     @PrimaryKey(autoGenerate = true)

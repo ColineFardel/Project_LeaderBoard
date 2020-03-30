@@ -17,7 +17,7 @@ import java.util.List;
 public class MatchRepository {
 
     private static MatchRepository instance;
-
+    private Context context;
     private MatchRepository(){
 
     }
@@ -33,7 +33,7 @@ public class MatchRepository {
         return instance;
     }
 
-    public LiveData<List<Match>> getAllMatches (final int MatchId, Context context){
+    public LiveData<List<Match>> getAllMatches (){
         return (LiveData<List<Match>>) AppDatabase.getInstance(context).matchDao().getAll();
     }
 

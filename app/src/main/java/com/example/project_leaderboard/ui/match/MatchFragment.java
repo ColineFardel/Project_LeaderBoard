@@ -1,37 +1,21 @@
 package com.example.project_leaderboard.ui.match;
 
-import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.project_leaderboard.MatchActivity;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-import com.example.project_leaderboard.ui.club.ClubFragment;
-import com.example.project_leaderboard.ui.league.LeagueBoard;
-
-import java.util.List;
 
 public class MatchFragment extends Fragment {
 

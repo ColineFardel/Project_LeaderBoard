@@ -18,7 +18,7 @@ public interface MatchDao {
     @Query("SELECT * FROM `match`")
     LiveData<List<Match> >getAll();
 
-    @Query("SELECT * FROM `match`")
+    @Query("SELECT *  FROM `match` WHERE NameClubVisitor!=NameClubHome")
     List<Match> getMatchbyClub();
 
     @Query("SELECT * FROM `match` WHERE id IN (:MatchIds)")
