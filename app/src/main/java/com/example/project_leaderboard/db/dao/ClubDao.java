@@ -18,6 +18,9 @@ public interface ClubDao {
     @Query("SELECT * FROM club WHERE LeagueId = :LeagueId")
     LiveData<List<Club>> getByLeague(int LeagueId);
 
+    @Query("SELECT * FROM club")
+    LiveData<List<Club>> getAll();
+
     @Query("SELECT * FROM club WHERE ClubId IN (:ClubIds)")
     List<Club> loadAllByIds(int[] ClubIds);
 

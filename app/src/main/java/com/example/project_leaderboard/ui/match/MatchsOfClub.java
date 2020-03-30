@@ -71,11 +71,11 @@ public class MatchsOfClub extends AppCompatActivity {
         setContentView(R.layout.activity_matchs_of_club);
 
         //Get the arguments from last activity
-        String value = getIntent().getExtras().getString("ClubName");
+//        String value = getIntent().getExtras().getString("ClubName");
 
         //Set the title textview
-        TextView title = findViewById(R.id.club_name_edittext);
-        title.setText(value);
+        TextView title = findViewById(R.id.club_name);
+        //title.setText(value);
 
         //Set the button to open the add match fragment
         imageButton = findViewById(R.id.button_add);

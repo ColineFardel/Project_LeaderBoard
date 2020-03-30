@@ -23,7 +23,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        tools:listitem="@layout/row_leagues" />
+
+
+    <!--ListView
         android:id="@+id/leaderboard_clubs"
         android:layout_width="409dp"
         android:layout_height="678dp"
@@ -31,7 +39,7 @@
         android:longClickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/league_name" />
+        app:layout_constraintTop_toBottomOf="@+id/league_name" />-->
 
 
     <ImageButton

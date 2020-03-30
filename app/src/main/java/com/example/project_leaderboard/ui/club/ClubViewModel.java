@@ -16,47 +16,59 @@ import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.repository.ClubRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
+import java.util.List;
+
 public class ClubViewModel extends AndroidViewModel {
 
     private ClubRepository repository;
 
     private Application application;
 
-    private final MediatorLiveData<Club> observableClub;
+    private final MediatorLiveData<List<Club>> observableClub;
 
-    private MutableLiveData<String> mText;
 
-    public ClubViewModel (@NonNull Application application, ClubRepository clubRepository){
+    public ClubViewModel(@NonNull Application application, ClubRepository clubRepository) {
         super(application);
-        this.application=application;
-        repository=clubRepository;
+        this.application = application;
+        repository = clubRepository;
         observableClub = new MediatorLiveData<>();
         observableClub.setValue(null);
+        LiveData<List<Club>> clubs = repository.getAllClubs(application);
+        observableClub.addSource(clubs, value -> observableClub.setValue(value));
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
 
-    public static class Factory extends ViewModelProvider.NewInstanceFactory{
+
+
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull
         private final Application application;
-        private final ClubRepository repository;
+        private final ClubRepository clubRepository;
 
-        public Factory(@NonNull Application application){
-            this.application=application;
-            repository = ((BaseApp)application).getClubRepository();
+        public Factory(@NonNull Application application) {
+            this.application = application;
+            clubRepository = new ClubRepository();
         }
 
-        public void createClub (Club club, OnAsyncEventListener callback){
-            repository.insert(club,callback,application);
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            return (T) new ClubViewModel(application, clubRepository);
         }
-        public void updateClub (Club club, OnAsyncEventListener callback){
-            repository.update(club,callback,application);
-        }
-        public void deleteClub (Club club, OnAsyncEventListener callback){
-            repository.delete(club,callback,application);
-        }
+    }
+
+    public LiveData<List<Club>> getClub(){
+        return observableClub;
+    }
+
+    public void createClub (Club club, OnAsyncEventListener callback){
+        repository.insert(club,callback,application);
+    }
+    public void updateClub (Club club, OnAsyncEventListener callback){
+        repository.update(club,callback,application);
+    }
+    public void deleteClub (Club club, OnAsyncEventListener callback){
+        repository.delete(club,callback,application);
     }
 
 

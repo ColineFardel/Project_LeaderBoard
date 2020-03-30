@@ -100,7 +100,7 @@ public class LeagueFragment extends Fragment {
         viewModel.getLeague().observe(getViewLifecycleOwner(),leagueEntity -> {
             if(leagueEntity!=null){
                 leagues = (List<League>) leagueEntity;
-                recyclerAdapter.setData(leagues);
+                recyclerAdapter.setLeagueData(leagues);
             }
         });
 

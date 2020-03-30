@@ -37,10 +37,8 @@ public class DatabaseInitializer {
 
         AddLeague(db,"Premier League");
         AddLeague(db,"Bundesliga");
-        AddLeague(db,"Serie A");
         AddLeague(db,"Ligue 1");
-
-
+        AddLeague(db,"Serie A");
 
 
 
@@ -51,11 +49,11 @@ public class DatabaseInitializer {
         }
         db.clubDao().deleteAll();
 
-        AddClub(db,"Arsenal", 15,3,0,0,1);
-        AddClub(db,"Chelsea", 15,3,0,0,1);
-        AddClub(db,"Manchester United", 15,3,0,0,1);
-        AddClub(db,"Manchester City", 15,3,0,0,1);
-        AddClub(db,"Liverpool", 15,3,0,0,1);
+        AddClub(db,"Dortmund", 15,3,0,0,1);
+        AddClub(db,"Chelsea", 15,3,0,0,0);
+        AddClub(db,"Marseille", 15,3,0,0,2);
+        AddClub(db,"Serie A", 15,3,0,0,3);
+        AddClub(db,"Liverpool", 15,3,0,0,0);
 
 db.matchDao().deleteAll();
         addMatch(db,"Arsenal","Chelsea",3,3,1);

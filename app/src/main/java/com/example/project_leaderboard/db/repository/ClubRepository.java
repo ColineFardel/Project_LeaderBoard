@@ -19,7 +19,7 @@ public class ClubRepository {
 
     private static ClubRepository instance;
 
-    private ClubRepository(){
+    public ClubRepository(){
 
     }
 
@@ -32,6 +32,10 @@ public class ClubRepository {
             }
         }
         return instance;
+    }
+
+    public LiveData<List<Club>> getAllClubs (Application application){
+        return AppDatabase.getInstance(application).clubDao().getAll();
     }
 
     public LiveData<List<Club>> getByLeague (final int LeagueId, Context context){
