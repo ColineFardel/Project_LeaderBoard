@@ -35,7 +35,7 @@ public class Club {
 
 
     public Club(String NameClub, @Nullable int points,@Nullable int victories, @Nullable int losses, @Nullable int draws, int LeagueId) {
-       this.NameClub = NameClub;
+        this.NameClub = NameClub;
         this.LeagueId=LeagueId;
     }
 

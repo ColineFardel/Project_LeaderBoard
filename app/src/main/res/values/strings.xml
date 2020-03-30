@@ -23,6 +23,7 @@
     <string name="loses">Loses</string>
     <string name="draws">Draws</string>
     <string name="points">Points</string>
+    <string name="error_addclub">Please enter a club name</string>
 
 
     <string name="app_name">Project_LeaderBoard</string>
