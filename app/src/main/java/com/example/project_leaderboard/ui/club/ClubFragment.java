@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.ui.club;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,14 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
+import com.example.project_leaderboard.MainActivity;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
+import com.example.project_leaderboard.db.repository.LeagueRepository;
+import com.example.project_leaderboard.ui.league.LeagueViewModel;
 
 /**
  * This class is used to add a new club
@@ -30,7 +35,7 @@ public class ClubFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_club,container,false);
-        name_edittext = getActivity().findViewById(R.id.club_name);
+
 
         //Make a customized spinner
         Spinner leagueSpinner = view.findViewById(R.id.league_spinner_modify_match);
@@ -69,18 +74,24 @@ public class ClubFragment extends Fragment {
             }
         });
 
+        name_edittext = getActivity().findViewById(R.id.club_name_edittext);
         //Setting the action for add button
+        LeagueRepository repository = new LeagueRepository();
+        LeagueViewModel leagueViewModel = new LeagueViewModel(getActivity().getApplication(),repository);
         Button add_button = view.findViewById(R.id.button_add_addclub);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                League league = (League) leagueSpinner.getSelectedItem();
-                String clubName = name_edittext.getText().toString();
-                if(clubName.isEmpty()){
+                String leagueName = leagueSpinner.getSelectedItem().toString();
+                LiveData<League> ld = leagueViewModel.getLeagueByName(getContext(),leagueName);
+                League league = ld.getValue();
+                if(name_edittext == null){
                     name_edittext.setError(getString(R.string.error_addclub));
                 }
                 else {
-                    createClub(league.getLeagueId(),clubName);
+                    createClub(league.getLeagueId(),name_edittext.getText().toString());
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
                 }
             }
         });

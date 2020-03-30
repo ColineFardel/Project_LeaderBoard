@@ -28,9 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_leaderboard.R;
-import com.example.project_leaderboard.ui.club.ClubFragment;
-import com.example.project_leaderboard.ui.club.ModifyClub;
-import com.example.project_leaderboard.ui.league.LeagueBoard;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 
 import java.util.ArrayList;
@@ -77,7 +74,7 @@ public class MatchsOfClub extends AppCompatActivity {
         String value = getIntent().getExtras().getString("ClubName");
 
         //Set the title textview
-        TextView title = findViewById(R.id.club_name);
+        TextView title = findViewById(R.id.club_name_edittext);
         title.setText(value);
 
         //Set the button to open the add match fragment

@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/club_name"
+        android:id="@+id/club_name_edittext"
         android:layout_width="148dp"
         android:layout_height="67dp"
         android:layout_alignBaseline="@id/textView"

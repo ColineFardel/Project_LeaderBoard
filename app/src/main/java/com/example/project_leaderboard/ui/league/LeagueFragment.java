@@ -40,14 +40,12 @@ public class LeagueFragment extends Fragment {
     public static final String EXTRA_ID_ARRAY = "to get array";
     public static final String EXTRA_TEXT = "to get league name";
     private static final String TAG = "League Fragment";
-    //private String[] leagues;
     private List<League> leagues;
-    private SharedPref sharedPref;
    // private LeagueViewModel leagues;
     private LeagueRepository leagueRepository;
     private Application app;
     private RecyclerAdapter<League> recyclerAdapter;
-   private LeagueViewModel viewModel;
+    private LeagueViewModel viewModel;
 
 
     @Nullable

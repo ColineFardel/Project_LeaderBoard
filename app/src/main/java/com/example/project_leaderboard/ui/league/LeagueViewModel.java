@@ -64,6 +64,9 @@ public LeagueViewModel (@NonNull Application application, LeagueRepository leagu
     public LiveData<List<String>> getLeagueName(Context context) {
         return  repository.getLeagueName(context);
     }
+    public LiveData<League> getLeagueByName(Context context, String leagueName){
+        return repository.getLeagueByName(context,leagueName);
     }
+}
 
 

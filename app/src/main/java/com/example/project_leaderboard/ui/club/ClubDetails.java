@@ -70,7 +70,7 @@ public class ClubDetails extends AppCompatActivity {
     }
     private void initiateView() {
         isEditable = false;
-        ClubName = findViewById(R.id.club_name);
+        ClubName = findViewById(R.id.club_name_edittext);
         LeagueSpinner = findViewById(R.id.league_spinner_modify_match);
 
         ClubName.setFocusable(false);
