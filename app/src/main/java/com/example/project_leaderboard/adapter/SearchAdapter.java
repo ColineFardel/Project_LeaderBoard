@@ -1,4 +1,4 @@
-package com.example.project_leaderboard;
+package com.example.project_leaderboard.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -11,6 +11,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.project_leaderboard.R;
 
 import java.util.ArrayList;
 import java.util.List;

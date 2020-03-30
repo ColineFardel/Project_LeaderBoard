@@ -2,23 +2,29 @@ package com.example.project_leaderboard.ui.league;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import androidx.lifecycle.LiveData;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.League;
+import com.example.project_leaderboard.db.repository.LeagueRepository;
+import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.settings.SharedPref;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,42 +34,83 @@ import java.util.List;
 public class LeagueFragment extends Fragment {
     public static final String EXTRA_ID_ARRAY = "to get array";
     public static final String EXTRA_TEXT = "to get league name";
-    private String[] leagues;
-    private LiveData<List<League>> allLeagues;
+    private static final String TAG = "League Fragment";
+    //private String[] leagues;
+    private List<League> leagues;
     private SharedPref sharedPref;
-    private LeagueViewModel leagueViewModel;
+   // private LeagueViewModel leagues;
+    private LeagueRepository leagueRepository;
     private Application app;
-    private RecyclerAdapter recyclerAdapter;
+    private RecyclerAdapter<League> recyclerAdapter;
    private LeagueViewModel viewModel;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        /*
-        app= getActivity().getApplication();
-        leagueViewModel = new LeagueViewModel(app);
-        allLeagues = leagueViewModel.getLeagueName();
+        leagueRepository = LeagueRepository.getInstance();
+       // leagueViewModel = new LeagueViewModel(app, leagueRepository);
+   //     allLeagues = leagueRepository.getLeagueName(context);
 
 
 
-        for(int i=0;allLeagues.getValue().size()>i;i++){
+
+       /* for(int i=0;allLeagues.getValue().size()>i;i++){
             leagues[i]= String.valueOf(allLeagues.getValue().get(i));
         }
+*/
 
 
-         */
 
-        leagues = getResources().getStringArray(R.array.league);
 
+
+       // leagues = getResources().getStringArray(R.array.league);
+        leagues = new ArrayList<>();
+        //leagues = (List<League>) leagueRepository.getLeagueName(getActivity());
         View view = inflater.inflate(R.layout.fragment_league,container,false);
-        ListView listView = view.findViewById(R.id.list_leagues);
-
+        /*
         //Assign an adapter to the list view
         MyAdapter listViewAdapter = new MyAdapter(getContext(), leagues);
         listView.setAdapter(listViewAdapter);
 
+         */
+
         //Open the activity LeagueBoard when you click on one league and give it the array of the clubs and the name of the league
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener(){
+            @Override
+            public void onItemLongClick(View v, int position) {
+                Log.d(TAG, "longClicked position:" + position);
+                Log.d(TAG, "longClicked on:" + leagues.get(position).toString());
+            }
+
+            @Override
+            public void onItemClick (View v, int position){
+                Log.d(TAG, "clicked position:" + position);
+                Log.d(TAG, "clicked on : " + leagues.get(position).toString());
+            }
+        });
+
+        LeagueViewModel.Factory factory = new LeagueViewModel.Factory(getActivity().getApplication());
+        viewModel = ViewModelProviders.of(this, factory).get(LeagueViewModel.class);
+        viewModel.getLeague().observe(getViewLifecycleOwner(),leagueEntity -> {
+            if(leagueEntity!=null){
+                leagues = (List<League>) leagueEntity;
+                recyclerAdapter.setData(leagues);
+            }
+        });
+
+        recyclerView.setAdapter(recyclerAdapter);
+
+              //  ListView listView = view.findViewById(R.id.list_leagues);
+
+
+     //   MyAdapter listViewAdapter = new MyAdapter(getContext(), leagues);
+
+
+      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //try to send only the name of the league and do the switch in leagueboard ??
@@ -90,11 +137,15 @@ public class LeagueFragment extends Fragment {
 
                 startActivity(i);
             }});
-
+*/
         return view;
     }
 
-    //Create an adapter for the list view
+@Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        return super.onOptionsItemSelected(item);
+    }
+    /*
     class MyAdapter extends ArrayAdapter{
         Context context;
         String name[];
@@ -114,5 +165,5 @@ public class LeagueFragment extends Fragment {
             return row;
         }
     }
-
+*/
 }

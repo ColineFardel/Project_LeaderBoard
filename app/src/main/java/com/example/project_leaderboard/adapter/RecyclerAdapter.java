@@ -18,6 +18,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     private List<T> mData;
     private RecyclerViewItemClickListener mListener;
 
+
+
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView mTextView;
 
@@ -25,6 +27,9 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             super(textView);
             mTextView=textView;
         }
+    }
+    public RecyclerAdapter(RecyclerViewItemClickListener listener){
+        mListener= listener;
     }
 
     @NonNull
@@ -63,9 +68,9 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         }
     }
 
-    public void setData(final List<T> data) {
+    public void setData(final List<League> data) {
         if (mData == null) {
-            mData = data;
+            mData = (List<T>) data;
             notifyItemRangeInserted(0, data.size());
         } else {
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
@@ -122,7 +127,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                     return false;
                 }
             });
-            mData = data;
+            mData = (List<T>) data;
             result.dispatchUpdatesTo(this);
         }
     }

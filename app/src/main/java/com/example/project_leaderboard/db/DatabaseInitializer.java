@@ -18,8 +18,8 @@ public class DatabaseInitializer {
         task.execute();
     }
 
-    private static void addMatch(final AppDatabase db, final int IdClubHome, final int IdClubVisitor, final int ScoreHome, final int ScoreVisitor){
-        Match match = new Match(IdClubHome,IdClubVisitor,ScoreHome,ScoreVisitor);
+    private static void addMatch(final AppDatabase db, final String NameClubHome, final String NameClubVisitor, final int ScoreHome, final int ScoreVisitor, final int IdLeague){
+        Match match = new Match(NameClubHome,NameClubVisitor,ScoreHome,ScoreVisitor,IdLeague);
         db.matchDao().insertAll(match);
     }
 
@@ -33,7 +33,12 @@ public class DatabaseInitializer {
     }
 
     private static void populateWithTestData (AppDatabase db){
-     //   db.matchDao().deleteAll();
+        db.clubDao().deleteAll();
+
+        AddLeague(db,"Premier League");
+        AddLeague(db,"Ligue 1");
+        AddLeague(db,"Serie A");
+        AddLeague(db,"Bundesliga");
 
         AddClub(db,"Arsenal", 15,3,0,0,1);
         AddClub(db,"Chelsea", 15,3,0,0,1);
@@ -48,14 +53,10 @@ public class DatabaseInitializer {
             e.printStackTrace();
         }
 
-        addMatch(db,1,2,3,3);
-        addMatch(db,4,3,2,1);
-
-        AddLeague(db,"Premier League");
-        AddLeague(db,"Ligue 1");
-        AddLeague(db,"Serie A");
-        AddLeague(db,"Bundesliga");
+        addMatch(db,"Arsenal","Chelsea",3,3,1);
+        addMatch(db,"Manchester United","Manchester City",2,1,1);
     }
+
     private static class PopulateDbAsync extends AsyncTask<Void,Void,Void>{
         private final AppDatabase database;
 

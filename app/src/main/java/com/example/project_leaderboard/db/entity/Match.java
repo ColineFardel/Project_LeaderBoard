@@ -13,14 +13,14 @@ import androidx.room.PrimaryKey;
         @ForeignKey(
                 entity = Club.class,
                 parentColumns = "ClubId",
-                childColumns = "IdClubHome"
+                childColumns = "NameClubHome"
         ),
         @ForeignKey(
                 entity = Club.class,
                 parentColumns = "ClubId",
-                childColumns = "IdClubVisitor"
+                childColumns = "NameClubVisitor"
         )
-})
+}, indices = {@Index(value = {"NameClubHome"}), @Index(value = {"NameClubVisitor"})})
 public class Match implements Comparable{
 
     @PrimaryKey(autoGenerate = true)
@@ -30,11 +30,11 @@ public class Match implements Comparable{
     private int IdLeague;
 
 
-    @ColumnInfo(name = "IdClubHome")
-    private int IdClubHome;
+    @ColumnInfo(name = "NameClubHome")
+    private String NameClubHome;
 
-    @ColumnInfo(name = "IdClubVisitor")
-    private int IdClubVisitor;
+    @ColumnInfo(name = "NameClubVisitor")
+    private String NameClubVisitor;
 
     @ColumnInfo(name = "ScoreHome")
     private int ScoreHome;
@@ -42,11 +42,12 @@ public class Match implements Comparable{
     @ColumnInfo(name = "ScoreVisitor")
     private int ScoreVisitor;
 
-    public Match(int IdClubHome, int IdClubVisitor, int ScoreHome, int ScoreVisitor){
-        this.IdClubHome=IdClubHome;
-        this.IdClubVisitor=IdClubVisitor;
+    public Match(String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor,int IdLeague){
+        this.NameClubHome=NameClubHome;
+        this.NameClubVisitor=NameClubVisitor;
         this.ScoreHome=ScoreHome;
         this.ScoreVisitor=ScoreVisitor;
+        this.IdLeague=IdLeague;
     }
 
     public int getId() {
@@ -65,20 +66,20 @@ public class Match implements Comparable{
         this.id = id;
     }
 
-    public int getIdClubHome() {
-        return IdClubHome;
+    public String getNameClubHome() {
+        return NameClubHome;
     }
 
-    public void setIdClubHome(int idClubHome) {
-        IdClubHome = idClubHome;
+    public void setNameClubHome(String NameClubHome) {
+        NameClubHome = NameClubHome;
     }
 
-    public int getIdClubVisitor() {
-        return IdClubVisitor;
+    public String getNameClubVisitor() {
+        return NameClubVisitor;
     }
 
-    public void setIdClubVisitor(int idClubVisitor) {
-        IdClubVisitor = idClubVisitor;
+    public void setNameClubVisitor(String NameClubVisitor) {
+        NameClubVisitor = NameClubVisitor;
     }
 
     public int getScoreHome() {

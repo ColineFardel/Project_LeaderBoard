@@ -160,9 +160,9 @@ public class MatchActivity extends BaseActivity {
 
 
     private void saveChanges(int LeagueSpinner, int HomeSpinner, int VisitorSpinner, int ScoreHome, int ScoreVisitor) {
-        LeagueSpinner = R.id.league_spinner_modify_match;
-        HomeSpinner = R.id.home_spinner_modify_match;
-        VisitorSpinner= R.id.visitor_spinner_modify_match;
+        LeagueSpinner = R.id.league_spinner;
+        HomeSpinner = R.id.home_spinner;
+        VisitorSpinner= R.id.visitor_spinner;
         ScoreHome= R.id.score_home;
         ScoreVisitor=R.id.score_visitor;
 
@@ -193,20 +193,20 @@ public class MatchActivity extends BaseActivity {
     }
 
     private void setupLeagueSpinner() {
-        LeagueSpinner = findViewById(R.id.league_spinner_modify_match);
+        LeagueSpinner = findViewById(R.id.league_spinner);
         adapterMatch = new ListAdapter<>(this, R.layout.list_match,new ArrayList<>());
         LeagueSpinner.setAdapter(adapterMatch);
     }
 
     private void setupHomeSpinner() {
-        HomeSpinner = findViewById(R.id.home_spinner_modify_match);
+        HomeSpinner = findViewById(R.id.home_spinner);
         adapterMatch = new ListAdapter<>(this,R.layout.list_match,new ArrayList<>());
         HomeSpinner.setAdapter(adapterMatch);
 
     }
 
     private void setupVisitorSpinner() {
-    VisitorSpinner = findViewById(R.id.visitor_spinner_modify_match);
+    VisitorSpinner = findViewById(R.id.visitor_spinner);
     adapterMatch = new ListAdapter<>(this,R.layout.list_match,new ArrayList<>());
     VisitorSpinner.setAdapter(adapterMatch);
     }

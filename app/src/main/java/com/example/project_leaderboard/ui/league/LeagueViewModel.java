@@ -1,20 +1,18 @@
 package com.example.project_leaderboard.ui.league;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.project_leaderboard.BaseApp;
-import com.example.project_leaderboard.db.dao.LeagueDao;
 import com.example.project_leaderboard.db.entity.League;
-import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.repository.LeagueRepository;
-import com.example.project_leaderboard.db.repository.MatchRepository;
 
 import java.util.List;
 
@@ -24,7 +22,8 @@ private LeagueRepository repository;
 
 private Application application;
 
-private final MediatorLiveData<League> observableLeague;
+
+private final MediatorLiveData<List<League>> observableLeague;
 
 public LeagueViewModel (@NonNull Application application, LeagueRepository leagueRepository){
     super(application);
@@ -32,11 +31,17 @@ public LeagueViewModel (@NonNull Application application, LeagueRepository leagu
     repository=leagueRepository;
     observableLeague = new MediatorLiveData<>();
     observableLeague.setValue(null);
+
+    LiveData<List<League>> leagues = repository.getAllLeagues(application);
+    observableLeague.addSource(leagues, value -> observableLeague.setValue(value));
 }
+
+
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory{
     @NonNull
         private final Application application;
+        private Context context;
 
     private final LeagueRepository leagueRepository;
 
@@ -44,6 +49,19 @@ public LeagueViewModel (@NonNull Application application, LeagueRepository leagu
         this.application=application;
         leagueRepository = ((BaseApp)application).getLeagueRepository();
     }
+
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            return (T) new LeagueViewModel(application, leagueRepository);
+        }
+    }
+    public LiveData<List<League>> getLeague(){
+        return observableLeague;
+    }
+
+    public LiveData<List<String>> getLeagueName(Context context) {
+        return  repository.getLeagueName(context);
     }
     }
 
