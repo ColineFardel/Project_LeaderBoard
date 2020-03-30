@@ -126,9 +126,6 @@ public class LeagueFragment extends Fragment {
             }});
 */
         return view;
-
-
-        //return super.onCreateView(inflater, container, savedInstanceState);
     }
 
 @Override

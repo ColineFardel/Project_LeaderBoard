@@ -18,4 +18,10 @@
     <string name="club_home">Club domicile</string>
     <string name="club_visitor">Club visiteur</string>
     <string name="score">Score</string>
+
+    <string name="club_name">Nom du club</string>
+    <string name="wins">Victoires</string>
+    <string name="loses">Défaites</string>
+    <string name="draws">Egalités</string>
+    <string name="points">Points</string>
 </resources>

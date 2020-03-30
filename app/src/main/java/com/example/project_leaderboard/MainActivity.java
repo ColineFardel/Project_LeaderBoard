@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         //Loading Night mode from preferences
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
-            //int grey = Color.parseColor("#FF303030");
-            //navigationView.setBackgroundColor(grey);
         }
         else{
             setTheme(R.style.AppTheme);

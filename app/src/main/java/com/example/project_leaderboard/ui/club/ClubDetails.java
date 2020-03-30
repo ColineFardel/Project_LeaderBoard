@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.project_leaderboard.R;
 
@@ -72,7 +71,7 @@ public class ClubDetails extends AppCompatActivity {
     private void initiateView() {
         isEditable = false;
         ClubName = findViewById(R.id.club_name);
-        LeagueSpinner = findViewById(R.id.league_spinner);
+        LeagueSpinner = findViewById(R.id.league_spinner_modify_match);
 
         ClubName.setFocusable(false);
         ClubName.setEnabled(false);

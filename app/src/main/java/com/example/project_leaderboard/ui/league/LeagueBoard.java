@@ -73,13 +73,18 @@ public class LeagueBoard extends AppCompatActivity{
 
         TextView textView = findViewById(R.id.league_name);
 
-        //Set the button to open a new fragment
+        //Set the button to open the add club fragment
         imageButton = findViewById(R.id.button_add);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TextView title = findViewById(R.id.league_name);
+                String value = (String)title.getText();
+                Bundle b= new Bundle();
+                b.putString("League",value);
                 FragmentManager fm = getSupportFragmentManager();
                 ClubFragment fragment = new ClubFragment();
+                fragment.setArguments(b);
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.leader_clubs,fragment).commit();
             }
@@ -94,21 +99,27 @@ public class LeagueBoard extends AppCompatActivity{
 
         //put data
         String points[] = {"23","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-        String wins[] = {"23","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-        String draws[] = {"23","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-        String loses[] = {"23","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
+        String wins[] = {"7","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
+        String draws[] = {"2","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
+        String loses[] = {"3","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
 
         MyAdapter listViewAdapter = new MyAdapter(this, clubs,draws,wins,loses,points);
         listView.setAdapter(listViewAdapter);
 
+        //Putting the multi choice mode listener for the list view
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(modeListener);
 
+        //Open new activity to show the matches of the club selected
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //open a new activity with the matches of the club selected
+                //probably going to use a switch or a Bundle
+                String value = clubs[position];
+                Bundle b = new Bundle();
+                b.putString("ClubName",value);
                 Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
+                i.putExtras(b);
                 startActivity(i);
             }
         });
@@ -117,6 +128,7 @@ public class LeagueBoard extends AppCompatActivity{
 
     }
 
+    //Setting the multi choice listener in order to delete multiple clubs or to modify one
     AbsListView.MultiChoiceModeListener modeListener = new AbsListView.MultiChoiceModeListener() {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {

@@ -22,7 +22,7 @@
         android:textColor="?attr/textcolor"/>
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/league_modify_match"
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -33,7 +33,7 @@
         android:gravity="left"
         android:text="@string/league"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner_modify_match"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match"
         android:textColor="?attr/textcolor"/>
@@ -50,7 +50,7 @@
         android:gravity="left"
         android:text="@string/club_home"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner_modify_match"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match"
@@ -68,7 +68,7 @@
         android:gravity="left"
         android:text="@string/club_visitor"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner_modify_match"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match"
@@ -86,7 +86,7 @@
         android:gravity="left"
         android:text="@string/score"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner_modify_match"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match"
@@ -104,14 +104,14 @@
         android:gravity="left"
         android:text="@string/score"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/league_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/league_spinner_modify_match"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_match"
         android:textColor="?attr/textcolor"/>
 
     <Spinner
-        android:id="@+id/league_spinner"
+        android:id="@+id/league_spinner_modify_match"
         android:layout_width="185dp"
         android:layout_height="69dp"
         android:layout_marginStart="16dp"
@@ -120,12 +120,12 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/league_modify_match"
         app:layout_constraintTop_toBottomOf="@+id/text_match"
         android:backgroundTint="?attr/tintcolor"/>
 
     <Spinner
-        android:id="@+id/home_spinner"
+        android:id="@+id/home_spinner_modify_match"
         android:layout_width="190dp"
         android:layout_height="65dp"
         android:layout_marginStart="33dp"
@@ -135,12 +135,12 @@
         android:layout_marginRight="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/league_modify_match"
         app:layout_constraintTop_toBottomOf="@+id/text_match"
         android:backgroundTint="?attr/tintcolor"/>
 
     <Spinner
-        android:id="@+id/visitor_spinner"
+        android:id="@+id/visitor_spinner_modify_match"
         android:layout_width="190dp"
         android:layout_height="65dp"
         android:layout_marginStart="33dp"
@@ -150,12 +150,12 @@
         android:layout_marginRight="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/league_modify_match"
         app:layout_constraintTop_toBottomOf="@+id/text_match"
         android:backgroundTint="?attr/tintcolor"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button_cancel_addmatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
@@ -166,7 +166,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonAdd"
+        android:id="@+id/button_add_addmatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="147dp"
@@ -179,7 +179,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/button3" />
+        app:layout_constraintStart_toEndOf="@+id/button_cancel_addmatch" />
 
     <EditText
         android:id="@+id/score_home"
@@ -195,7 +195,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/home_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/home_spinner_modify_match"
         android:textColor="?attr/textcolor"
         android:textColorHint="?attr/tintcolor"
         android:backgroundTint="?attr/tintcolor"/>
@@ -214,7 +214,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/home_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/home_spinner_modify_match"
         android:textColor="?attr/textcolor"
         android:textColorHint="?attr/tintcolor"
         android:backgroundTint="?attr/tintcolor"/>
