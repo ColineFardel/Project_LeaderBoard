@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.project_leaderboard.R;
 
+/**
+ * This class is used to add a new club
+ */
 public class ClubFragment extends Fragment {
 
     private ClubViewModel clubViewModel;

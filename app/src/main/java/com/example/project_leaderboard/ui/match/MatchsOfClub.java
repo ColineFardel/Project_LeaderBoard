@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ActionMode;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -142,8 +143,10 @@ public class MatchsOfClub extends AppCompatActivity {
                     break;
                 case R.id.modify_bar:
                     if(userSelection.size()>1){
-                        Toast toast=Toast. makeText(MatchsOfClub.this,"You must select only one item to modify it",Toast. LENGTH_SHORT);
+                        String warning = getString(R.string.toast);
+                        Toast toast=Toast. makeText(MatchsOfClub.this,warning,Toast. LENGTH_SHORT);
                         toast. setMargin(50,50);
+                        toast.setGravity(Gravity.CENTER, 0,0);
                         toast. show();
                     }
                     else{
