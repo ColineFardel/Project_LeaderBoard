@@ -91,40 +91,6 @@ public class LeagueFragment extends Fragment {
 
         recyclerView.setAdapter(recyclerAdapter);
 
-              //  ListView listView = view.findViewById(R.id.list_leagues);
-
-
-     //   MyAdapter listViewAdapter = new MyAdapter(getContext(), leagues);
-
-
-      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //try to send only the name of the league and do the switch in leagueboard ??
-                Intent i;
-                i = new Intent(getActivity(), LeagueBoard.class);
-                switch (position){
-                    case 0:
-                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_premierLeague);
-                        i.putExtra(EXTRA_TEXT, "Premier league");
-                        break;
-                    case 1:
-                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_budesliga);
-                        i.putExtra(EXTRA_TEXT, "Bundesliga");
-                        break;
-                    case 2:
-                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_ligue1);
-                        i.putExtra(EXTRA_TEXT, "Ligue 1");
-                        break;
-                    case 3:
-                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_seria);
-                        i.putExtra(EXTRA_TEXT, "Serie A");
-                        break;
-                }
-
-                startActivity(i);
-            }});
-*/
         return view;
     }
 
@@ -132,25 +98,4 @@ public class LeagueFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item){
         return super.onOptionsItemSelected(item);
     }
-    /*
-    class MyAdapter extends ArrayAdapter{
-        Context context;
-        String name[];
-
-        MyAdapter (Context c, String name[]){
-            super(c,R.layout.row_leagues,R.id.title_list, name);
-            this.context=c;
-            this.name=name;
-        }
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = layoutInflater.inflate(R.layout.row_leagues, parent, false);
-            TextView myName = row.findViewById(R.id.title_list);
-
-            myName.setText(name[position]);
-
-            return row;
-        }
-    }
-*/
 }
