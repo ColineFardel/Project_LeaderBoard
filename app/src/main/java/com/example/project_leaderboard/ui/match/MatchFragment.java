@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 /**
  * This class is used to add a new match to the database
+ * @author Samuel Michellod
  */
 public class MatchFragment extends Fragment {
 

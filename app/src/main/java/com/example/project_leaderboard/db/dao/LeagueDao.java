@@ -12,6 +12,10 @@ import androidx.room.Update;
 import com.example.project_leaderboard.db.entity.League;
 
 import java.util.List;
+/**
+ * Data access object class for leagues
+ * @author Samuel Michellod
+ */
 @Dao
 public interface LeagueDao {
 

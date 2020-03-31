@@ -23,6 +23,7 @@ import com.example.project_leaderboard.ui.league.LeagueViewModel;
 
 /**
  * This class is used to add a new club
+ * @author Coline Fardel
  */
 public class ClubFragment extends Fragment {
 

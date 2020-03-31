@@ -16,6 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     //  private AddMatchViewModel matchViewModel;
     //   private MatchListAdapter matchListAdapter;
     Intent intent;
+
     MaterialSearchView searchView;
 
 
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = new SharedPref(this);
-
+MaterialSearchView searchView;
         //Loading the language from the preferences
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
@@ -54,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-
+     //   searchView();
 
        /* RecyclerView recyclerView = findViewById(R.id.recyclerview);
         matchListAdapter = new MatchListAdapter(this);
@@ -89,16 +91,64 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void searchView(){
+        searchView= findViewById(R.id.app_bar_search);
+        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
+        searchView.setEllipsize(true);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem item = menu.findItem(R.layout.suggest_item);
-    //   searchView.setMenuItem(item);
+       // MenuItem item = menu.findItem(R.id.app_bar_search);
+      // searchView.setMenuItem(item);
         //searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.app_bar_search:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+@Override
+public void onBackPressed(){
+        if(searchView.isSearchOpen()){
+            searchView.closeSearch();
+        }
+        else{
+            super.onBackPressed();
+        }
+}
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

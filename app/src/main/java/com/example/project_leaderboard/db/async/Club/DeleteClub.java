@@ -6,7 +6,10 @@ import android.os.AsyncTask;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-
+/**
+ * This class is used to delete a club
+ * @author Samuel Michellod
+ */
 public class DeleteClub extends AsyncTask<Match,Void,Void> {
 
     AppDatabase database;

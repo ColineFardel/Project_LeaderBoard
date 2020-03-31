@@ -34,6 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * This class is used to display matches of clubs
+ * @author Coline Fardel
+ */
+
 public class MatchsOfClub extends AppCompatActivity {
 
     private SharedPref sharedPref;

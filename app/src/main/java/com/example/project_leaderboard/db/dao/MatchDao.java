@@ -12,7 +12,10 @@ import androidx.room.Update;
 import com.example.project_leaderboard.db.entity.Match;
 
 import java.util.List;
-
+/**
+ * Data access object class for matches
+ * @author Samuel Michellod
+ */
 @Dao
 public interface MatchDao {
     @Query("SELECT * FROM `match`")

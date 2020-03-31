@@ -14,7 +14,10 @@ import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 
 import java.util.List;
-
+/**
+ * This class is used to adapt a RecyclerView
+ * @author Samuel Michellod
+ */
 public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private List<T> mData;
     private RecyclerViewItemClickListener mListener;

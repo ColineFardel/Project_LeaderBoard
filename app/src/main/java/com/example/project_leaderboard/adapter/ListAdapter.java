@@ -16,7 +16,10 @@ import java.util.List;
 
 public class ListAdapter <T> extends ArrayAdapter <T> {
 
-
+    /**
+     * This class is used to adapt a List
+     * @author Samuel Michellod
+     */
     private int mResource;
     private List<T> mData;
 

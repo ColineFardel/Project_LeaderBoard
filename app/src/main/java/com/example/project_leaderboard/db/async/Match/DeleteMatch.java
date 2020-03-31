@@ -6,7 +6,10 @@ import android.os.AsyncTask;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-
+/**
+ * This class is used to delete a match
+ * @author Samuel Michellod
+ */
 public class DeleteMatch extends AsyncTask<Match,Void,Void> {
 
     AppDatabase database;

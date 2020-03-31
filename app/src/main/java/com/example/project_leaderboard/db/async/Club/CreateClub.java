@@ -7,7 +7,10 @@ import android.os.AsyncTask;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-
+/**
+ * This class is used to create a club
+ * @author Samuel Michellod
+ */
 public class CreateClub extends AsyncTask<Match,Void,Void> {
 
 

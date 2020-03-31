@@ -9,7 +9,10 @@ import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
 public class CreateMatch extends AsyncTask<Match,Void,Void> {
-
+    /**
+     * This class is used to create a match
+     * @author Samuel Michellod
+     */
     private AppDatabase database;
     private Application application;
     private OnAsyncEventListener callback;

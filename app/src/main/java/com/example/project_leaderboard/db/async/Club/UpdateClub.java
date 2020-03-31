@@ -6,7 +6,10 @@ import android.os.AsyncTask;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-
+/**
+ * This class is used to update a club
+ * @author Samuel Michellod
+ */
 public class UpdateClub  extends AsyncTask<Match,Void,Void> {
 
     private Application application;

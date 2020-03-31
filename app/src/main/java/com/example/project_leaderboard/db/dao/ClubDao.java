@@ -12,7 +12,10 @@ import androidx.room.Update;
 import com.example.project_leaderboard.db.entity.Club;
 
 import java.util.List;
-
+/**
+ * Data access object class for clubs
+ * @author Samuel Michellod
+ */
 @Dao
 public interface ClubDao {
     @Query("SELECT * FROM club WHERE LeagueId = :LeagueId")
