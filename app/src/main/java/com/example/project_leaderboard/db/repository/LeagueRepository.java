@@ -9,7 +9,10 @@ import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.entity.League;
 
 import java.util.List;
-
+/**
+ * Repository class for leagues
+ * @author Samuel Michellod
+ */
 public class LeagueRepository {
 
     private static LeagueRepository instance;

@@ -6,7 +6,10 @@ import android.os.AsyncTask;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.entity.Club;
-
+/**
+ * Class used to initialize Data
+ * @author Samuel Michellod
+ */
 public class DatabaseInitializer {
 
     public static final String TAG = "DatabaseInitializer";

@@ -3,7 +3,6 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="add_club">Add club</string>
     <string name="add_match">Add match</string>
-    <string name="favorites">Favorites</string>
     <string name="leagues">Leagues</string>
     <string name="item_selected">items selected</string>
     <string name="toast">You must select only one item to modify it</string>
@@ -36,7 +35,6 @@
 
     <string name="menu_league">Leagues</string>
     <string name="menu_club">Add Club</string>
-    <string name="menu_favorites">Favorites</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_match">Add match</string>
     <string name="title_activity_main2">Main2Activity</string>

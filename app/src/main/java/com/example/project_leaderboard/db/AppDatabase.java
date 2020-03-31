@@ -21,7 +21,10 @@ import com.example.project_leaderboard.db.entity.Match;
 
 import java.util.concurrent.Executors;
 
-
+/**
+ * Database class
+ * @author Samuel Michellod
+ */
 @Database(entities = {League.class, Club.class, Match.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 

@@ -13,12 +13,15 @@ import com.example.project_leaderboard.db.async.Match.CreateMatch;
 import com.example.project_leaderboard.db.async.Match.UpdateMatch;
 
 import java.util.List;
-
+/**
+ * Repository class for matches
+ * @author Samuel Michellod
+ */
 public class MatchRepository {
 
     private static MatchRepository instance;
     private Context context;
-    private MatchRepository(){
+    public MatchRepository(){
 
     }
 

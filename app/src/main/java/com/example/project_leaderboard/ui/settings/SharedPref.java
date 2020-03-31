@@ -2,7 +2,10 @@ package com.example.project_leaderboard.ui.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
+/**
+ * This class is used to manage the preferences for the user
+ * @author Coline Fardel
+ */
 public class SharedPref {
     SharedPreferences mySharedPref;
     public SharedPref(Context context){

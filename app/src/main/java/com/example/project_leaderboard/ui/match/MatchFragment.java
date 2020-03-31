@@ -33,7 +33,6 @@ public class MatchFragment extends Fragment {
 
     private static final String TAG = "AddMatch";
     private MatchViewModel viewModel;
-    private MatchListAdapter matchListAdapter;
     private Application application;
     private Match match;
     private boolean isEditable;

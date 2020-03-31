@@ -13,7 +13,10 @@ import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
 import java.util.List;
-
+/**
+ * Repository class for clubs
+ * @author Samuel Michellod
+ */
 public class ClubRepository {
 
 

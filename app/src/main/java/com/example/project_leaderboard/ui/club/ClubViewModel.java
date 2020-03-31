@@ -1,23 +1,23 @@
 package com.example.project_leaderboard.ui.club;
 
 import android.app.Application;
-import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.project_leaderboard.BaseApp;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.repository.ClubRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
 import java.util.List;
-
+/**
+ * ViewModel class for clubs
+ * @author Samuel Michellod
+ */
 public class ClubViewModel extends AndroidViewModel {
 
     private ClubRepository repository;

@@ -1,24 +1,20 @@
 package com.example.project_leaderboard.ui.match;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.project_leaderboard.BaseApp;
-import com.example.project_leaderboard.db.dao.MatchDao;
 import com.example.project_leaderboard.db.entity.Match;
-import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.repository.MatchRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
-import java.util.List;
-
+/**
+ * ViewModel class for matches
+ * @author Samuel Michellod
+ */
 public class MatchViewModel extends AndroidViewModel {
 
  private MatchRepository repository;
@@ -42,7 +38,7 @@ public class MatchViewModel extends AndroidViewModel {
 
      public Factory (@NonNull Application application){
          this.application=application;
-         repository= ((BaseApp)application).getMatchRepository();
+         repository= new MatchRepository();
      }
  }
 

@@ -18,12 +18,6 @@
         tools:layout="@layout/fragment_club" />
 
     <fragment
-        android:id="@+id/nav_favorites"
-        android:name="com.example.project_leaderboard.ui.favorites.FavoritesFragment"
-        android:label="@string/favorites"
-        tools:layout="@layout/fragment_favorites" />
-
-    <fragment
         android:id="@+id/nav_match"
         android:name="com.example.project_leaderboard.ui.match.MatchFragment"
         android:label="@string/add_match"

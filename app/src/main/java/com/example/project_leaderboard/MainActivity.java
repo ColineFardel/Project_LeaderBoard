@@ -19,7 +19,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.Locale;
-
+/**
+ * This is the main class of the project
+ * @author Coline Fardel
+ */
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -28,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     //   private MatchListAdapter matchListAdapter;
     Intent intent;
 
-    MaterialSearchView searchView;
 
 
     @SuppressLint({"ResourceAsColor", "WrongViewCast"})
@@ -36,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = new SharedPref(this);
-MaterialSearchView searchView;
         //Loading the language from the preferences
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
@@ -57,7 +58,6 @@ MaterialSearchView searchView;
         setContentView(R.layout.activity_main);
 
 
-     //   searchView();
 
        /* RecyclerView recyclerView = findViewById(R.id.recyclerview);
         matchListAdapter = new MatchListAdapter(this);
@@ -80,7 +80,7 @@ MaterialSearchView searchView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_league, R.id.nav_club, R.id.nav_favorites,
+                R.id.nav_league, R.id.nav_club,
                 R.id.nav_settings, R.id.nav_match)
                 .setDrawerLayout(drawer)
                 .build();
@@ -91,64 +91,14 @@ MaterialSearchView searchView;
 
     }
 
-    private void searchView(){
-        searchView= findViewById(R.id.app_bar_search);
-        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
-        searchView.setEllipsize(true);
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem item = menu.findItem(R.layout.suggest_item);
        // MenuItem item = menu.findItem(R.id.app_bar_search);
-      // searchView.setMenuItem(item);
-        //searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case R.id.app_bar_search:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-@Override
-public void onBackPressed(){
-        if(searchView.isSearchOpen()){
-            searchView.closeSearch();
-        }
-        else{
-            super.onBackPressed();
-        }
-}
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

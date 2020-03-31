@@ -18,7 +18,10 @@ import com.example.project_leaderboard.db.repository.ClubRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
 import java.util.List;
-
+/**
+ * ViewModel class for list of clubs
+ * @author Samuel Michellod
+ */
 public class ClubListViewModel extends AndroidViewModel {
 
     private ClubRepository repository;

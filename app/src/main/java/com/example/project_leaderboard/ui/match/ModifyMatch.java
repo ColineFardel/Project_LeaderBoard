@@ -15,6 +15,7 @@ import java.util.Locale;
 
 /**
  * This class is used to modify a match
+ * @author Coline Fardel
  */
 public class ModifyMatch extends AppCompatActivity {
 

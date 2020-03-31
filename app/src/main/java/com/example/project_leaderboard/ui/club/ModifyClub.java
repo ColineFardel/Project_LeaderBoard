@@ -18,6 +18,7 @@ import java.util.Locale;
 
 /**
  * This class is used to modify a club
+ * @author Coline Fardel
  */
 public class ModifyClub extends AppCompatActivity {
     private SharedPref sharedPref;

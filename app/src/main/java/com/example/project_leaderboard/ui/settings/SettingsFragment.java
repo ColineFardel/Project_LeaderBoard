@@ -26,6 +26,10 @@ import com.example.project_leaderboard.MainActivity;
 import com.example.project_leaderboard.R;
 
 import java.util.Locale;
+/**
+ * This class is used to display the settings page
+ * @author Coline Fardel
+ */
 
 public class SettingsFragment extends Fragment {
 

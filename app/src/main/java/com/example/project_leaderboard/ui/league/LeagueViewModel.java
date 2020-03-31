@@ -10,7 +10,6 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.project_leaderboard.BaseApp;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.repository.LeagueRepository;
 
