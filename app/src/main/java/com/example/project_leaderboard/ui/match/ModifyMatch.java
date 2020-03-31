@@ -27,9 +27,10 @@ public class ModifyMatch extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /**
+         * Loading the language from the preferences
+         */
         sharedPref = new SharedPref(this);
-
-        //Loading the language from the preferences
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -38,7 +39,9 @@ public class ModifyMatch extends AppCompatActivity {
         config.locale = locale;
         getResources().updateConfiguration(config, dm);
 
-        //Loading the Night mode from the preferences
+        /**
+         * Loading the Night mode from the preferences
+         */
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
         }
@@ -48,7 +51,9 @@ public class ModifyMatch extends AppCompatActivity {
 
         setContentView(R.layout.activity_modify_match);
 
-        //Customized spinners
+        /**
+         * Customized spinners
+         */
         Spinner leaguespinner = findViewById(R.id.league_spinner_modify_match);
         String[] list = getResources().getStringArray(R.array.league);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_layout, list);
@@ -64,7 +69,9 @@ public class ModifyMatch extends AppCompatActivity {
         Spinner clubvisitor = findViewById(R.id.visitor_spinner_modify_match);
         clubvisitor.setAdapter(adapter2);
 
-        //Setting the action for cancel button
+        /**
+         * Setting the action for cancel button
+         */
         Button cancel_button = findViewById(R.id.button_cancel_modifymatch);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +80,9 @@ public class ModifyMatch extends AppCompatActivity {
             }
         });
 
-        //Setting the action for save button
+        /**
+         * Setting the action for save button
+         */
         Button add_button = findViewById(R.id.button_save_modifymatch);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,16 +29,10 @@ public class ModifyClub extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //load the night mode or the normal mode
+        /**
+         * Loading the language from the preferences
+         */
         sharedPref = new SharedPref(this);
-        if(sharedPref.loadNightMode()==true){
-            setTheme(R.style.NightTheme);
-        }
-        else{
-            setTheme(R.style.AppTheme);
-        }
-
-        //Loading the language from the preferences
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -47,16 +41,28 @@ public class ModifyClub extends AppCompatActivity {
         config.locale = locale;
         getResources().updateConfiguration(config, dm);
 
+        /**
+         * Loading the Night mode from the preferences
+         */
+        if(sharedPref.loadNightMode()==true){
+            setTheme(R.style.NightTheme);
+        }
+        else{
+            setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_modify_club);
 
-        //Get the arguments from last activity
+        /**
+         * Getting the name of the club from last acitivty and putting it into the edittext
+         */
         String value = getIntent().getExtras().getString("ClubName");
-
-        //Set the edit text with the name of the club
         EditText editText = findViewById(R.id.modify_club_name);
         editText.setText(value);
 
-        //Setting the action for cancel button
+        /**
+         * Setting the action for cancel button
+         */
         Button cancel_button = findViewById(R.id.cancel_modify_club);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +71,9 @@ public class ModifyClub extends AppCompatActivity {
             }
         });
 
-        //Setting the action for save button
+        /**
+         * Setting the action for save button
+         */
         Button save_button = findViewById(R.id.save_modify_club);
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +82,9 @@ public class ModifyClub extends AppCompatActivity {
             }
         });
 
-        //customized spinner
+        /**
+         * Customized spinner
+         */
         Spinner colorspinner = findViewById(R.id.league_spinner_modify);
         String [] list = getResources().getStringArray(R.array.league);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,R.layout.spinner_dropdown_layout,list);

@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
@@ -39,7 +38,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.club.ClubFragment;
 import java.util.ArrayList;
@@ -52,25 +50,18 @@ import java.util.Locale;
  * When you click on the plus button it will open the class ClubFragment to create a new club
  * If you long click on one club you can modify it with the class ModifyClub
  * If you long click on multiple clubs you can delete them
+ * @author Coline Fardel
  */
 public class LeagueBoard extends AppCompatActivity{
 
-   // private String[] clubs;
+    private String[] clubs;
     private ImageButton imageButton;
     private SharedPref sharedPref;
     private List<String> userSelection = new ArrayList<>();
-    private RecyclerAdapter<Club> recyclerAdapter;
+    //private RecyclerAdapter<Club> recyclerAdapter;
     private ClubViewModel viewModel;
-    private List<Club> clubs;
+    //private List<Club> clubs;
     private static final String TAG = "Leaderboard Fragment";
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main,menu);
-        return true;
-        //return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,11 +69,11 @@ public class LeagueBoard extends AppCompatActivity{
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
 
-
-        sharedPref = new SharedPref(this);
-        
+        /**
+         * Calling the recycler view for the database access
+         */
+        /*
         clubs = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -91,16 +82,18 @@ public class LeagueBoard extends AppCompatActivity{
             public void onItemLongClick(View v, int position) {
 
             }
-
             @Override
             public void onItemClick(View v, int position) {
                 Log.d(TAG, "longClicked position:" + position);
                 Log.d(TAG, "longClicked on:" + clubs.get(position).toString());
             }
         });
+         */
 
-
-        //Loading the language from the preferences
+        /**
+         * Loading the language from the preferences
+         */
+        sharedPref = new SharedPref(this);
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -109,7 +102,9 @@ public class LeagueBoard extends AppCompatActivity{
         config.locale = locale;
         getResources().updateConfiguration(config, dm);
 
-        //Loading the Night mode from the preferences
+        /**
+         * Loading the Night mode from the preferences
+         */
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
         }
@@ -119,9 +114,9 @@ public class LeagueBoard extends AppCompatActivity{
 
         setContentView(R.layout.leaderborad_activity);
 
-        TextView textView = findViewById(R.id.league_name);
-
-        //Set the button to open the add club fragment
+        /**
+         * Setting the button to open the add club fragment
+         */
         imageButton = findViewById(R.id.button_add);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,46 +133,60 @@ public class LeagueBoard extends AppCompatActivity{
             }
         });
 
-        //Get the array of clubs from LeagueFragment and put it into clubs[]
+        /**
+         * Get the clubs from LeagueFragment and put it into clubs[]
+         */
         Intent intent = getIntent();
-       // int array = intent.getIntExtra(LeagueFragment.EXTRA_ID_ARRAY,0);
-     //   clubs = getResources().getStringArray(array);
+        int array = intent.getIntExtra(LeagueFragment.EXTRA_ID_ARRAY,0);
+        clubs = getResources().getStringArray(array);
 
-        //Get the name of the league from LeagueFragment and put it into the text view of the title
+        /**
+         * Get the name of the league from LeagueFragment and put it into the text view of the title
+         */
+        TextView textView = findViewById(R.id.league_name);
         String text = intent.getStringExtra(LeagueFragment.EXTRA_TEXT);
         textView.setText(text);
 
-       // ListView listView = findViewById(R.id.leaderboard_clubs);
-
-        //put random data as we don't have access to the database yet
-        /*
+        /**
+         * Put random data in the strings
+         */
         String points[] = {"23","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
         String wins[] = {"7","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
         String draws[] = {"2","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
         String loses[] = {"3","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
 
-        //Assign an adapter to the list view
+        /**
+         * Assign an adapter to the list view
+         */
+        ListView listView = findViewById(R.id.leaderboard_clubs);
         MyAdapter listViewAdapter = new MyAdapter(this, clubs,draws,wins,loses,points);
         listView.setAdapter(listViewAdapter);
 
-        //Putting the multi choice mode listener for the list view
+        /**
+         * Putting the multi choice mode listener for the list view
+         */
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(modeListener);
-*/
-        //Open new activity to show the matches of the club selected
-       /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        /**
+         * Open new activity to show the matches of the club selected
+         */
+       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //probably going to use a switch or a Bundle
-                Club value = clubs.get(position);
+                String value = clubs[position];
                 Bundle b = new Bundle();
-               // b.putString("ClubName",value);
+                b.putString("ClubName",value);
                 Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
                 i.putExtras(b);
                 startActivity(i);
             }
         });
-*/
+
+        /**
+         * Create adapter for the database access
+         */
+        /*
         ClubViewModel.Factory factory = new ClubViewModel.Factory(this.getApplication());
         viewModel = ViewModelProviders.of(this, factory).get(ClubViewModel.class);
         viewModel.getClub().observe(this,clubEntity -> {
@@ -188,25 +197,33 @@ public class LeagueBoard extends AppCompatActivity{
         });
 
         recyclerView.setAdapter(recyclerAdapter);
-
+         */
     }
 
-    //Setting the multi choice listener in order to delete multiple clubs or to modify one
+    /**
+     * Setting the multi choice listener in order to delete multiple clubs or to modify one
+     */
     AbsListView.MultiChoiceModeListener modeListener = new AbsListView.MultiChoiceModeListener() {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
             //If the user click two times on the same club then it will remove it from userSelection
-            if(userSelection.contains(clubs.get(position))){
-                userSelection.remove(clubs.get(position));
+            if(userSelection.contains(clubs[position])){
+                userSelection.remove(clubs[position]);
             }
             //If the user click one time on a club it will add it to userSelection
             else{
-               // userSelection.add(clubs.get(position));
+                userSelection.add(clubs[position]);
             }
             //Use the size of the array to show how many items the user selected
-            mode.setTitle(userSelection.size() + " items selected");
+            mode.setTitle(userSelection.size() + getString(R.string.item_selected));
         }
-        //Create the menu for the selection
+
+        /**
+         * Create the menu for the selection
+         * @param mode
+         * @param menu
+         * @return true
+         */
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater menuInflater = mode.getMenuInflater();
@@ -218,13 +235,19 @@ public class LeagueBoard extends AppCompatActivity{
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             return false;
         }
-        //Say what to do depending on what button the user click on
+
+        /**
+         * Say what to do depending on what button the user click on
+         * @param mode
+         * @param item
+         * @return false
+         */
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()){
                 //If the user click on the delete button it will delete the clubs from the database
                 case R.id.delete_bar:
-                    //call remove items from adapter
+                    //delete the club(s) from the database
                     break;
                 //If the user click on the modify button
                 case R.id.modify_bar:
@@ -254,12 +277,12 @@ public class LeagueBoard extends AppCompatActivity{
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-
         }
     };
 
-
-    //Create an adapter for the list view
+    /**
+     * Create an adapter for the list view
+     */
     class MyAdapter extends ArrayAdapter{
         Context context;
         String name[];
@@ -283,28 +306,19 @@ public class LeagueBoard extends AppCompatActivity{
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.row, parent, false);
-//            TextView myName = row.findViewById(R.id.name);
-//            TextView myPoints = row.findViewById(R.id.points);
-//            TextView myWins = row.findViewById(R.id.wins);
-//            TextView myDraws = row.findViewById(R.id.draws);
-//            TextView myLoses = row.findViewById(R.id.loses);
-//
-//            myName.setText(name[position]);
-//            myPoints.setText(points[position]);
-//            myWins.setText(wins[position]);
-//            myDraws.setText(draws[position]);
-//            myLoses.setText(loses[position]);
+            TextView myName = row.findViewById(R.id.name);
+            TextView myPoints = row.findViewById(R.id.points);
+            TextView myWins = row.findViewById(R.id.wins);
+            TextView myDraws = row.findViewById(R.id.draws);
+            TextView myLoses = row.findViewById(R.id.loses);
+
+            myName.setText(name[position]);
+            myPoints.setText(points[position]);
+            myWins.setText(wins[position]);
+            myDraws.setText(draws[position]);
+            myLoses.setText(loses[position]);
 
             return row;
         }
-
-        public void removeItems(List<String> items){
-            for(String item : items){
-                //put the method to remove item from database
-            }
-            notifyDataSetChanged();
-        }
-
-
     }
 }

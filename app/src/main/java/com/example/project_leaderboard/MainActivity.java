@@ -31,14 +31,16 @@ public class MainActivity extends AppCompatActivity {
     //   private MatchListAdapter matchListAdapter;
     Intent intent;
 
-
-
     @SuppressLint({"ResourceAsColor", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = new SharedPref(this);
-        //Loading the language from the preferences
+
+        /**
+         * Loading the language from the preferences
+         */
+        sharedPref = new SharedPref(this);
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -47,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
         config.locale = locale;
         getResources().updateConfiguration(config, dm);
 
-        //Loading Night mode from preferences
+        /**
+         * Loading the Night mode from the preferences
+         */
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
         }
@@ -57,8 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
-
+        /**
+        * Calling the recycler view for the database access
+        */
        /* RecyclerView recyclerView = findViewById(R.id.recyclerview);
         matchListAdapter = new MatchListAdapter(this);
         recyclerView.setAdapter(matchListAdapter);
@@ -70,33 +75,33 @@ public class MainActivity extends AppCompatActivity {
             matchListAdapter.setMatches(matches);
             }
         });
-
 */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /**
+         * Create a drawer layout for the navigation
+         */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_league, R.id.nav_club,
                 R.id.nav_settings, R.id.nav_match)
                 .setDrawerLayout(drawer)
                 .build();
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
     }
 
-
+    /**
+     * Inflate the menu
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-       // MenuItem item = menu.findItem(R.id.app_bar_search);
         return true;
     }
     @Override
@@ -113,6 +118,5 @@ public class MainActivity extends AppCompatActivity {
     public void displayToastmsg(View v){
         toastMsg("Match successfully added");
     }
-
     */
 }

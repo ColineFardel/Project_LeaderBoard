@@ -23,14 +23,16 @@
     <string name="draws">Draws</string>
     <string name="points">Points</string>
     <string name="error_addclub">Please enter a club name</string>
-
-
     <string name="app_name">Project_LeaderBoard</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="match_edited">Match edited</string>
+    <string name="action_error">Something went wrong</string>
+
+    <!--string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Leaderboard</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+
 
 
     <string name="menu_league">Leagues</string>
@@ -43,10 +45,10 @@
     <string name="action_delete">Delete</string>
     <string name="delete_msg">Do you really want to delete this match?</string>
     <string name="club_edited">Club edited</string>
-    <string name="action_error">Something went wrong</string>
-    <string name="match_edited">Match edited</string>
+
+
     <string name="action_edit">Edit</string>
-    <string name="action_create_club">Create Club</string>
+    <string name="action_create_club">Create Club</string-->
 
     <string-array name="league">
         <item>Premier League</item>

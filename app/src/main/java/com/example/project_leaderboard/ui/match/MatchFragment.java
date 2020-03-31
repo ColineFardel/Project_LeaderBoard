@@ -32,55 +32,55 @@ import java.util.ArrayList;
 public class MatchFragment extends Fragment {
 
     private static final String TAG = "AddMatch";
-    private MatchViewModel viewModel;
-    private Application application;
     private Match match;
     private boolean isEditable;
     private Toast statusToast;
-    private OnAsyncEventListener callback;
-    Button add;
     EditText ScoreHome, ScoreVisitor;
-    Spinner LeagueSpinner,HomeSpinner,VisitorSpinner;
+    private MatchViewModel viewModel;
+
+    //private OnAsyncEventListener callback;
+    //private Application application;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View root = inflater.inflate(R.layout.fragment_match,container,false);
-        initiateView(root);
 
-       /* matchViewModel = ViewModelProviders.of(this).get(MatchViewModel.class);
+        /* matchViewModel = ViewModelProviders.of(this).get(MatchViewModel.class);
         matchViewModel.getAllMatches().observe(getViewLifecycleOwner(), new Observer<List<Match>>() {
             @Override
             public void onChanged(List<Match> matches) {
                 matchListAdapter.setMatches(matches);
             }
         });
-*/      /*
+        */
+        /*
         ScoreHome = root.findViewById(R.id.score_home);
         ScoreVisitor = root.findViewById(R.id.score_visitor);
         add = root.findViewById(R.id.button_add);
         */
 
-/*add.setOnClickListener(new View.OnClickListener(){
+        /*add.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(ScoreHome.getText().length()==0){
+                    add.setEnabled(false);
+                    add.setError("Please enter a score");
+                }
+                if(ScoreVisitor.getText().length()==0){
+                    add.setEnabled(false);
+                    add.setError("Please enter a score");
+                }
+                else{
+                    add.setEnabled(true);
+                }
+            }
+        });
+        */
 
-
-    @Override
-    public void onClick(View v) {
-        if(ScoreHome.getText().length()==0){
-            add.setEnabled(false);
-            add.setError("Please enter a score");
-        }
-        if(ScoreVisitor.getText().length()==0){
-            add.setEnabled(false);
-            add.setError("Please enter a score");
-        }
-        else{
-            add.setEnabled(true);
-        }
-    }
-});
-*/
-        //Colored Spinner
+        /**
+         * Customized spinners
+         */
         Spinner leaguespinner = root.findViewById(R.id.league_spinner_modify_match);
         String[] list = getResources().getStringArray(R.array.league);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_dropdown_layout, list);
@@ -96,7 +96,9 @@ public class MatchFragment extends Fragment {
         Spinner clubvisitor = root.findViewById(R.id.visitor_spinner_modify_match);
         clubvisitor.setAdapter(adapter2);
 
-        //Setting the action for cancel button
+        /**
+         * Setting the action for cancel button
+         */
         Button cancel_button = root.findViewById(R.id.button_cancel_addmatch);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,10 +107,12 @@ public class MatchFragment extends Fragment {
             }
         });
 
-        //Setting the action for add button
+        /**
+         * Setting the action for add button
+         */
         Button add_button = root.findViewById(R.id.button_add_addmatch);
-      //  ScoreHome = root.findViewById(R.id.score_home);
-      //  ScoreVisitor= root.findViewById(R.id.score_visitor);
+        ScoreHome = root.findViewById(R.id.score_home);
+        ScoreVisitor= root.findViewById(R.id.score_visitor);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,10 +129,17 @@ public class MatchFragment extends Fragment {
                 }
             }
         });
-
         return root;
     }
 
+    /**
+     * Method to create a match
+     * @param IdLeague
+     * @param NameClubHome
+     * @param NameClubVisitor
+     * @param ScoreHome
+     * @param ScoreVisitor
+     */
     private void createMatch(int IdLeague, String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor) {
         match = new Match(NameClubHome, NameClubVisitor, ScoreHome, ScoreVisitor, IdLeague);
         match.setIdLeague(IdLeague);
@@ -138,19 +149,14 @@ public class MatchFragment extends Fragment {
         match.setScoreHome(ScoreHome);
     }
 
-
-    private void initiateView(View view) {
-        isEditable = false;
-        ScoreHome = view.findViewById(R.id.score_home);
-        ScoreVisitor = view.findViewById(R.id.score_visitor);
-
-
-        ScoreHome.setFocusable(true);
-        ScoreHome.setEnabled(true);
-        ScoreVisitor.setFocusable(true);
-        ScoreVisitor.setEnabled(true);
-    }
-
+    /**
+     * Method to update the database
+     * @param IdLeague
+     * @param NameClubHome
+     * @param NameClubVisitor
+     * @param ScoreHome
+     * @param ScoreVisitor
+     */
     private void saveChanges(int IdLeague, String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor) {
 
         match.setIdLeague(IdLeague);
@@ -175,6 +181,10 @@ public class MatchFragment extends Fragment {
         });
     }
 
+    /**
+     * Set the response depending if the update succeeded
+     * @param response
+     */
     private void setResponse(Boolean response) {
         if (response) {
             statusToast = Toast.makeText(getActivity(), getString(R.string.match_edited), Toast.LENGTH_LONG);
@@ -184,21 +194,4 @@ public class MatchFragment extends Fragment {
             statusToast.show();
         }
     }
-   /* private void setupLeagueSpinner() {
-        LeagueSpinner = view.findViewById(R.id.league_spinner_modify_match);
-        LeagueSpinner = new ListAdapter<>(this, R.layout.list_match, new ArrayList<>());
-        spinnerFromAccount.setAdapter(adapterFromAccount);
-    }
-*/
-    private void updateContent() {
-        if (match != null) {
-            //  HomeSpinner.getSelectedItem().toString() = match.getNameClubHome();
-            //   VisitorSpinner.getSelectedItem().toString(match.getNameClubVisitor());
-            // LeagueSpinner.getSelectedItem(match.getIdLeague());
-            ScoreHome.setText(match.getScoreHome());
-            ScoreVisitor.setText(match.getScoreVisitor());
-        }
-    }
-
-
 }

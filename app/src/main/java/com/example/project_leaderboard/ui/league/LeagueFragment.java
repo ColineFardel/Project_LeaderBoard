@@ -82,12 +82,12 @@ public class LeagueFragment extends Fragment {
                         i.putExtra(EXTRA_TEXT, "Bundesliga");
                         break;
                     case 2:
-                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_ligue1);
-                        i.putExtra(EXTRA_TEXT, "Ligue 1");
-                        break;
-                    case 3:
                         i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_seria);
                         i.putExtra(EXTRA_TEXT, "Serie A");
+                        break;
+                    case 3:
+                        i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_ligue1);
+                        i.putExtra(EXTRA_TEXT, "Ligue 1");
                         break;
                 }
 

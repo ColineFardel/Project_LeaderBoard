@@ -37,15 +37,30 @@ public class ClubFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_club,container,false);
 
+         /*
+        clubViewModel =
+                ViewModelProviders.of(this).get(ClubViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_club, container, false);
+        final TextView textView = root.findViewById(R.id.text_club);
+        clubViewModel.getText().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });*/
 
-        //Make a customized spinner
+        /**
+         * Customized spinner
+         */
         Spinner leagueSpinner = view.findViewById(R.id.league_spinner_modify_match);
         String [] list = getResources().getStringArray(R.array.league);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,list);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         leagueSpinner.setAdapter(adapter);
 
-        //Looking for arguments from previous activity
+        /**
+         * Looking for arguments from previous activity
+         */
         Bundle b = getArguments();
         String league;
         if(b!=null){
@@ -66,7 +81,9 @@ public class ClubFragment extends Fragment {
             }
         }
 
-        //Setting the action for cancel button
+        /**
+         * Setting the action for cancel button
+         */
         Button cancel_button = view.findViewById(R.id.button_cancel_addclub);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,14 +92,20 @@ public class ClubFragment extends Fragment {
             }
         });
 
+
+        /**
+         * Setting the action for add button
+         */
+        /*
         name_edittext = getActivity().findViewById(R.id.club_name_edittext);
-        //Setting the action for add button
         LeagueRepository repository = new LeagueRepository();
         LeagueViewModel leagueViewModel = new LeagueViewModel(getActivity().getApplication(),repository);
+         */
         Button add_button = view.findViewById(R.id.button_add_addclub);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 String leagueName = leagueSpinner.getSelectedItem().toString();
                 LiveData<League> ld = leagueViewModel.getLeagueByName(getContext(),leagueName);
                 League league = ld.getValue();
@@ -94,23 +117,18 @@ public class ClubFragment extends Fragment {
                     Intent i = new Intent(getActivity(), MainActivity.class);
                     startActivity(i);
                 }
+
+                 */
             }
         });
-
-
         return view;
-        /*
-        clubViewModel =
-                ViewModelProviders.of(this).get(ClubViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_club, container, false);
-        final TextView textView = root.findViewById(R.id.text_club);
-        clubViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
     }
+
+    /**
+     * Method the create the club in the database
+     * @param idLeague
+     * @param clubName
+     */
     private void createClub(int idLeague, String clubName) {
         club = new Club(clubName,0,0,0,0,idLeague);
     }

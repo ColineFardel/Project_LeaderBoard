@@ -4,7 +4,6 @@
     <string name="leaderboard">Classement</string>
     <string name="add_club">Ajouter un club</string>
     <string name="add_match">Ajouter un match</string>
-    <string name="favorites">Favoris</string>
     <string name="leagues">Ligues</string>
     <string name="item_selected">items selectionnés</string>
     <string name="toast">Vous devez selectionner un seul item pour le modifier</string>
@@ -25,4 +24,9 @@
     <string name="draws">Egalités</string>
     <string name="points">Points</string>
     <string name="error_addclub">Entrez un nom de club</string>
+
+    <string name="app_name">Projet classement</string>
+    <string name="nav_header_desc">Onglet de navigation</string>
+    <string name="match_edited">Match modifié</string>
+    <string name="action_error">Une erreur est survenue</string>
 </resources>

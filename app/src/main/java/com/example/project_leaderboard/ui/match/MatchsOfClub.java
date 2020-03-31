@@ -53,19 +53,21 @@ public class MatchsOfClub extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /**
+         * Loading the language from the preferences
+         */
         sharedPref = new SharedPref(this);
-
-        //Loading the language from the preferences
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
-
         DisplayMetrics dm= getResources().getDisplayMetrics();
         Configuration config = getResources().getConfiguration();
         config.locale = locale;
         getResources().updateConfiguration(config, dm);
 
-        //Loading the Night mode from the preferences
+        /**
+         * Loading the Night mode from the preferences
+         */
         if(sharedPref.loadNightMode()==true){
             setTheme(R.style.NightTheme);
         }
@@ -75,14 +77,16 @@ public class MatchsOfClub extends AppCompatActivity {
 
         setContentView(R.layout.activity_matchs_of_club);
 
-        //Get the arguments from last activity
-//        String value = getIntent().getExtras().getString("ClubName");
-
-        //Set the title textview
+        /**
+         * Get the arguments from last activity et set the title
+         */
+        String value = getIntent().getExtras().getString("ClubName");
         TextView title = findViewById(R.id.club_name);
-        //title.setText(value);
+        title.setText(value);
 
-        //Set the button to open the add match fragment
+        /**
+         * Set the button to open the add match fragment
+         */
         imageButton = findViewById(R.id.button_add);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,8 +98,9 @@ public class MatchsOfClub extends AppCompatActivity {
             }
         });
 
-        ListView listView = findViewById(R.id.all_matchs);
-        //put data
+        /**
+         * Putting random data in the strings
+         */
         String score_visitor[] = {"3","2","3","0","1"};
         String score_home[] = {"0","3","1","1","0"};
         String club_name_visitor[] = {"Liverpool","Arsenal","Arsenal","Arsenal","Manchester United"};
@@ -103,16 +108,24 @@ public class MatchsOfClub extends AppCompatActivity {
 
         club_name=club_name_home;
 
-        //Putting the multi choice mode listener for the list view
+        /**
+         * Putting the multi choice mode listener for the list view
+         */
+        ListView listView = findViewById(R.id.all_matchs);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(modeListener);
 
+        /**
+         * Assign an adapter to the list view
+         */
         MyAdapter listViewAdapter = new MyAdapter(this, score_visitor,score_home,club_name_visitor,club_name_home);
         listView.setAdapter(listViewAdapter);
 
     }
 
-    //Setting the multi choice listener in order to delete multiple clubs or to modify one
+    /**
+     * Setting the multi choice listener in order to delete multiple clubs or to modify one
+     */
     AbsListView.MultiChoiceModeListener modeListener = new AbsListView.MultiChoiceModeListener() {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
@@ -122,7 +135,7 @@ public class MatchsOfClub extends AppCompatActivity {
             else{
                 userSelection.add(club_name[position]);
             }
-            mode.setTitle(userSelection.size() + " items selected");
+            mode.setTitle(userSelection.size() + getString(R.string.item_selected));
         }
 
         @Override
@@ -137,6 +150,12 @@ public class MatchsOfClub extends AppCompatActivity {
             return false;
         }
 
+        /**
+         * Setting the action for the delete and the modify button
+         * @param mode
+         * @param item
+         * @return
+         */
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()){
@@ -152,16 +171,8 @@ public class MatchsOfClub extends AppCompatActivity {
                         toast. show();
                     }
                     else{
-                        String value = userSelection.get(0);
-                        /*
-                        Bundle b = new Bundle();
-                        b.putString("ClubName",value);
-
-                         */
-
                         Intent i;
                         i = new Intent(getBaseContext(), ModifyMatch.class);
-                        //i.putExtras(b);
                         startActivity(i);
                     }
 
@@ -177,7 +188,9 @@ public class MatchsOfClub extends AppCompatActivity {
         }
     };
 
-
+    /**
+     * Create an adapter for the list view
+     */
     class MyAdapter extends ArrayAdapter {
         Context context;
         String score_visitor[];
@@ -199,7 +212,6 @@ public class MatchsOfClub extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.row_match, parent, false);
-
             TextView myclub_home = row.findViewById(R.id.club_home);
             TextView myclub_visitor = row.findViewById(R.id.club_visitor);
             TextView myscore_visitor = row.findViewById(R.id.score_visitor_list);
