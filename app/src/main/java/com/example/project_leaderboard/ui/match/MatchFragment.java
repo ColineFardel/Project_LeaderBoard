@@ -23,7 +23,6 @@ import com.example.project_leaderboard.adapter.ListAdapter;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
-import java.util.ArrayList;
 
 /**
  * This class is used to add a new match to the database
