@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "474420252796",
+    "firebase_url": "https://project-leaderboard-4e41b.firebaseio.com",
+    "project_id": "project-leaderboard-4e41b",
+    "storage_bucket": "project-leaderboard-4e41b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474420252796:android:5cc17a64add745978579f9",
+        "android_client_info": {
+          "package_name": "com.example.project_leaderboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474420252796-uid353kbih79ssi3703jd27fm58i4rl1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_llV0mX3fZIoHOIsf47Zs9bfgem7bOhw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474420252796-uid353kbih79ssi3703jd27fm58i4rl1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
