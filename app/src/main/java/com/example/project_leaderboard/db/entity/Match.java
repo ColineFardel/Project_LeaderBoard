@@ -7,82 +7,67 @@ import androidx.room.ForeignKey;
 import androidx.room.Fts4;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Data access object class for matches
  * @author Samuel Michellod
  */
-@Entity
-        (foreignKeys = {
-        @ForeignKey(
-                entity = Club.class,
-                parentColumns = "ClubId",
-                childColumns = "NameClubHome"
-        ),
-        @ForeignKey(
-                entity = Club.class,
-                parentColumns = "ClubId",
-                childColumns = "NameClubVisitor"
-        )
-}, indices = {@Index(value = {"NameClubHome"}), @Index(value = {"NameClubVisitor"})})
-public class Match implements Comparable{
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+public class Match{
 
-    @ColumnInfo(name = "IdLeague")
-    private int IdLeague;
-
-
-    @ColumnInfo(name = "NameClubHome")
-    private String NameClubHome;
-
-    @ColumnInfo(name = "NameClubVisitor")
-    private String NameClubVisitor;
-
-    @ColumnInfo(name = "ScoreHome")
+    private String MatchId;
+    private String IdClubHome;
+    private String IdClubVisitor;
     private int ScoreHome;
-
-    @ColumnInfo(name = "ScoreVisitor")
     private int ScoreVisitor;
+    private String IdLeague;
 
-    public Match(String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor,int IdLeague){
-        this.NameClubHome=NameClubHome;
-        this.NameClubVisitor=NameClubVisitor;
+    public Match(String IdClubHome, String IdClubVisitor, int ScoreHome, int ScoreVisitor,String IdLeague, String MatchId){
+        this.IdClubHome=IdClubHome;
+        this.IdClubVisitor=IdClubVisitor;
         this.ScoreHome=ScoreHome;
         this.ScoreVisitor=ScoreVisitor;
         this.IdLeague=IdLeague;
+        this.MatchId=MatchId;
     }
 
-    public int getId() {
-        return id;
+    @Exclude
+    public String getMatchId(){
+        return  MatchId;
     }
 
-    public int getIdLeague(){
+    public void setMatchId(String matchId){
+        MatchId=matchId;
+    }
+
+    public String getIdLeague(){
         return IdLeague;
     }
 
-    public void setIdLeague (int idLeague){
+    public void setIdLeague (String idLeague){
         IdLeague=idLeague;
     }
 
-    public void setId(int id) {
-        this.id = id;
+
+    public String getIdClubHome() {
+        return IdClubHome;
     }
 
-    public String getNameClubHome() {
-        return NameClubHome;
+    public void setIdClubHome(String IdClubHome) {
+        IdClubHome = IdClubHome;
     }
 
-    public void setNameClubHome(String NameClubHome) {
-        NameClubHome = NameClubHome;
+    public String getIdClubVisitor() {
+        return IdClubVisitor;
     }
 
-    public String getNameClubVisitor() {
-        return NameClubVisitor;
-    }
-
-    public void setNameClubVisitor(String NameClubVisitor) {
-        NameClubVisitor = NameClubVisitor;
+    public void setIdClubVisitor(String IdClubVisitor) {
+        IdClubVisitor = IdClubVisitor;
     }
 
     public int getScoreHome() {
@@ -106,8 +91,29 @@ public class Match implements Comparable{
         return "Home " + ScoreHome + "- "+ "Visitonr" + ScoreVisitor;
     }
 
-    @Override
+
     public int compareTo(@NonNull Object o) {
         return toString().compareTo(o.toString());
     }
+
+    public boolean equals (Object obj){
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if(!(obj instanceof Match)) return false;
+        Match m = (Match) obj;
+        return m.getMatchId().equals(this.getMatchId());
+    }
+
+    @Exclude
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("Club Home", IdClubHome);
+        result.put("Club Visitor", IdClubVisitor);
+        result.put("Score Home",ScoreHome);
+        result.put("Score Visitor", ScoreVisitor);
+        result.put("League", IdLeague);
+        return result;
+    }
+
+
 }

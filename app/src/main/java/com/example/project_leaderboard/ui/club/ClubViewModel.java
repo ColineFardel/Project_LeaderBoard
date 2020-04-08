@@ -62,13 +62,13 @@ public class ClubViewModel extends AndroidViewModel {
     }
 
     public void createClub (Club club, OnAsyncEventListener callback){
-        repository.insert(club,callback,application);
+        repository.insert(club,callback);
     }
     public void updateClub (Club club, OnAsyncEventListener callback){
-        repository.update(club,callback,application);
+        repository.update(club,callback);
     }
     public void deleteClub (Club club, OnAsyncEventListener callback){
-        repository.delete(club,callback,application);
+        repository.delete(club,callback);
     }
 
 

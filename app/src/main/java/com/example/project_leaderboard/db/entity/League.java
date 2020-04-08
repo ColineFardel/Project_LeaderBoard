@@ -7,28 +7,33 @@ import androidx.room.Entity;
 import androidx.room.Fts4;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Data access object class for leagues
  * @author Samuel Michellod
  */
-@Entity(tableName = "league", indices = {@Index(value = {"NameLeague"}, unique = true)})
+
 public class League{
 
-    @PrimaryKey(autoGenerate = true)
-    private int LeagueId;
-
-    @ColumnInfo(name = "NameLeague")
+    private String LeagueId;
     private String LeagueName;
+
 
     public League(String LeagueName) {
         this.LeagueName = LeagueName;
     }
 
-    public int getLeagueId() {
+    @Exclude
+    public String getLeagueId() {
         return LeagueId;
     }
 
-    public void setLeagueId(int id) {
+    public void setLeagueId(String LeagueId) {
         this.LeagueId = LeagueId;
     }
 
@@ -38,5 +43,20 @@ public class League{
 
     public void setLeagueName(String LeagueName) {
         this.LeagueName = LeagueName;
+    }
+
+    public boolean equals (Object obj){
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if(!(obj instanceof League)) return false;
+        League l = (League) obj;
+        return l.getLeagueId().equals(this.getLeagueId());
+    }
+
+    @Exclude
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap();
+        result.put("LeagueName", LeagueName);
+        return result;
     }
 }

@@ -1,62 +1,52 @@
 package com.example.project_leaderboard.db.entity;
 
 
-import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Entity class for clubs
  * @author Samuel Michellod
  */
-@Entity(foreignKeys = @ForeignKey(entity = League.class, parentColumns = "LeagueId", childColumns = "LeagueId"), indices = @Index(value = {"LeagueId"}))
 public class Club {
-
-    @PrimaryKey(autoGenerate = true)
-    private int ClubId;
-
-    @ColumnInfo(name = "NameClub")
+    private String ClubId;
     private String NameClub;
-
-    @ColumnInfo(name="LeagueId")
-    private int LeagueId;
-
-    @ColumnInfo (name="Points")
+    private String LeagueId;
     private int points;
-
-    @ColumnInfo (name="Victories")
-    private int victories;
-
-    @ColumnInfo(name="Losses")
+    private int wins;
     private int losses;
-
-    @ColumnInfo(name="Draws")
     private int draws;
 
 
-    public Club(String NameClub, @Nullable int points,@Nullable int victories, @Nullable int losses, @Nullable int draws, int LeagueId) {
-        this.NameClub = NameClub;
+    public Club (String ClubId, String NameClub,String LeagueId, int points, int wins, int losses, int draws){
+        this.ClubId=ClubId;
+        this.NameClub=NameClub;
         this.LeagueId=LeagueId;
+        this.points=points;
+        this.wins=wins;
+        this.losses=losses;
+        this.draws=draws;
     }
 
 
-
-    public int getLeagueId(){
+    public String getLeagueId(){
         return LeagueId;
     }
 
-    public void setLeagueId(int leagueId){
+    public void setLeagueId(String leagueId){
         this.LeagueId=LeagueId;
     }
 
-    public int getClubId() {
+    @Exclude
+    public String getClubId() {
         return ClubId;
     }
 
-    public void setClubId(int id) {
+    public void setClubId(String ClubId) {
         this.ClubId = ClubId;
     }
 
@@ -73,11 +63,11 @@ public class Club {
     public void setPoints (Integer points) {this.points=points;};
 
     public int getVictories() {
-        return victories;
+        return wins;
     }
 
     public void setVictories(int victories) {
-        this.victories = victories;
+        this.wins = wins;
     }
 
     public int getLosses() {
@@ -94,6 +84,32 @@ public class Club {
     public void setDraws(int draws) {
         this.draws = draws;
     }
+
+    public boolean equals (Object obj){
+        if(obj==null) return false;
+        if(obj==this) return true;
+        if(!(obj instanceof Club)) return false;
+        Club c = (Club) obj;
+        return c.getClubId().equals(this.getClubId());
+    }
+
+
+    public int compareTo(@NonNull Object o){
+        return toString().compareTo(o.toString());
+    }
+
+    @Exclude
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("Name",NameClub);
+        result.put("Id", ClubId);
+        result.put("Points", points);
+        result.put("Wins", wins);
+        result.put("Losses", losses);
+        result.put("Draws", draws);
+
+        return result;
+ }
 
 }
 

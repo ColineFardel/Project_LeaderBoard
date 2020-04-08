@@ -7,10 +7,13 @@ import androidx.lifecycle.LiveData;
 
 import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.async.Match.DeleteMatch;
+import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.db.async.Match.CreateMatch;
 import com.example.project_leaderboard.db.async.Match.UpdateMatch;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 /**
@@ -41,16 +44,48 @@ public class MatchRepository {
     }
 
 
-
-   public void insert (final Match match, OnAsyncEventListener callback, Application application){
-        new CreateMatch(application,callback).execute(match);
+    public void insert(final Match match, final OnAsyncEventListener callback){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("matches");
+        String key = reference.push().getKey();
+        FirebaseDatabase.getInstance().getReference("leagues").child(match.getIdLeague()).child("matches").child(key)
+                .setValue(match, ((databaseError, databaseReference) -> {
+                    if(databaseError !=null){
+                        callback.onFailure(databaseError.toException());
+                    }else {
+                        callback.onSuccess();
+                    }
+                }));
     }
+
+    public void update(final Match match, final OnAsyncEventListener callback) {
+        FirebaseDatabase.getInstance()
+                .getReference("matches")
+                .child(match.getMatchId())
+                .updateChildren(match.toMap(), (databaseError, databaseReference) -> {
+                    if (databaseError != null) {
+                        callback.onFailure(databaseError.toException());
+                    } else {
+                        callback.onSuccess();
+                    }
+                });
+    }
+
+    public void delete(final Match match, final OnAsyncEventListener callback){
+        FirebaseDatabase.getInstance().getReference("matches");
+        FirebaseDatabase.getInstance().getReference("matches").child(match.getMatchId())
+                .removeValue ((databaseError, databaseReference) -> {
+                    if(databaseError !=null){
+                        callback.onFailure(databaseError.toException());
+                    }else {
+                        callback.onSuccess();
+                    }
+                });
+    }
+
 
     public void update (final Match match, OnAsyncEventListener callback, Application application){
         new UpdateMatch (application,callback).execute(match);
     }
-    public void delete (final Match match, OnAsyncEventListener callback, Application application){
-        new DeleteMatch(application,callback).execute(match);
-    }
+
 
 }

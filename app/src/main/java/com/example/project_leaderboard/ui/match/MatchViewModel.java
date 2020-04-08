@@ -48,13 +48,13 @@ public class MatchViewModel extends AndroidViewModel {
  }
 
 public void createMatch (Match match, OnAsyncEventListener callback){
-     repository.insert(match,callback,application);
+     repository.insert(match,callback);
 }
 public void updateMatch(Match match, OnAsyncEventListener callback){
-     repository.update(match, callback,application);
+     repository.update(match, callback);
 }
 public void deleteMatch(Match match, OnAsyncEventListener callback){
-     repository.delete(match,callback,application);
+     repository.delete(match,callback);
 }
 
 

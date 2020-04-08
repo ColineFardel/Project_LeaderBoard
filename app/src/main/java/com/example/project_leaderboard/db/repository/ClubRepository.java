@@ -11,6 +11,8 @@ import com.example.project_leaderboard.db.async.Club.DeleteClub;
 import com.example.project_leaderboard.db.async.Club.UpdateClub;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 /**
@@ -45,16 +47,44 @@ public class ClubRepository {
         return AppDatabase.getInstance(context).clubDao().getByLeague(LeagueId);
     }
 
-
-
-    public void insert (final Club club, OnAsyncEventListener callback, Application application){
-        new CreateClub(application,callback).execute((Runnable) club);
+    public void insert(final Club club, final OnAsyncEventListener callback){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("clubs");
+        String key = reference.push().getKey();
+        FirebaseDatabase.getInstance().getReference("league").child(club.getLeagueId()).child("clubs").child(key)
+                .setValue(club, ((databaseError, databaseReference) -> {
+                    if(databaseError !=null){
+                        callback.onFailure(databaseError.toException());
+                    }else {
+                        callback.onSuccess();
+                    }
+                }));
     }
 
-    public void update (final Club club, OnAsyncEventListener callback, Application application){
-        new UpdateClub(application,callback).execute((Runnable) club);
+    public void update(final Club club, final OnAsyncEventListener callback) {
+        FirebaseDatabase.getInstance()
+                .getReference("clubs")
+                .child(club.getClubId())
+                .updateChildren(club.toMap(), (databaseError, databaseReference) -> {
+                    if (databaseError != null) {
+                        callback.onFailure(databaseError.toException());
+                    } else {
+                        callback.onSuccess();
+                    }
+                });
     }
-    public void delete (final Club club, OnAsyncEventListener callback, Application application){
-        new DeleteClub(application,callback).execute((Runnable) club);
+
+    public void delete(final Club club, final OnAsyncEventListener callback){
+       FirebaseDatabase.getInstance().getReference("clubs");
+        FirebaseDatabase.getInstance().getReference("league").child(club.getLeagueId()).child("clubs")
+                .removeValue ((databaseError, databaseReference) -> {
+                    if(databaseError !=null){
+                        callback.onFailure(databaseError.toException());
+                    }else {
+                        callback.onSuccess();
+                    }
+                });
     }
+
+
+
 }
