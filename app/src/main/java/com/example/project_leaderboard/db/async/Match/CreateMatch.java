@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.project_leaderboard.db.entity.Match;
-import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 
 public class CreateMatch extends AsyncTask<Match,Void,Void> {

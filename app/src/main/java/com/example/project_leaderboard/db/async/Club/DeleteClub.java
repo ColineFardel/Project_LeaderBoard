@@ -4,7 +4,6 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import com.example.project_leaderboard.db.entity.Match;
-import com.example.project_leaderboard.db.AppDatabase;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 /**
  * This class is used to delete a club

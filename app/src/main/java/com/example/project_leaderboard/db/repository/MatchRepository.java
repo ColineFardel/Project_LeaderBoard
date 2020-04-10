@@ -5,12 +5,8 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.project_leaderboard.db.AppDatabase;
-import com.example.project_leaderboard.db.async.Match.DeleteMatch;
-import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-import com.example.project_leaderboard.db.async.Match.CreateMatch;
 import com.example.project_leaderboard.db.async.Match.UpdateMatch;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,10 +35,10 @@ public class MatchRepository {
         return instance;
     }
 
-    public LiveData<List<Match>> getAllMatches (){
+   /* public LiveData<List<Match>> getAllMatches (){
         return (LiveData<List<Match>>) AppDatabase.getInstance(context).matchDao().getAll();
     }
-
+*/
 
     public void insert(final Match match, final OnAsyncEventListener callback){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("matches");
@@ -82,10 +78,6 @@ public class MatchRepository {
                 });
     }
 
-
-    public void update (final Match match, OnAsyncEventListener callback, Application application){
-        new UpdateMatch (application,callback).execute(match);
-    }
 
 
 }

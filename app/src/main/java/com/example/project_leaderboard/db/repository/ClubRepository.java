@@ -5,10 +5,6 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.project_leaderboard.db.AppDatabase;
-import com.example.project_leaderboard.db.async.Club.CreateClub;
-import com.example.project_leaderboard.db.async.Club.DeleteClub;
-import com.example.project_leaderboard.db.async.Club.UpdateClub;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.google.firebase.database.DatabaseReference;
@@ -39,14 +35,14 @@ public class ClubRepository {
         return instance;
     }
 
-    public LiveData<List<Club>> getAllClubs (Application application){
+  /*  public LiveData<List<Club>> getAllClubs (Application application){
         return AppDatabase.getInstance(application).clubDao().getAll();
     }
 
     public LiveData<List<Club>> getByLeague (final int LeagueId, Context context){
         return AppDatabase.getInstance(context).clubDao().getByLeague(LeagueId);
     }
-
+*/
     public void insert(final Club club, final OnAsyncEventListener callback){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("clubs");
         String key = reference.push().getKey();
