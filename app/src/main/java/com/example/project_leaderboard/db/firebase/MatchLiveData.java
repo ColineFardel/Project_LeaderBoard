@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class MatchLiveData extends LiveData<Match> {
 
     private static final String TAG = "MatchLiveData";
@@ -19,7 +20,7 @@ public class MatchLiveData extends LiveData<Match> {
     private final MatchLiveData.MyValueEventListener listener = new MatchLiveData.MyValueEventListener();
 
     public MatchLiveData (DatabaseReference ref){
-        this.reference= ref;
+        this.reference = ref;
     }
 
     protected void onActive(){
@@ -34,8 +35,11 @@ public class MatchLiveData extends LiveData<Match> {
     private class MyValueEventListener implements ValueEventListener {
 
         public void onDataChange (@NonNull DataSnapshot dataSnapshot){
-            Match match = dataSnapshot.getValue(Match.class);
-          //  match.setIdLeague(dataSnapshot.getKey());
+            if (dataSnapshot.exists()) {
+                Match entity = dataSnapshot.getValue(Match.class);
+                entity.setMatchId(dataSnapshot.getKey());
+                setValue(entity);
+            }
         }
 
         public void onCancelled (@NonNull DatabaseError databaseError){

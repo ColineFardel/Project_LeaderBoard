@@ -1,34 +1,25 @@
 package com.example.project_leaderboard.ui.league;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import androidx.lifecycle.LiveData;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.League;
-import com.example.project_leaderboard.db.repository.LeagueRepository;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
-import com.example.project_leaderboard.ui.settings.SharedPref;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,29 +28,31 @@ import java.util.List;
  * When you click on one league it will open the class LeagueBoard to show all the clubs of this league
  */
 public class LeagueFragment extends Fragment {
+    private List<League> leagues;
+    private LeagueListViewModel viewModel;
+    private RecyclerAdapter<League> recyclerAdapter;
+    private static final String TAG = "League Fragment";
+
+
     public static final String EXTRA_ID_ARRAY = "to get array";
     public static final String EXTRA_TEXT = "to get league name";
-    private static final String TAG = "League Fragment";
-    private List<League> leagues;
-   // private LeagueViewModel leagues;
-    private LeagueRepository leagueRepository;
-    private Application app;
-    private RecyclerAdapter<League> recyclerAdapter;
-    private LeagueViewModel viewModel;
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        leagueRepository = LeagueRepository.getInstance();
-
-       // leagues = getResources().getStringArray(R.array.league);
-        leagues = new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_league,container,false);
 
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = view.findViewById(R.id.leaguesrecyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        leagues = new ArrayList<>();
+
         recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener(){
             @Override
             public void onItemLongClick(View v, int position) {
@@ -72,8 +65,10 @@ public class LeagueFragment extends Fragment {
             public void onItemClick (View v, int position){
                 Intent i;
                 i = new Intent(getActivity(), LeagueBoard.class);
+                /*
                 switch (position){
                     case 0:
+
                         i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_premierLeague);
                         i.putExtra(EXTRA_TEXT, "Premier league");
                         break;
@@ -90,15 +85,17 @@ public class LeagueFragment extends Fragment {
                         i.putExtra(EXTRA_TEXT, "Serie A");
                         break;
                 }
+
+                 */
+                i.putExtra("leagueId",leagues.get(position).getLeagueId());
                 startActivity(i);
             }});
 
-
-        LeagueViewModel.Factory factory = new LeagueViewModel.Factory(getActivity().getApplication());
-        viewModel = ViewModelProviders.of(this, factory).get(LeagueViewModel.class);
-        viewModel.getLeague().observe(getViewLifecycleOwner(),leagueEntity -> {
-            if(leagueEntity!=null){
-                leagues = (List<League>) leagueEntity;
+        LeagueListViewModel.Factory fac = new LeagueListViewModel.Factory(getActivity().getApplication());
+        viewModel = new ViewModelProvider(getActivity(),fac).get(LeagueListViewModel.class);
+        viewModel.getAllLeagues().observe(getActivity(),league -> {
+            if(league!=null){
+                leagues = league;
                 recyclerAdapter.setLeagueData(leagues);
             }
         });

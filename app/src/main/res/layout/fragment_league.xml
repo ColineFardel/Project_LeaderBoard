@@ -23,17 +23,10 @@
         android:textColor="?attr/textcolor"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/leaguesrecyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/backgroundcolor"
         tools:listitem="@layout/row_leagues" />
-
-    <!--<android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
-        tools:listitem="@layout/row_leagues" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

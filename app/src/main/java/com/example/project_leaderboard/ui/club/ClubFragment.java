@@ -130,6 +130,6 @@ public class ClubFragment extends Fragment {
      * @param clubName
      */
     private void createClub(int idLeague, String clubName) {
-        club = new Club(clubName,0,0,0,0,idLeague);
+        //club = new Club(clubName,0,0,0,0,idLeague);
     }
 }

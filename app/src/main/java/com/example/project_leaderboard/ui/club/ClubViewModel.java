@@ -21,46 +21,45 @@ import java.util.List;
 public class ClubViewModel extends AndroidViewModel {
 
     private ClubRepository repository;
-
-    private Application application;
-
-    private final MediatorLiveData<List<Club>> observableClub;
+    private final MediatorLiveData<Club> observableClub;
 
 
-    public ClubViewModel(@NonNull Application application, ClubRepository clubRepository) {
+    public ClubViewModel(@NonNull Application application, ClubRepository clubRepository,String id) {
         super(application);
-        this.application = application;
+
         repository = clubRepository;
+
         observableClub = new MediatorLiveData<>();
         observableClub.setValue(null);
-        LiveData<List<Club>> clubs = repository.getAllClubs(application);
-        observableClub.addSource(clubs, value -> observableClub.setValue(value));
+
+        LiveData<Club> club = repository.getClub(id);
+        observableClub.addSource(club, observableClub::setValue);
     }
-
-
 
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull
         private final Application application;
         private final ClubRepository clubRepository;
+        private final String id;
 
-        public Factory(@NonNull Application application) {
+        public Factory(@NonNull Application application,String id) {
             this.application = application;
             clubRepository = new ClubRepository();
+            this.id = id;
         }
 
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new ClubViewModel(application, clubRepository);
+            return (T) new ClubViewModel(application, clubRepository,id);
         }
     }
 
-    public LiveData<List<Club>> getClub(){
+    public LiveData<Club> getClub(){
         return observableClub;
     }
-
+/*
     public void createClub (Club club, OnAsyncEventListener callback){
         repository.insert(club,callback);
     }
@@ -70,6 +69,8 @@ public class ClubViewModel extends AndroidViewModel {
     public void deleteClub (Club club, OnAsyncEventListener callback){
         repository.delete(club,callback);
     }
+
+ */
 
 
 }

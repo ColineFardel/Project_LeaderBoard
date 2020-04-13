@@ -6,12 +6,14 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 
 import com.example.project_leaderboard.db.entity.Match;
+import com.example.project_leaderboard.db.firebase.MatchListLiveData;
+import com.example.project_leaderboard.db.firebase.MatchLiveData;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-import com.example.project_leaderboard.db.async.Match.UpdateMatch;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
+
 /**
  * Repository class for matches
  * @author Samuel Michellod
@@ -34,16 +36,23 @@ public class MatchRepository {
         }
         return instance;
     }
-
-   /* public LiveData<List<Match>> getAllMatches (){
-        return (LiveData<List<Match>>) AppDatabase.getInstance(context).matchDao().getAll();
+    public LiveData<Match> getMatch(final String id){
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("Match")
+                .child(id);
+        return new MatchLiveData(reference);
     }
-*/
+    public LiveData<List<Match>> getAllMatches(){
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("Match");
+        return new MatchListLiveData(reference);
+    }
+
 
     public void insert(final Match match, final OnAsyncEventListener callback){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("matches");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Match");
         String key = reference.push().getKey();
-        FirebaseDatabase.getInstance().getReference("leagues").child(match.getIdLeague()).child("matches").child(key)
+        FirebaseDatabase.getInstance().getReference("League").child(match.getIdLeague()).child("matches").child(key)
                 .setValue(match, ((databaseError, databaseReference) -> {
                     if(databaseError !=null){
                         callback.onFailure(databaseError.toException());

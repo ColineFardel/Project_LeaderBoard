@@ -6,6 +6,10 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 
 import com.example.project_leaderboard.db.entity.League;
+import com.example.project_leaderboard.db.firebase.LeagueListLiveData;
+import com.example.project_leaderboard.db.firebase.LeagueLiveData;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 /**
@@ -30,7 +34,30 @@ public class LeagueRepository {
         }
         return instance;
     }
-    /*
+
+    /**
+     * Method to get one league from the firebase database
+     * @param id is the id of the league we want
+     * @return the league
+     */
+    public LiveData<League> getLeague(final String id){
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("League")
+                .child(id);
+        return new LeagueLiveData(reference);
+    }
+
+    /**
+     * Method to get all the leagues from the firebase database
+     * @return the list of the leagues
+     */
+    public LiveData<List<League>> getAllLeagues(){
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("League");
+        return new LeagueListLiveData(reference);
+    }
+
+    /*Code for local database
 public LiveData<List<League>> getAllLeagues (Context context){
         return AppDatabase.getInstance(context).leagueDao().getAllLeagues();
 }

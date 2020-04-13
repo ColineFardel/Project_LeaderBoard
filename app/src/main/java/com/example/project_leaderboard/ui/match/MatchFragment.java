@@ -139,6 +139,7 @@ public class MatchFragment extends Fragment {
      * @param ScoreHome
      * @param ScoreVisitor
      */
+    /*
     private void createMatch(int IdLeague, String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor) {
         match = new Match(NameClubHome, NameClubVisitor, ScoreHome, ScoreVisitor, IdLeague);
         match.setIdLeague(IdLeague);
@@ -148,6 +149,8 @@ public class MatchFragment extends Fragment {
         match.setScoreHome(ScoreHome);
     }
 
+     */
+
     /**
      * Method to update the database
      * @param IdLeague
@@ -156,6 +159,7 @@ public class MatchFragment extends Fragment {
      * @param ScoreHome
      * @param ScoreVisitor
      */
+    /*
     private void saveChanges(int IdLeague, String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor) {
 
         match.setIdLeague(IdLeague);
@@ -179,6 +183,8 @@ public class MatchFragment extends Fragment {
             }
         });
     }
+
+     */
 
     /**
      * Set the response depending if the update succeeded

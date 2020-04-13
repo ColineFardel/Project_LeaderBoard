@@ -22,19 +22,22 @@ public class ClubLiveData extends LiveData<Club> {
     }
 
     protected void onActive(){
+        Log.d(TAG, "onActive");
         reference.addValueEventListener(listener);
     }
 
     protected void onInactive(){
-
+        Log.d(TAG, "onInactive");
     }
 
     private class MyValueEventListener implements ValueEventListener {
 
         public void onDataChange (@NonNull DataSnapshot dataSnapshot){
-            Club club = dataSnapshot.getValue(Club.class);
-         //   club.setClubId(dataSnapshot.getKey());
-            setValue(club);
+            if (dataSnapshot.exists()) {
+                Club entity = dataSnapshot.getValue(Club.class);
+                entity.setClubId(dataSnapshot.getKey());
+                setValue(entity);
+            }
         }
 
         public void onCancelled (@NonNull DatabaseError databaseError){

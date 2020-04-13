@@ -6,6 +6,8 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 
 import com.example.project_leaderboard.db.entity.Club;
+import com.example.project_leaderboard.db.firebase.ClubListLiveData;
+import com.example.project_leaderboard.db.firebase.ClubLiveData;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,12 +19,7 @@ import java.util.List;
  */
 public class ClubRepository {
 
-
     private static ClubRepository instance;
-
-    public ClubRepository(){
-
-    }
 
     public static ClubRepository getInstance(){
         if(instance==null){
@@ -33,6 +30,19 @@ public class ClubRepository {
             }
         }
         return instance;
+    }
+
+    public LiveData<Club> getClub(String id){
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("Club")
+                .child(id);
+        return new ClubLiveData(reference);
+    }
+    public LiveData<List<Club>> getClubsByLeague(String leagueId){
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("Club")
+                .child(leagueId);
+        return new ClubListLiveData(reference);
     }
 
   /*  public LiveData<List<Club>> getAllClubs (Application application){

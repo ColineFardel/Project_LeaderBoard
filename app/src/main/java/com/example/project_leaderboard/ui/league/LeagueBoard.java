@@ -24,6 +24,7 @@ import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
+import com.example.project_leaderboard.ui.club.ClubListViewModel;
 import com.example.project_leaderboard.ui.club.ClubViewModel;
 import com.example.project_leaderboard.ui.club.ModifyClub;
 import com.example.project_leaderboard.ui.match.MatchsOfClub;
@@ -35,6 +36,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,15 +55,24 @@ import java.util.Locale;
  * @author Coline Fardel
  */
 public class LeagueBoard extends AppCompatActivity{
+    private List<Club> clubs;
+    private ClubListViewModel viewModel;
+    private RecyclerAdapter<Club> recyclerAdapter;
+    private static final String TAG = "LeagueBoard";
 
-    private String[] clubs;
-    private ImageButton imageButton;
     private SharedPref sharedPref;
+    private ImageButton imageButton;
+
+    /*
+    private String[] clubs;
+
+
     private List<String> userSelection = new ArrayList<>();
     //private RecyclerAdapter<Club> recyclerAdapter;
     private ClubViewModel viewModel;
     //private List<Club> clubs;
     private static final String TAG = "Leaderboard Fragment";
+     */
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,26 +80,6 @@ public class LeagueBoard extends AppCompatActivity{
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        /**
-         * Calling the recycler view for the database access
-         */
-        /*
-        clubs = new ArrayList<>();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
-            @Override
-            public void onItemLongClick(View v, int position) {
-
-            }
-            @Override
-            public void onItemClick(View v, int position) {
-                Log.d(TAG, "longClicked position:" + position);
-                Log.d(TAG, "longClicked on:" + clubs.get(position).toString());
-            }
-        });
-         */
 
         /**
          * Loading the language from the preferences
@@ -111,8 +102,43 @@ public class LeagueBoard extends AppCompatActivity{
         else{
             setTheme(R.style.AppTheme);
         }
-
         setContentView(R.layout.leaderborad_activity);
+
+        /**
+         * Getting the id of the league to set the title and get the clubs from database
+         */
+        Intent i = getIntent();
+        String leagueId = i.getStringExtra("leagueId");
+
+        /**
+         * Firebase
+         */
+        RecyclerView recyclerView = findViewById(R.id.clubsrecyclerview);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        clubs = new ArrayList<>();
+        recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener(){
+            @Override
+            public void onItemLongClick(View v, int position) {
+                Log.d(TAG, "longClicked position:" + position);
+                Log.d(TAG, "longClicked on:" + clubs.get(position).toString());
+            }
+
+            @Override
+            public void onItemClick (View v, int position){
+                //do something
+            }});
+
+        ClubListViewModel.Factory factory = new ClubListViewModel.Factory(getApplication(),leagueId);
+        viewModel = new ViewModelProvider(this, factory).get(ClubListViewModel.class);
+        viewModel.getClubs().observe(this, clubEntities -> {
+            if(clubs != null){
+                clubs = clubEntities;
+                recyclerAdapter.setClubData(clubs);
+            }
+        });
 
         /**
          * Setting the button to open the add club fragment
@@ -133,44 +159,65 @@ public class LeagueBoard extends AppCompatActivity{
             }
         });
 
+
+
+
+
+
+
         /**
          * Get the clubs from LeagueFragment and put it into clubs[]
          */
+        /*
         Intent intent = getIntent();
         int array = intent.getIntExtra(LeagueFragment.EXTRA_ID_ARRAY,0);
         clubs = getResources().getStringArray(array);
 
+         */
         /**
          * Get the name of the league from LeagueFragment and put it into the text view of the title
          */
+        /*
         TextView textView = findViewById(R.id.league_name);
         String text = intent.getStringExtra(LeagueFragment.EXTRA_TEXT);
         textView.setText(text);
 
+         */
+
         /**
          * Put random data in the strings
          */
+        /*
         String points[] = {"23","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
         String wins[] = {"7","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
         String draws[] = {"2","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
         String loses[] = {"3","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
 
+         */
+
         /**
          * Assign an adapter to the list view
          */
+        /*
         ListView listView = findViewById(R.id.leaderboard_clubs);
         MyAdapter listViewAdapter = new MyAdapter(this, clubs,draws,wins,loses,points);
         listView.setAdapter(listViewAdapter);
 
+         */
+
         /**
          * Putting the multi choice mode listener for the list view
          */
+        /*
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(modeListener);
+
+         */
 
         /**
          * Open new activity to show the matches of the club selected
          */
+        /*
        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -182,6 +229,8 @@ public class LeagueBoard extends AppCompatActivity{
                 startActivity(i);
             }
         });
+
+         */
 
         /**
          * Create adapter for the database access
@@ -203,6 +252,7 @@ public class LeagueBoard extends AppCompatActivity{
     /**
      * Setting the multi choice listener in order to delete multiple clubs or to modify one
      */
+    /*
     AbsListView.MultiChoiceModeListener modeListener = new AbsListView.MultiChoiceModeListener() {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
@@ -218,12 +268,15 @@ public class LeagueBoard extends AppCompatActivity{
             mode.setTitle(userSelection.size() + getString(R.string.item_selected));
         }
 
+     */
+
         /**
          * Create the menu for the selection
          * @param mode
          * @param menu
          * @return true
          */
+    /*
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater menuInflater = mode.getMenuInflater();
@@ -236,12 +289,15 @@ public class LeagueBoard extends AppCompatActivity{
             return false;
         }
 
+     */
+
         /**
          * Say what to do depending on what button the user click on
          * @param mode
          * @param item
          * @return false
          */
+        /*
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()){
@@ -279,6 +335,8 @@ public class LeagueBoard extends AppCompatActivity{
         public void onDestroyActionMode(ActionMode mode) {
         }
     };
+
+         */
 
     /**
      * Create an adapter for the list view
