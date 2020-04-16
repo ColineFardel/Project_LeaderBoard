@@ -56,23 +56,4 @@ public class LeagueRepository {
                 .getReference("League");
         return new LeagueListLiveData(reference);
     }
-
-    /*Code for local database
-public LiveData<List<League>> getAllLeagues (Context context){
-        return AppDatabase.getInstance(context).leagueDao().getAllLeagues();
-}
-
-    public LiveData<List<League>> getAllLeagues (Application application){
-        return AppDatabase.getInstance(application).leagueDao().getAllLeagues();
-    }
-
-    public LiveData<List<String>> getLeagueName(Context context){
-        return AppDatabase.getInstance(context).leagueDao().GetLeagueName();
-    }
-
-    public LiveData<League> getLeagueByName(Context context, String leagueName){
-        return AppDatabase.getInstance(context).leagueDao().getLeagueByName(leagueName);
-    }
-
-     */
 }

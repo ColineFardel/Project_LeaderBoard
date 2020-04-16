@@ -14,6 +14,8 @@ import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 
 import java.util.List;
+import java.util.Objects;
+
 /**
  * This class is used to adapt a RecyclerView
  * @author Samuel Michellod
@@ -71,7 +73,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public void setLeagueData(final List<League> data) {
         if (mData == null) {
             mData = (List<T>) data;
-            notifyItemRangeInserted(1, data.size());
+            notifyItemRangeInserted(0, mData.size());
         } else {
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override
@@ -94,28 +96,10 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-//                    if (mData instanceof AccountEntity) {
-//                        AccountEntity newAccount = (AccountEntity) data.get(newItemPosition);
-//                        AccountEntity oldAccount = (AccountEntity) mData.get(newItemPosition);
-//                        return newAccount.getId().equals(oldAccount.getId())
-//                                && Objects.equals(newAccount.getName(), oldAccount.getName())
-//                                && Objects.equals(newAccount.getBalance(), oldAccount.getBalance())
-//                                && newAccount.getOwner().equals(oldAccount.getOwner());
-//                    }
-//                    if (mData instanceof ClientEntity) {
-//                        ClientEntity newClient = (ClientEntity) data.get(newItemPosition);
-//                        ClientEntity oldClient = (ClientEntity) mData.get(newItemPosition);
-//                        return Objects.equals(newClient.getEmail(), oldClient.getEmail())
-//                                && Objects.equals(newClient.getFirstName(), oldClient.getFirstName())
-//                                && Objects.equals(newClient.getLastName(), oldClient.getLastName())
-//                                && newClient.getPassword().equals(oldClient.getPassword());
-//                    }
                     if (mData instanceof League) {
-                      //  ProductEntity newProduct = (ProductEntity) data.get(newItemPosition);
-                      //  ProductEntity oldProduct = (ProductEntity) mData.get(newItemPosition);
-                      //  return Objects.equals(newProduct.getProductName(), oldProduct.getProductName())
-                        //        && Objects.equals(newProduct.getPrice(), oldProduct.getPrice())
-                            //    && Objects.equals(newProduct.getColor(), oldProduct.getColor());
+                        League oldLeague = (League) mData.get(newItemPosition);
+                        League newLeague = data.get(newItemPosition);
+                        return newLeague.getLeagueName().equals(oldLeague.getLeagueName());
                     }
                     return false;
                 }

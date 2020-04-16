@@ -23,6 +23,7 @@ public class League{
     private String LeagueId;
     private String LeagueName;
 
+    public League() {}
 
     public League(String LeagueName) {
         this.LeagueName = LeagueName;

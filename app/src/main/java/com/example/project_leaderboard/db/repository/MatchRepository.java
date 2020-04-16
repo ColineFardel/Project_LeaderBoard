@@ -36,18 +36,28 @@ public class MatchRepository {
         }
         return instance;
     }
+
+    /**
+     * Get one match
+     * @param id
+     * @return one match
+     */
     public LiveData<Match> getMatch(final String id){
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Match")
                 .child(id);
         return new MatchLiveData(reference);
     }
+
+    /**
+     * Get all matches
+     * @return the list of matches
+     */
     public LiveData<List<Match>> getAllMatches(){
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Match");
         return new MatchListLiveData(reference);
     }
-
 
     public void insert(final Match match, final OnAsyncEventListener callback){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Match");

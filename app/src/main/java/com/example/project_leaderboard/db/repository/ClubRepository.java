@@ -32,12 +32,23 @@ public class ClubRepository {
         return instance;
     }
 
+    /**
+     * Get one club by its id
+     * @param id
+     * @return on club
+     */
     public LiveData<Club> getClub(String id){
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Club")
                 .child(id);
         return new ClubLiveData(reference);
     }
+
+    /**
+     * Get all the clubs of one specific league
+     * @param leagueId
+     * @return the list of clubs
+     */
     public LiveData<List<Club>> getClubsByLeague(String leagueId){
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Club")
@@ -45,14 +56,6 @@ public class ClubRepository {
         return new ClubListLiveData(reference);
     }
 
-  /*  public LiveData<List<Club>> getAllClubs (Application application){
-        return AppDatabase.getInstance(application).clubDao().getAll();
-    }
-
-    public LiveData<List<Club>> getByLeague (final int LeagueId, Context context){
-        return AppDatabase.getInstance(context).clubDao().getByLeague(LeagueId);
-    }
-*/
     public void insert(final Club club, final OnAsyncEventListener callback){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("clubs");
         String key = reference.push().getKey();

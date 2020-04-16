@@ -23,10 +23,12 @@
         android:textColor="?attr/textcolor"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/leaguesrecyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/backgroundcolor"
+        android:scrollbars="vertical"
         tools:listitem="@layout/row_leagues" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

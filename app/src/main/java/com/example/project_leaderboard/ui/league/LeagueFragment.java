@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.adapter.LeagueRecyclerAdapter;
 import com.example.project_leaderboard.adapter.RecyclerAdapter;
+import com.example.project_leaderboard.adapter.TestRecyclerAdapter;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class LeagueFragment extends Fragment {
     private LeagueListViewModel viewModel;
     private RecyclerAdapter<League> recyclerAdapter;
     private static final String TAG = "League Fragment";
+
+    private LeagueRecyclerAdapter leagueAdapter;
 
 
     public static final String EXTRA_ID_ARRAY = "to get array";
@@ -99,6 +103,11 @@ public class LeagueFragment extends Fragment {
                 recyclerAdapter.setLeagueData(leagues);
             }
         });
+
+
+        //leagueAdapter = new LeagueRecyclerAdapter(leagues);
+        //recyclerView.setAdapter(leagueAdapter);
+
 
         recyclerView.setAdapter(recyclerAdapter);
 
