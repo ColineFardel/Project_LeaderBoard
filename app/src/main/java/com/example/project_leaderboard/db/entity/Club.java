@@ -21,12 +21,9 @@ public class Club {
     private int losses;
     private int draws;
 
-    public Club(){}
-
     public Club (){
 
     }
-
 
     public String getLeagueId(){
         return LeagueId;

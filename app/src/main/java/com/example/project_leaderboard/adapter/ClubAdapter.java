@@ -45,7 +45,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
         Club item = clubData.get(position);
         if (item.getClass().equals(Club.class)){
             holder.setClubName(item.getNameClub());
-            holder.setWins(Integer.toString(item.getVictories()));
+            holder.setWins(Integer.toString(item.getWins()));
             holder.setDraws(Integer.toString(item.getDraws()));
             holder.setLosses(Integer.toString(item.getLosses()));
             holder.setPoints(Integer.toString(item.getPoints()));

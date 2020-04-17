@@ -43,34 +43,19 @@ public class ClubFragment extends Fragment {
     private Club club;
     private EditText name_edittext;
     private Button addclub;
-    private Spinner spinner;
     DatabaseReference databaseReference;
     private static final String TAG = "ClubFragment";
-
-
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_club,container,false);
-
-         /*
-        clubViewModel =
-                ViewModelProviders.of(this).get(ClubViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_club, container, false);
-        final TextView textView = root.findViewById(R.id.text_club);
-        clubViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
-
         name_edittext = view.findViewById(R.id.club_name_edittext);
         addclub = view.findViewById(R.id.button_add_addclub);
 
-         // Get the LeagueName from firebase in the spinner
+        /**
+         * Get the LeagueName from firebase in the spinner
+         */
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("League").addValueEventListener(new ValueEventListener() {
             @Override
@@ -91,11 +76,6 @@ public class ClubFragment extends Fragment {
 
             }
         });
-
-
-
-
-
 
         /**
          * Customized spinner
@@ -144,11 +124,6 @@ public class ClubFragment extends Fragment {
         /**
          * Setting the action for add button
          */
-        /*
-        name_edittext = getActivity().findViewById(R.id.club_name_edittext);
-        LeagueRepository repository = new LeagueRepository();
-        LeagueViewModel leagueViewModel = new LeagueViewModel(getActivity().getApplication(),repository);
-         */
         Button add_button = view.findViewById(R.id.button_add_addclub);
         databaseReference=FirebaseDatabase.getInstance().getReference().child("Club");
         club= new Club();
@@ -160,32 +135,11 @@ public class ClubFragment extends Fragment {
             club.setDraws(0);
             club.setLosses(0);
             club.setPoints(0);
-            club.setLeagueId(spinner.getSelectedItem().toString().trim());
+            club.setLeagueId(leagueSpinner.getSelectedItem().toString().trim());
             databaseReference.push().setValue(club);
             Toast.makeText(getContext(),"Club inserted successfully",Toast.LENGTH_LONG).show();
             }
         });
         return view;
     }
-
-
-    /**
-     * Method the create the club in the database
-     * @param
-     * @param
-     */
-   /* private void createClub(Club club, OnAsyncEventListener callback ) {
-      clubViewModel.createClub(club,callback);
-      club.setDraws(0);
-      club.setLosses(0);
-      club.setWins(0);
-      club.setPoints(0);
-    }
-
-    */
-
-
-
-
-
 }

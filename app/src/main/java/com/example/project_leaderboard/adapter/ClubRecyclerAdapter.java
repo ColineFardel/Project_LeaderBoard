@@ -62,7 +62,7 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
         T item = mData.get(position);
         if (item.getClass().equals(Club.class)) {
             holder.mTextView.setText(((Club) item).getNameClub());
-            holder.wins.setText(((Club) item).getVictories());
+            holder.wins.setText(((Club) item).getWins());
         }
 
     }
