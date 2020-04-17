@@ -27,6 +27,8 @@ public class Match{
     private int ScoreVisitor;
     private String IdLeague;
 
+    public Match(){}
+
     public Match(String IdClubHome, String IdClubVisitor, int ScoreHome, int ScoreVisitor,String IdLeague, String MatchId){
         this.IdClubHome=IdClubHome;
         this.IdClubVisitor=IdClubVisitor;
@@ -88,7 +90,7 @@ public class Match{
 
     @Override
     public String toString(){
-        return "Home " + ScoreHome + "- "+ "Visitonr" + ScoreVisitor;
+        return "Home " + ScoreHome + "- "+ "Visitor" + ScoreVisitor;
     }
 
 

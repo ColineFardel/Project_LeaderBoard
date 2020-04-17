@@ -60,7 +60,23 @@ public class MatchRepository {
     }
 
     public void insert(final Match match, final OnAsyncEventListener callback){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Match");
+        String id = FirebaseDatabase.getInstance().getReference("Match")
+                .child(match.getIdLeague())
+                .push().getKey();
+
+        FirebaseDatabase.getInstance().getReference("Match")
+                .child(match.getIdLeague())
+                .child(id)
+                .setValue(match, (databaseError, databaseReference) -> {
+                    if (databaseError != null) {
+                        callback.onFailure(databaseError.toException());
+                    } else {
+                        callback.onSuccess();
+                    }
+                });
+        /*
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Match")
+                .child(match.getIdLeague());
         String key = reference.push().getKey();
         FirebaseDatabase.getInstance().getReference("League").child(match.getIdLeague()).child("matches").child(key)
                 .setValue(match, ((databaseError, databaseReference) -> {
@@ -70,6 +86,8 @@ public class MatchRepository {
                         callback.onSuccess();
                     }
                 }));
+
+         */
     }
 
     public void update(final Match match, final OnAsyncEventListener callback) {

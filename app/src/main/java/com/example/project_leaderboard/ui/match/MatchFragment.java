@@ -1,28 +1,29 @@
 package com.example.project_leaderboard.ui.match;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.project_leaderboard.MainActivity;
 import com.example.project_leaderboard.R;
-import com.example.project_leaderboard.adapter.ListAdapter;
+import com.example.project_leaderboard.db.entity.Club;
+import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
+import com.example.project_leaderboard.ui.club.ClubListViewModel;
+import com.example.project_leaderboard.ui.club.ClubViewModel;
+import com.example.project_leaderboard.ui.league.LeagueListViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,13 +40,26 @@ import java.util.List;
  */
 public class MatchFragment extends Fragment {
 
+    private List<League> listLeagues;
+    private List<Club> listClubs;
+    private LeagueListViewModel leagueviewModel;
+    private ClubListViewModel clubListViewModel;
+    private Spinner clubsHomeSpinner;
+    private Spinner clubsVisitorSpinner;
+    private Spinner leaguesSpinner;
+
+    private String leagueIdChosen;
+    private String clubHomeId;
+    private String clubVisitorId;
+
     private static final String TAG = "AddMatch";
     private Match match;
     private boolean isEditable;
     private Toast statusToast;
     EditText ScoreHome, ScoreVisitor;
-    private MatchViewModel viewModel;
+    private MatchViewModel matchViewModel;
     DatabaseReference databaseReference;
+
 
 
 
@@ -57,6 +71,9 @@ public class MatchFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View root = inflater.inflate(R.layout.fragment_match,container,false);
+
+        MatchViewModel.Factory factory = new MatchViewModel.Factory(getActivity().getApplication());
+        matchViewModel = new ViewModelProvider(getActivity(),factory).get(MatchViewModel.class);
 
         /* matchViewModel = ViewModelProviders.of(this).get(MatchViewModel.class);
         matchViewModel.getAllMatches().observe(getViewLifecycleOwner(), new Observer<List<Match>>() {
@@ -90,21 +107,39 @@ public class MatchFragment extends Fragment {
         });
         */
 
+        /**
+         * Spinners
+         */
+        leaguesSpinner = root.findViewById(R.id.league_spinner_modify_match);
+        clubsHomeSpinner = root.findViewById(R.id.home_spinner_modify_match);
+        clubsVisitorSpinner = root.findViewById(R.id.visitor_spinner_modify_match);
 
-        // Get the LeagueName from firebase in the spinner
+        /**
+         * Creating a list of leagues in order to get the id of the league chosen in the spinner
+         */
+        LeagueListViewModel.Factory fac = new LeagueListViewModel.Factory(getActivity().getApplication());
+        leagueviewModel = new ViewModelProvider(getActivity(),fac).get(LeagueListViewModel.class);
+        leagueviewModel.getAllLeagues().observe(getActivity(),league -> {
+            if(league!=null){
+                listLeagues = league;
+            }
+        });
+
+        /**
+         * Put the names of the leagues from firebase in the spinner
+         */
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("League").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final List<String> leagues = new ArrayList<String>();
+                final List<String> leagues = new ArrayList<>();
                 for(DataSnapshot leagueSnapshot: dataSnapshot.getChildren()){
                     String leagueName = leagueSnapshot.child("LeagueName").getValue(String.class);
                     leagues.add(leagueName);
                 }
-                Spinner spinner = (Spinner) root.findViewById(R.id.league_spinner_modify_match);
-                ArrayAdapter<String> leagueAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,leagues);
-                leagueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(leagueAdapter);
+                ArrayAdapter<String> leagueAdapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,leagues);
+                leagueAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
+                leaguesSpinner.setAdapter(leagueAdapter);
             }
 
             @Override
@@ -112,51 +147,33 @@ public class MatchFragment extends Fragment {
 
             }
         });
-
-
-
-
-        // Get the Clubs from firebase in the spinner
-        databaseReference.child("Club").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final List<String> clubs = new ArrayList<String>();
-                for(DataSnapshot clubSnapshot: dataSnapshot.getChildren()){
-                    String clubName = clubSnapshot.child("NameClub").getValue(String.class);
-                    clubs.add(clubName);
-                }
-                Spinner spinner = (Spinner) root.findViewById(R.id.home_spinner_modify_match);
-                ArrayAdapter<String> clubAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,clubs);
-                clubAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(clubAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-
         /**
-         * Customized spinners
+         * Setting a listener on the spinner to change the clubs list in the spinners
          */
-        Spinner leaguespinner = root.findViewById(R.id.league_spinner_modify_match);
-        String[] list = getResources().getStringArray(R.array.league);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_dropdown_layout, list);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
-        leaguespinner.setAdapter(adapter);
+        leaguesSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int index, long id) {
+                leagueIdChosen=listLeagues.get(index).getLeagueId();
 
-        Spinner clubhome = root.findViewById(R.id.home_spinner_modify_match);
-        String[] list2 = getResources().getStringArray(R.array.clubs_premierLeague); //changer par rapport au choix du premier spinner !!!
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(), R.layout.spinner_dropdown_layout, list2);
-        adapter2.setDropDownViewResource(R.layout.spinner_dropdown_layout);
-        clubhome.setAdapter(adapter2);
+                chargeClubSpinner(leagueIdChosen,clubsHomeSpinner);
+                chargeClubSpinner(leagueIdChosen,clubsVisitorSpinner);
 
-        Spinner clubvisitor = root.findViewById(R.id.visitor_spinner_modify_match);
-        clubvisitor.setAdapter(adapter2);
+                /**
+                 * Creating a list of clubs in order to get the id of the club chosen in the spinner
+                 */
+                ClubListViewModel.Factory factory = new ClubListViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
+                clubListViewModel = new ViewModelProvider(getActivity(),factory).get(ClubListViewModel.class);
+                clubListViewModel.getClubs().observe(getActivity(), clubs -> {
+                    if(clubs!=null){
+                        listClubs = clubs;
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
 
         /**
          * Setting the action for cancel button
@@ -185,17 +202,117 @@ public class MatchFragment extends Fragment {
                         ScoreVisitor.setError("Please enter a score");
                     }
                 } else {
-                   // createMatch(LeagueSpinner.getId(), HomeSpinner.getSelectedItem().toString(), VisitorSpinner.getSelectedItem().toString(), ScoreHome.getId(), ScoreVisitor.getId());
-                    Intent i = new Intent(getActivity(), MatchsOfClub.class);
-                    startActivity(i);
+                    Match match = new Match();
+
+                    Club clubVisitor =listClubs.get(clubsVisitorSpinner.getSelectedItemPosition());
+                    Club clubHome = listClubs.get(clubsHomeSpinner.getSelectedItemPosition());
+
+                    clubVisitor.setLeagueId(leagueIdChosen);
+                    clubHome.setLeagueId(leagueIdChosen);
+
+                    clubHomeId = clubHome.getClubId();
+                    clubVisitorId = clubVisitor.getClubId();
+                    int scoreVisitor = Integer.parseInt(ScoreVisitor.getText().toString());
+                    int scoreHome = Integer.parseInt(ScoreHome.getText().toString());
+
+                    match.setIdClubHome(clubHomeId);
+                    match.setIdClubVisitor(clubVisitorId);
+                    match.setIdLeague(leagueIdChosen);
+                    match.setScoreVisitor(scoreVisitor);
+                    match.setScoreHome(scoreHome);
+
+                    matchViewModel.createMatch(match, new OnAsyncEventListener() {//SI SA PLANTE C A CAUSE DU UPDATE QUI A DECIDER DE ME CASSER LES COUILLES (tu peux check si tu veux apparemment le league id est null alors que je le set mais bon hyn sa marche jamais comme d'hab)
+                        @Override
+                        public void onSuccess() {
+                            Log.d(TAG, "createMatch: success");
+
+                            /**
+                             * Setting the values to update it
+                             */
+                            if(scoreHome>scoreVisitor){
+                                clubHome.setWins(clubHome.getWins()+1);
+                                clubHome.setPoints(clubHome.getPoints()+3); //SAMUEL JE SAIS PLUS COMBIEN ON GAGNE DE POINTS SI ON GAGNE OU PERT OU EGALITE ET C 23H05 DONC CONTROLE ET MET LES BON NUM MERCI !
+                                clubVisitor.setLosses(clubVisitor.getLosses()+1);
+                                clubVisitor.setPoints(clubVisitor.getPoints()+1); //ICI
+                            }
+                            else {
+                                if(scoreHome<scoreVisitor){
+                                    clubHome.setLosses(clubHome.getLosses()+1);
+                                    clubHome.setPoints(clubHome.getPoints()+1); //ICI
+                                    clubVisitor.setWins(clubVisitor.getWins()+1);
+                                    clubVisitor.setPoints(clubVisitor.getPoints()+3); //ICI
+                                }
+                                else {
+                                    clubHome.setDraws(clubHome.getDraws()+1);
+                                    clubHome.setPoints(clubHome.getPoints()+2); //ICI
+                                    clubVisitor.setDraws(clubVisitor.getDraws()+1);
+                                    clubVisitor.setPoints(clubVisitor.getPoints()+2); //ICI
+                                }
+                            }
+
+                            ClubViewModel clubViewModel;
+                            ClubViewModel.Factory fac = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
+                            clubViewModel = new ViewModelProvider(getActivity(),fac).get(ClubViewModel.class);
+                            clubViewModel.updateClub(clubHome, new OnAsyncEventListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.d(TAG, "updateClub: success");
+
+                                    clubViewModel.updateClub(clubVisitor, new OnAsyncEventListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Log.d(TAG, "updateClub: success");
+                                            getActivity().onBackPressed();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Exception e) {
+                                            Log.d(TAG, "updateClub: failure", e);
+                                        }
+                                    });
+                                }
+                                @Override
+                                public void onFailure(Exception e) {
+                                    Log.d(TAG, "updateClub: failure", e);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Log.d(TAG, "createMatch: failure", e);
+                        }
+                    });
                 }
             }
         });
         return root;
     }
+    /**
+     * Put the list of clubs in the spinner depending of the league chosen
+     * @param leagueId
+     * @param spinner
+     */
+    private void chargeClubSpinner(String leagueId,Spinner spinner){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("Club").child(leagueId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final List<String> clubs = new ArrayList<String>();
+                for(DataSnapshot clubSnapshot: dataSnapshot.getChildren()){
+                    String clubName = clubSnapshot.child("nameClub").getValue(String.class);
+                    clubs.add(clubName);
+                }
+                ArrayAdapter<String> clubAdapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,clubs);
+                clubAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
+                spinner.setAdapter(clubAdapter);
+            }
 
-    public void HomeSpinner(){
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
     }
 
     /**
