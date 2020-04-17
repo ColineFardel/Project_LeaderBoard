@@ -57,9 +57,9 @@ public class ClubRepository {
     }
 
     public void insert(final Club club, final OnAsyncEventListener callback){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("clubs");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Club");
         String key = reference.push().getKey();
-        FirebaseDatabase.getInstance().getReference("league").child(club.getLeagueId()).child("clubs").child(key)
+        FirebaseDatabase.getInstance().getReference("League").child(club.getLeagueId()).child("Club").child(key)
                 .setValue(club, ((databaseError, databaseReference) -> {
                     if(databaseError !=null){
                         callback.onFailure(databaseError.toException());

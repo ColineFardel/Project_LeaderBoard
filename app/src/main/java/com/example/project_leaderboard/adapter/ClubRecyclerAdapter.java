@@ -20,7 +20,7 @@ import java.util.Objects;
  * This class is used to adapt a RecyclerView
  * @author Samuel Michellod
  */
-public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAdapter.ViewHolder> {
     private List<T> mData;
     private RecyclerViewItemClickListener mListener;
 
@@ -28,24 +28,27 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView mTextView;
+        TextView wins;
 
-        ViewHolder(TextView textView){
+        ViewHolder(TextView textView, TextView wins){
             super(textView);
             mTextView=textView;
+            this.wins=wins;
         }
     }
-    public RecyclerAdapter(RecyclerViewItemClickListener listener){
+    public ClubRecyclerAdapter(RecyclerViewItemClickListener listener){
         mListener= listener;
     }
 
     @NonNull
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ClubRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //create a new view
 
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view, parent, false);
-        final ViewHolder viewHolder = new ViewHolder(v);
+                .inflate(R.layout.row, parent, false);
+
+        final ViewHolder viewHolder = new ViewHolder(v,v);
         v.setOnClickListener(view -> mListener.onItemClick(view, viewHolder.getAdapterPosition()));
         v.setOnLongClickListener(view -> {
             mListener.onItemLongClick(view, viewHolder.getAdapterPosition());
@@ -57,10 +60,11 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         T item = mData.get(position);
-        if (item.getClass().equals(League.class))
-            holder.mTextView.setText(((League) item).getLeagueName());
-        if (item.getClass().equals(Club.class))
+        if (item.getClass().equals(Club.class)) {
             holder.mTextView.setText(((Club) item).getNameClub());
+            holder.wins.setText(((Club) item).getVictories());
+        }
+
     }
 
     @Override
@@ -119,7 +123,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override
                 public int getOldListSize() {
-                    return RecyclerAdapter.this.mData.size();
+                    return mData.size();
                 }
 
                 @Override

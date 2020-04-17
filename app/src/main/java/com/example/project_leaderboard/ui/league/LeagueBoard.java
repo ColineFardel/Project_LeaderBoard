@@ -20,9 +20,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.project_leaderboard.adapter.ClubAdapter;
+import com.example.project_leaderboard.adapter.ClubRecyclerAdapter;
 import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
+import com.example.project_leaderboard.db.repository.LeagueRepository;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
 import com.example.project_leaderboard.ui.club.ClubViewModel;
@@ -59,9 +63,15 @@ public class LeagueBoard extends AppCompatActivity{
     private ClubListViewModel viewModel;
     private RecyclerAdapter<Club> recyclerAdapter;
     private static final String TAG = "LeagueBoard";
+    private LeagueViewModel leagueViewModel;
 
     private SharedPref sharedPref;
     private ImageButton imageButton;
+
+
+    private ClubRecyclerAdapter<Club> clubRecyclerAdapter;
+    private ClubAdapter clubAdapter;
+
 
     /*
     private String[] clubs;
@@ -88,7 +98,7 @@ public class LeagueBoard extends AppCompatActivity{
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
-        DisplayMetrics dm= getResources().getDisplayMetrics();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         Configuration config = getResources().getConfiguration();
         config.locale = locale;
         getResources().updateConfiguration(config, dm);
@@ -96,19 +106,28 @@ public class LeagueBoard extends AppCompatActivity{
         /**
          * Loading the Night mode from the preferences
          */
-        if(sharedPref.loadNightMode()==true){
+        if (sharedPref.loadNightMode() == true) {
             setTheme(R.style.NightTheme);
-        }
-        else{
+        } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.leaderborad_activity);
+        TextView leagueName = findViewById(R.id.league_name);
+
 
         /**
          * Getting the id of the league to set the title and get the clubs from database
          */
         Intent i = getIntent();
         String leagueId = i.getStringExtra("leagueId");
+
+        LeagueViewModel.Factory fac = new LeagueViewModel.Factory(this.getApplication(),leagueId);
+        leagueViewModel = new ViewModelProvider(this,fac).get(LeagueViewModel.class);
+        leagueViewModel.getLeague().observe(this,league -> {
+            if(league!=null){
+                leagueName.setText(league.getLeagueName());
+            }
+        });
 
         /**
          * Firebase
@@ -119,7 +138,8 @@ public class LeagueBoard extends AppCompatActivity{
         recyclerView.setLayoutManager(layoutManager);
 
         clubs = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener(){
+
+        recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
             public void onItemLongClick(View v, int position) {
                 Log.d(TAG, "longClicked position:" + position);
@@ -127,15 +147,34 @@ public class LeagueBoard extends AppCompatActivity{
             }
 
             @Override
-            public void onItemClick (View v, int position){
+            public void onItemClick(View v, int position) {
                 //do something
-            }});
+            }
+        });
 
-        ClubListViewModel.Factory factory = new ClubListViewModel.Factory(getApplication(),leagueId);
+        clubRecyclerAdapter = new ClubRecyclerAdapter<>(new RecyclerViewItemClickListener() {
+            @Override
+            public void onItemLongClick(View v, int position) {
+
+            }
+
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+        });
+
+        ClubListViewModel.Factory factory = new ClubListViewModel.Factory(getApplication(), leagueId);
         viewModel = new ViewModelProvider(this, factory).get(ClubListViewModel.class);
-        viewModel.getClubs().observe(this, clubEntities -> {
-            if(clubs != null){
+        viewModel.getClubsByLeague(leagueId).observe(this, clubEntities -> {
+            if (clubEntities != null) {
                 clubs = clubEntities;
+
+                //clubAdapter = new ClubAdapter(clubs, this);
+
+                //clubRecyclerAdapter.setClubData(clubs);
+
+
                 recyclerAdapter.setClubData(clubs);
             }
         });
@@ -148,35 +187,33 @@ public class LeagueBoard extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 TextView title = findViewById(R.id.league_name);
-                String value = (String)title.getText();
-                Bundle b= new Bundle();
-                b.putString("League",value);
+                String value = (String) title.getText();
+                Bundle b = new Bundle();
+                b.putString("League", value);
                 FragmentManager fm = getSupportFragmentManager();
                 ClubFragment fragment = new ClubFragment();
                 fragment.setArguments(b);
                 FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.leader_clubs,fragment).commit();
+                ft.replace(R.id.leader_clubs, fragment).commit();
             }
         });
 
+        recyclerView.setAdapter(recyclerAdapter);
+    }
 
 
-
-
-
-
-        /**
-         * Get the clubs from LeagueFragment and put it into clubs[]
-         */
+            /**
+             * Get the clubs from LeagueFragment and put it into clubs[]
+             */
         /*
         Intent intent = getIntent();
         int array = intent.getIntExtra(LeagueFragment.EXTRA_ID_ARRAY,0);
         clubs = getResources().getStringArray(array);
 
          */
-        /**
-         * Get the name of the league from LeagueFragment and put it into the text view of the title
-         */
+            /**
+             * Get the name of the league from LeagueFragment and put it into the text view of the title
+             */
         /*
         TextView textView = findViewById(R.id.league_name);
         String text = intent.getStringExtra(LeagueFragment.EXTRA_TEXT);
@@ -184,9 +221,9 @@ public class LeagueBoard extends AppCompatActivity{
 
          */
 
-        /**
-         * Put random data in the strings
-         */
+            /**
+             * Put random data in the strings
+             */
         /*
         String points[] = {"23","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
         String wins[] = {"7","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
@@ -195,9 +232,9 @@ public class LeagueBoard extends AppCompatActivity{
 
          */
 
-        /**
-         * Assign an adapter to the list view
-         */
+            /**
+             * Assign an adapter to the list view
+             */
         /*
         ListView listView = findViewById(R.id.leaderboard_clubs);
         MyAdapter listViewAdapter = new MyAdapter(this, clubs,draws,wins,loses,points);
@@ -205,18 +242,18 @@ public class LeagueBoard extends AppCompatActivity{
 
          */
 
-        /**
-         * Putting the multi choice mode listener for the list view
-         */
+            /**
+             * Putting the multi choice mode listener for the list view
+             */
         /*
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(modeListener);
 
          */
 
-        /**
-         * Open new activity to show the matches of the club selected
-         */
+            /**
+             * Open new activity to show the matches of the club selected
+             */
         /*
        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -232,9 +269,9 @@ public class LeagueBoard extends AppCompatActivity{
 
          */
 
-        /**
-         * Create adapter for the database access
-         */
+            /**
+             * Create adapter for the database access
+             */
         /*
         ClubViewModel.Factory factory = new ClubViewModel.Factory(this.getApplication());
         viewModel = ViewModelProviders.of(this, factory).get(ClubViewModel.class);
@@ -246,12 +283,14 @@ public class LeagueBoard extends AppCompatActivity{
         });
 
         recyclerView.setAdapter(recyclerAdapter);
-         */
+
     }
 
-    /**
-     * Setting the multi choice listener in order to delete multiple clubs or to modify one
-     */
+         */
+
+            /**
+             * Setting the multi choice listener in order to delete multiple clubs or to modify one
+             */
     /*
     AbsListView.MultiChoiceModeListener modeListener = new AbsListView.MultiChoiceModeListener() {
         @Override
@@ -270,12 +309,12 @@ public class LeagueBoard extends AppCompatActivity{
 
      */
 
-        /**
-         * Create the menu for the selection
-         * @param mode
-         * @param menu
-         * @return true
-         */
+            /**
+             * Create the menu for the selection
+             * @param mode
+             * @param menu
+             * @return true
+             */
     /*
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -291,12 +330,12 @@ public class LeagueBoard extends AppCompatActivity{
 
      */
 
-        /**
-         * Say what to do depending on what button the user click on
-         * @param mode
-         * @param item
-         * @return false
-         */
+            /**
+             * Say what to do depending on what button the user click on
+             * @param mode
+             * @param item
+             * @return false
+             */
         /*
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
@@ -338,45 +377,45 @@ public class LeagueBoard extends AppCompatActivity{
 
          */
 
-    /**
-     * Create an adapter for the list view
-     */
-    class MyAdapter extends ArrayAdapter{
-        Context context;
-        String name[];
-        String draws[];
-        String wins[];
-        String loses[];
-        String points[];
+            /**
+             * Create an adapter for the list view
+             */
+            class MyAdapter extends ArrayAdapter {
+                Context context;
+                String name[];
+                String draws[];
+                String wins[];
+                String loses[];
+                String points[];
 
-        MyAdapter (Context c, String name[], String draws[],String wins[],String loses[], String points[]){
-            super(c,R.layout.row,R.id.name, name);
-            this.context=c;
-            this.name=name;
-            this.points=points;
-            this.wins=wins;
-            this.draws=draws;
-            this.loses=loses;
-        }
+                MyAdapter(Context c, String name[], String draws[], String wins[], String loses[], String points[]) {
+                    super(c, R.layout.row, R.id.name, name);
+                    this.context = c;
+                    this.name = name;
+                    this.points = points;
+                    this.wins = wins;
+                    this.draws = draws;
+                    this.loses = loses;
+                }
 
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = layoutInflater.inflate(R.layout.row, parent, false);
-            TextView myName = row.findViewById(R.id.name);
-            TextView myPoints = row.findViewById(R.id.points);
-            TextView myWins = row.findViewById(R.id.wins);
-            TextView myDraws = row.findViewById(R.id.draws);
-            TextView myLoses = row.findViewById(R.id.loses);
+                @NonNull
+                @Override
+                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View row = layoutInflater.inflate(R.layout.row, parent, false);
+                    TextView myName = row.findViewById(R.id.name);
+                    TextView myPoints = row.findViewById(R.id.points);
+                    TextView myWins = row.findViewById(R.id.wins);
+                    TextView myDraws = row.findViewById(R.id.draws);
+                    TextView myLoses = row.findViewById(R.id.loses);
 
-            myName.setText(name[position]);
-            myPoints.setText(points[position]);
-            myWins.setText(wins[position]);
-            myDraws.setText(draws[position]);
-            myLoses.setText(loses[position]);
+                    myName.setText(name[position]);
+                    myPoints.setText(points[position]);
+                    myWins.setText(wins[position]);
+                    myDraws.setText(draws[position]);
+                    myLoses.setText(loses[position]);
 
-            return row;
-        }
-    }
+                    return row;
+                }
+            }
 }

@@ -45,7 +45,7 @@ public class ClubViewModel extends AndroidViewModel {
 
         public Factory(@NonNull Application application,String id) {
             this.application = application;
-            clubRepository = new ClubRepository();
+            clubRepository = ClubRepository.getInstance();
             this.id = id;
         }
 

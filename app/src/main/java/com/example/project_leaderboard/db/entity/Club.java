@@ -21,6 +21,7 @@ public class Club {
     private int losses;
     private int draws;
 
+    public Club(){}
 
     public Club (String ClubId, String NameClub,String LeagueId, int points, int wins, int losses, int draws){
         this.ClubId=ClubId;
