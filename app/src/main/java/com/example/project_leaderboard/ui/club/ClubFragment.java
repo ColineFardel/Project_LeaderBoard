@@ -1,7 +1,9 @@
 package com.example.project_leaderboard.ui.club;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,7 +22,16 @@ import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.repository.LeagueRepository;
+import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.ui.league.LeagueViewModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is used to add a new club
@@ -30,6 +42,12 @@ public class ClubFragment extends Fragment {
     private ClubViewModel clubViewModel;
     private Club club;
     private EditText name_edittext;
+    private Button addclub;
+    private Spinner spinner;
+    DatabaseReference databaseReference;
+    private static final String TAG = "ClubFragment";
+
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -48,6 +66,36 @@ public class ClubFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+
+        name_edittext = view.findViewById(R.id.club_name_edittext);
+        addclub = view.findViewById(R.id.button_add_addclub);
+
+         // Get the LeagueName from firebase in the spinner
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("League").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final List<String> leagues = new ArrayList<String>();
+                for(DataSnapshot leagueSnapshot: dataSnapshot.getChildren()){
+                    String leagueName = leagueSnapshot.child("LeagueName").getValue(String.class);
+                    leagues.add(leagueName);
+                }
+                Spinner spinner = (Spinner) view.findViewById(R.id.league_spinner_modify_match);
+                ArrayAdapter<String> leagueAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,leagues);
+                leagueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(leagueAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
 
         /**
          * Customized spinner
@@ -102,34 +150,42 @@ public class ClubFragment extends Fragment {
         LeagueViewModel leagueViewModel = new LeagueViewModel(getActivity().getApplication(),repository);
          */
         Button add_button = view.findViewById(R.id.button_add_addclub);
+        databaseReference=FirebaseDatabase.getInstance().getReference().child("Club");
+        club= new Club();
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                String leagueName = leagueSpinner.getSelectedItem().toString();
-                LiveData<League> ld = leagueViewModel.getLeagueByName(getContext(),leagueName);
-                League league = ld.getValue();
-                if(name_edittext == null){
-                    name_edittext.setError(getString(R.string.error_addclub));
-                }
-                else {
-                    createClub(league.getLeagueId(),name_edittext.getText().toString());
-                    Intent i = new Intent(getActivity(), MainActivity.class);
-                    startActivity(i);
-                }
-
-                 */
+            club.setNameClub(name_edittext.getText().toString().trim());
+            club.setWins(0);
+            club.setDraws(0);
+            club.setLosses(0);
+            club.setPoints(0);
+            club.setLeagueId(spinner.getSelectedItem().toString().trim());
+            databaseReference.push().setValue(club);
+            Toast.makeText(getContext(),"Club inserted successfully",Toast.LENGTH_LONG).show();
             }
         });
         return view;
     }
 
+
     /**
      * Method the create the club in the database
-     * @param idLeague
-     * @param clubName
+     * @param
+     * @param
      */
-    private void createClub(int idLeague, String clubName) {
-        //club = new Club(clubName,0,0,0,0,idLeague);
+   /* private void createClub(Club club, OnAsyncEventListener callback ) {
+      clubViewModel.createClub(club,callback);
+      club.setDraws(0);
+      club.setLosses(0);
+      club.setWins(0);
+      club.setPoints(0);
     }
+
+    */
+
+
+
+
+
 }

@@ -59,7 +59,7 @@ public class ClubViewModel extends AndroidViewModel {
     public LiveData<Club> getClub(){
         return observableClub;
     }
-/*
+
     public void createClub (Club club, OnAsyncEventListener callback){
         repository.insert(club,callback);
     }
@@ -70,7 +70,7 @@ public class ClubViewModel extends AndroidViewModel {
         repository.delete(club,callback);
     }
 
- */
+
 
 
 }

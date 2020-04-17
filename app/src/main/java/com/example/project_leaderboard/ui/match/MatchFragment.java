@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,6 +23,14 @@ import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.adapter.ListAdapter;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -36,6 +45,10 @@ public class MatchFragment extends Fragment {
     private Toast statusToast;
     EditText ScoreHome, ScoreVisitor;
     private MatchViewModel viewModel;
+    DatabaseReference databaseReference;
+
+
+
 
     //private OnAsyncEventListener callback;
     //private Application application;
@@ -76,6 +89,56 @@ public class MatchFragment extends Fragment {
             }
         });
         */
+
+
+        // Get the LeagueName from firebase in the spinner
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("League").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final List<String> leagues = new ArrayList<String>();
+                for(DataSnapshot leagueSnapshot: dataSnapshot.getChildren()){
+                    String leagueName = leagueSnapshot.child("LeagueName").getValue(String.class);
+                    leagues.add(leagueName);
+                }
+                Spinner spinner = (Spinner) root.findViewById(R.id.league_spinner_modify_match);
+                ArrayAdapter<String> leagueAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,leagues);
+                leagueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(leagueAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+        // Get the Clubs from firebase in the spinner
+        databaseReference.child("Club").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final List<String> clubs = new ArrayList<String>();
+                for(DataSnapshot clubSnapshot: dataSnapshot.getChildren()){
+                    String clubName = clubSnapshot.child("NameClub").getValue(String.class);
+                    clubs.add(clubName);
+                }
+                Spinner spinner = (Spinner) root.findViewById(R.id.home_spinner_modify_match);
+                ArrayAdapter<String> clubAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,clubs);
+                clubAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(clubAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
         /**
          * Customized spinners
@@ -131,6 +194,10 @@ public class MatchFragment extends Fragment {
         return root;
     }
 
+    public void HomeSpinner(){
+
+    }
+
     /**
      * Method to create a match
      * @param IdLeague
@@ -139,17 +206,12 @@ public class MatchFragment extends Fragment {
      * @param ScoreHome
      * @param ScoreVisitor
      */
-    /*
-    private void createMatch(int IdLeague, String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor) {
-        match = new Match(NameClubHome, NameClubVisitor, ScoreHome, ScoreVisitor, IdLeague);
-        match.setIdLeague(IdLeague);
-        match.setNameClubHome(NameClubHome);
-        match.setScoreVisitor(ScoreVisitor);
-        match.setNameClubVisitor(NameClubVisitor);
-        match.setScoreHome(ScoreHome);
-    }
 
-     */
+   /* private void createMatch(int IdLeague, String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor) {
+      viewModel.createMatch();
+    }
+*/
+
 
     /**
      * Method to update the database
