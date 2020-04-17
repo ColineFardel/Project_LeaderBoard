@@ -45,6 +45,7 @@ public class ClubFragment extends Fragment {
     private Button addclub;
     DatabaseReference databaseReference;
     private static final String TAG = "ClubFragment";
+    Spinner spinner;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -125,7 +126,22 @@ public class ClubFragment extends Fragment {
          * Setting the action for add button
          */
         Button add_button = view.findViewById(R.id.button_add_addclub);
-        databaseReference=FirebaseDatabase.getInstance().getReference().child("Club");
+        String name_club_ligue_1="asoeijfw";
+        String name_club_premier_league="iemxc93mao";
+        String name_club_bundesliga="jfdjkdcjoidfv";
+        String  name_club_serie_a="";
+        if (name_club_ligue_1.equals(databaseReference.child("Club").child("asoeijfw"))) {
+            leagueSpinner.setSelection(0);
+        } else if (name_club_premier_league.equals(databaseReference.child("iemxc93mao"))) {
+            leagueSpinner.setSelection(1);
+        } else if (name_club_bundesliga.equals(databaseReference.child("jfdjkdcjoidfv"))) {
+            leagueSpinner.setSelection(2);
+        } else if (name_club_serie_a.equals(databaseReference)) {
+            leagueSpinner.setSelection(3);
+        }
+       databaseReference=FirebaseDatabase.getInstance().getReference("Club").child(name_club_ligue_1);
+
+
         club= new Club();
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
