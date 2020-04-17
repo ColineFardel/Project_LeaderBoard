@@ -139,7 +139,7 @@ public class ClubFragment extends Fragment {
         } else if (name_club_serie_a.equals(databaseReference)) {
             leagueSpinner.setSelection(3);
         }
-       databaseReference=FirebaseDatabase.getInstance().getReference("Club").child(name_club_ligue_1);
+       databaseReference=FirebaseDatabase.getInstance().getReference("Club").child(name_club_ligue_1).child(name_club_bundesliga);
 
 
         club= new Club();
