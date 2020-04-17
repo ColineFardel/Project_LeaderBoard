@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -28,7 +29,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.ui.settings.SharedPref;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +52,11 @@ public class MatchsOfClub extends AppCompatActivity {
     private ImageButton imageButton;
     private List<String> userSelection = new ArrayList<>();
     private String club_name[];
+    ListView listView;
+    DatabaseReference databaseReference;
+    ArrayList <String> arrayList = new ArrayList<>();
+    ArrayAdapter<String> arrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +64,39 @@ public class MatchsOfClub extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Match");
+        listView =  findViewById(R.id.all_matchs);
+        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+        listView.setAdapter(arrayAdapter);
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String value = dataSnapshot.getValue(Match.class).toString();
+                arrayList.add(value);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         /**
          * Loading the language from the preferences
@@ -101,13 +146,14 @@ public class MatchsOfClub extends AppCompatActivity {
         /**
          * Putting random data in the strings
          */
+        /*
         String score_visitor[] = {"3","2","3","0","1"};
         String score_home[] = {"0","3","1","1","0"};
         String club_name_visitor[] = {"Liverpool","Arsenal","Arsenal","Arsenal","Manchester United"};
         String club_name_home[] = {"Arsenal","Manchester United","Liverpool","Liverpool","Arsenal"};
 
         club_name=club_name_home;
-
+*/
         /**
          * Putting the multi choice mode listener for the list view
          */
@@ -118,9 +164,10 @@ public class MatchsOfClub extends AppCompatActivity {
         /**
          * Assign an adapter to the list view
          */
+        /*
         MyAdapter listViewAdapter = new MyAdapter(this, score_visitor,score_home,club_name_visitor,club_name_home);
         listView.setAdapter(listViewAdapter);
-
+*/
     }
 
     /**

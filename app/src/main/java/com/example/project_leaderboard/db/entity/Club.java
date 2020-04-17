@@ -22,14 +22,8 @@ public class Club {
     private int draws;
 
 
-    public Club (String ClubId, String NameClub,String LeagueId, int points, int wins, int losses, int draws){
-        this.ClubId=ClubId;
-        this.NameClub=NameClub;
-        this.LeagueId=LeagueId;
-        this.points=points;
-        this.wins=wins;
-        this.losses=losses;
-        this.draws=draws;
+    public Club (){
+
     }
 
 
@@ -62,11 +56,11 @@ public class Club {
 
     public void setPoints (Integer points) {this.points=points;};
 
-    public int getVictories() {
+    public int getWins() {
         return wins;
     }
 
-    public void setVictories(int victories) {
+    public void setWins(int victories) {
         this.wins = wins;
     }
 

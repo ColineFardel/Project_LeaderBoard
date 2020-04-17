@@ -72,7 +72,6 @@ public class LeagueFragment extends Fragment {
                 /*
                 switch (position){
                     case 0:
-
                         i.putExtra(EXTRA_ID_ARRAY, R.array.clubs_premierLeague);
                         i.putExtra(EXTRA_TEXT, "Premier league");
                         break;
@@ -89,7 +88,6 @@ public class LeagueFragment extends Fragment {
                         i.putExtra(EXTRA_TEXT, "Serie A");
                         break;
                 }
-
                  */
                 i.putExtra("leagueId",leagues.get(position).getLeagueId());
                 startActivity(i);
