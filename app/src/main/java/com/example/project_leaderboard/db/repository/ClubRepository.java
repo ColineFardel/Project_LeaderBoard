@@ -70,8 +70,10 @@ public class ClubRepository {
     }
 
     public void update(final Club club, final OnAsyncEventListener callback) {
+        String leagueId = club.getLeagueId();
         FirebaseDatabase.getInstance()
-                .getReference("clubs")
+                .getReference("Club")
+                .child(club.getLeagueId())
                 .child(club.getClubId())
                 .updateChildren(club.toMap(), (databaseError, databaseReference) -> {
                     if (databaseError != null) {
