@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="60dp"
     android:orientation="horizontal"
     android:background="?attr/backgroundcolor">
 
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:padding="10px"
         android:paddingLeft="20px"
         android:text="Name"
@@ -26,45 +27,47 @@
         android:id="@+id/points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="155dp"
-        android:layout_marginRight="155dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:padding="10px"
         android:text="20"
         android:textColor="?attr/textcolor"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/name"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/wins"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/name"/>
+        app:layout_constraintStart_toEndOf="@+id/name" />
 
     <TextView
         android:id="@+id/wins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="110dp"
-        android:layout_marginRight="110dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:padding="10px"
         android:text="20"
         android:textColor="?attr/textcolor"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/points"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toStartOf="@+id/draws" />
 
     <TextView
         android:id="@+id/draws"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="65dp"
-        android:layout_marginRight="65dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:padding="10px"
         android:text="20"
         android:textColor="?attr/textcolor"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/wins"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toStartOf="@+id/losses" />
 
     <TextView
-        android:id="@+id/loses"
+        android:id="@+id/losses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

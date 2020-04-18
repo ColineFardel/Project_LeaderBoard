@@ -113,7 +113,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
             clubName=view.findViewById(R.id.name);
             points = view.findViewById(R.id.points);
             wins = view.findViewById(R.id.wins);
-            losses = view.findViewById(R.id.loses);
+            losses = view.findViewById(R.id.losses);
             draws = view.findViewById(R.id.draws);
         }
 

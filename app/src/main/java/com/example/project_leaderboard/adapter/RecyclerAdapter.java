@@ -33,6 +33,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             super(textView);
             mTextView=textView;
         }
+
+
     }
     public RecyclerAdapter(RecyclerViewItemClickListener listener){
         mListener= listener;

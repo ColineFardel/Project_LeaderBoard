@@ -5,48 +5,34 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.project_leaderboard.adapter.ClubAdapter;
 import com.example.project_leaderboard.adapter.ClubRecyclerAdapter;
 import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.Club;
-import com.example.project_leaderboard.db.entity.League;
-import com.example.project_leaderboard.db.repository.LeagueRepository;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
-import com.example.project_leaderboard.ui.club.ClubViewModel;
-import com.example.project_leaderboard.ui.club.ModifyClub;
-import com.example.project_leaderboard.ui.match.MatchsOfClub;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.club.ClubFragment;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -114,7 +100,6 @@ public class LeagueBoard extends AppCompatActivity{
         setContentView(R.layout.leaderborad_activity);
         TextView leagueName = findViewById(R.id.league_name);
 
-
         /**
          * Getting the id of the league to set the title and get the clubs from database
          */
@@ -139,23 +124,29 @@ public class LeagueBoard extends AppCompatActivity{
 
         clubs = new ArrayList<>();
 
-        recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
+        /**
+         * Open new activity to show the matches of the club selected
+         */
+        /*
+       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemLongClick(View v, int position) {
-                Log.d(TAG, "longClicked position:" + position);
-                Log.d(TAG, "longClicked on:" + clubs.get(position).toString());
-            }
-
-            @Override
-            public void onItemClick(View v, int position) {
-                //do something
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = clubs[position];
+                Bundle b = new Bundle();
+                b.putString("ClubName",value);
+                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
+                i.putExtras(b);
+                startActivity(i);
             }
         });
+
+         */
 
         clubRecyclerAdapter = new ClubRecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
             public void onItemLongClick(View v, int position) {
-
+                Log.d(TAG, "longClicked position:" + position);
+                Log.d(TAG, "longClicked on:" + clubs.get(position).toString());
             }
 
             @Override
@@ -170,12 +161,22 @@ public class LeagueBoard extends AppCompatActivity{
             if (clubEntities != null) {
                 clubs = clubEntities;
 
-                //clubAdapter = new ClubAdapter(clubs, this);
+                Collections.sort(clubs, new Comparator<Club>() {
+                    @Override
+                    public int compare(Club o1, Club o2) {
+                        int club1Points = o1.getPoints();
+                        int club2Points = o2.getPoints();
 
-                //clubRecyclerAdapter.setClubData(clubs);
+                        if(club1Points==club2Points)
+                            return 0;
+                        if(club1Points<club2Points)
+                            return 1;
+                        else
+                            return -1;
+                    }
+                });
+                clubRecyclerAdapter.setClubData(clubs);
 
-
-                recyclerAdapter.setClubData(clubs);
             }
         });
 
@@ -198,99 +199,10 @@ public class LeagueBoard extends AppCompatActivity{
             }
         });
 
-        recyclerView.setAdapter(recyclerAdapter);
-    }
-
-
-            /**
-             * Get the clubs from LeagueFragment and put it into clubs[]
-             */
-        /*
-        Intent intent = getIntent();
-        int array = intent.getIntExtra(LeagueFragment.EXTRA_ID_ARRAY,0);
-        clubs = getResources().getStringArray(array);
-
-         */
-            /**
-             * Get the name of the league from LeagueFragment and put it into the text view of the title
-             */
-        /*
-        TextView textView = findViewById(R.id.league_name);
-        String text = intent.getStringExtra(LeagueFragment.EXTRA_TEXT);
-        textView.setText(text);
-
+        /**
+         * Setting the multi choice listener in order to delete multiple clubs or to modify one
          */
 
-            /**
-             * Put random data in the strings
-             */
-        /*
-        String points[] = {"23","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-        String wins[] = {"7","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-        String draws[] = {"2","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-        String loses[] = {"3","12","9","2","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
-
-         */
-
-            /**
-             * Assign an adapter to the list view
-             */
-        /*
-        ListView listView = findViewById(R.id.leaderboard_clubs);
-        MyAdapter listViewAdapter = new MyAdapter(this, clubs,draws,wins,loses,points);
-        listView.setAdapter(listViewAdapter);
-
-         */
-
-            /**
-             * Putting the multi choice mode listener for the list view
-             */
-        /*
-        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(modeListener);
-
-         */
-
-            /**
-             * Open new activity to show the matches of the club selected
-             */
-        /*
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String value = clubs[position];
-                Bundle b = new Bundle();
-                b.putString("ClubName",value);
-                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
-
-         */
-
-            /**
-             * Create adapter for the database access
-             */
-        /*
-        ClubViewModel.Factory factory = new ClubViewModel.Factory(this.getApplication());
-        viewModel = ViewModelProviders.of(this, factory).get(ClubViewModel.class);
-        viewModel.getClub().observe(this,clubEntity -> {
-            if(clubEntity!=null){
-                clubs = (List<Club>) clubEntity;
-                recyclerAdapter.setClubData(clubs);
-            }
-        });
-
-        recyclerView.setAdapter(recyclerAdapter);
-
-    }
-
-         */
-
-            /**
-             * Setting the multi choice listener in order to delete multiple clubs or to modify one
-             */
     /*
     AbsListView.MultiChoiceModeListener modeListener = new AbsListView.MultiChoiceModeListener() {
         @Override
@@ -309,12 +221,21 @@ public class LeagueBoard extends AppCompatActivity{
 
      */
 
-            /**
-             * Create the menu for the selection
-             * @param mode
-             * @param menu
-             * @return true
-             */
+        /**
+         * Putting the multi choice mode listener for the list view
+         */
+        /*
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(modeListener);
+
+         */
+
+        /**
+         * Create the menu for the selection
+         * @param mode
+         * @param menu
+         * @return true
+         */
     /*
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -330,12 +251,15 @@ public class LeagueBoard extends AppCompatActivity{
 
      */
 
-            /**
-             * Say what to do depending on what button the user click on
-             * @param mode
-             * @param item
-             * @return false
-             */
+
+
+
+        /**
+         * Say what to do depending on what button the user click on
+         * @param mode
+         * @param item
+         * @return false
+         */
         /*
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
@@ -377,45 +301,8 @@ public class LeagueBoard extends AppCompatActivity{
 
          */
 
-            /**
-             * Create an adapter for the list view
-             */
-            class MyAdapter extends ArrayAdapter {
-                Context context;
-                String name[];
-                String draws[];
-                String wins[];
-                String loses[];
-                String points[];
 
-                MyAdapter(Context c, String name[], String draws[], String wins[], String loses[], String points[]) {
-                    super(c, R.layout.row, R.id.name, name);
-                    this.context = c;
-                    this.name = name;
-                    this.points = points;
-                    this.wins = wins;
-                    this.draws = draws;
-                    this.loses = loses;
-                }
 
-                @NonNull
-                @Override
-                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                    LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View row = layoutInflater.inflate(R.layout.row, parent, false);
-                    TextView myName = row.findViewById(R.id.name);
-                    TextView myPoints = row.findViewById(R.id.points);
-                    TextView myWins = row.findViewById(R.id.wins);
-                    TextView myDraws = row.findViewById(R.id.draws);
-                    TextView myLoses = row.findViewById(R.id.loses);
-
-                    myName.setText(name[position]);
-                    myPoints.setText(points[position]);
-                    myWins.setText(wins[position]);
-                    myDraws.setText(draws[position]);
-                    myLoses.setText(loses[position]);
-
-                    return row;
-                }
-            }
+        recyclerView.setAdapter(clubRecyclerAdapter);
+    }
 }
