@@ -31,6 +31,7 @@ public class Match{
     public String getMatchId(){
         return matchId;
     }
+    @Exclude
     public String getIdLeague(){
         return idLeague;
     }
@@ -56,10 +57,10 @@ public class Match{
         this.idLeague =idLeague;
     }
     public void setIdClubHome(String IdClubHome) {
-        IdClubHome = IdClubHome;
+        idClubHome = IdClubHome;
     }
     public void setIdClubVisitor(String IdClubVisitor) {
-        IdClubVisitor = IdClubVisitor;
+        idClubVisitor = IdClubVisitor;
     }
     public void setScoreHome(int scoreHome) {
         this.scoreHome = scoreHome;
@@ -93,7 +94,6 @@ public class Match{
         result.put("Club Visitor", idClubVisitor);
         result.put("scoreHome", scoreHome);
         result.put("scoreVisitor", scoreVisitor);
-        //result.put("League", IdLeague);
         return result;
     }
 }
