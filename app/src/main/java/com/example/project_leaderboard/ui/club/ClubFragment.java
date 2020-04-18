@@ -3,6 +3,7 @@ package com.example.project_leaderboard.ui.club;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,23 +127,16 @@ public class ClubFragment extends Fragment {
          * Setting the action for add button
          */
         Button add_button = view.findViewById(R.id.button_add_addclub);
-        String name_club_ligue_1="asoeijfw";
-        String name_club_premier_league="iemxc93mao";
-        String name_club_bundesliga="jfdjkdcjoidfv";
-        String  name_club_serie_a="";
-        if (name_club_ligue_1.equals(databaseReference.child("Club").child("asoeijfw"))) {
-            leagueSpinner.setSelection(0);
-        } else if (name_club_premier_league.equals(databaseReference.child("iemxc93mao"))) {
-            leagueSpinner.setSelection(1);
-        } else if (name_club_bundesliga.equals(databaseReference.child("jfdjkdcjoidfv"))) {
-            leagueSpinner.setSelection(2);
-        } else if (name_club_serie_a.equals(databaseReference)) {
-            leagueSpinner.setSelection(3);
-        }
-       databaseReference=FirebaseDatabase.getInstance().getReference("Club").child(name_club_ligue_1).child(name_club_bundesliga);
+        String name_club_ligue_1="Ligue1_ID";
+        String name_club_premier_league="PremierLeague_ID";
+        String name_club_bundesliga="SerieA_ID";
+        String  name_club_serie_a="Bundesliga_ID";
+
+
 
 
         club= new Club();
+
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +146,34 @@ public class ClubFragment extends Fragment {
             club.setLosses(0);
             club.setPoints(0);
             club.setLeagueId(leagueSpinner.getSelectedItem().toString().trim());
-            databaseReference.push().setValue(club);
+
+
+
+                if (name_club_bundesliga.equals(databaseReference.child("Bundesliga_ID"))) {
+                    leagueSpinner.setSelection(0);
+
+                } else if (name_club_ligue_1.equals(databaseReference.child("Ligue1_ID"))) {
+                    leagueSpinner.setSelection(1);
+
+
+                } else if (name_club_premier_league.equals(databaseReference.child("PremierLeague_ID"))) {
+                    leagueSpinner.setSelection(2);
+
+
+                } else if (name_club_serie_a.equals(databaseReference.child("SerieA_ID"))) {
+                    leagueSpinner.setSelection(3);
+
+                }
+
+               databaseReference = FirebaseDatabase.getInstance().getReference("Club");
+               databaseReference.child(name_club_bundesliga);
+               databaseReference.child(name_club_ligue_1);
+               databaseReference.child(name_club_premier_league);
+               databaseReference.child(name_club_serie_a);
+               databaseReference.push().setValue(club);
+
+
+
             Toast.makeText(getContext(),"Club inserted successfully",Toast.LENGTH_LONG).show();
             }
         });

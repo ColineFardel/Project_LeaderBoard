@@ -210,6 +210,7 @@ public class MatchFragment extends Fragment {
                     clubVisitor.setLeagueId(leagueIdChosen);
                     clubHome.setLeagueId(leagueIdChosen);
 
+                    databaseReference = FirebaseDatabase.getInstance().getReference("Club");
                     clubHomeId = clubHome.getClubId();
                     clubVisitorId = clubVisitor.getClubId();
                     int scoreVisitor = Integer.parseInt(ScoreVisitor.getText().toString());
@@ -231,22 +232,22 @@ public class MatchFragment extends Fragment {
                              */
                             if(scoreHome>scoreVisitor){
                                 clubHome.setWins(clubHome.getWins()+1);
-                                clubHome.setPoints(clubHome.getPoints()+3); //SAMUEL JE SAIS PLUS COMBIEN ON GAGNE DE POINTS SI ON GAGNE OU PERT OU EGALITE ET C 23H05 DONC CONTROLE ET MET LES BON NUM MERCI !
+                                clubHome.setPoints(clubHome.getWins()*3 + clubHome.getLosses());
                                 clubVisitor.setLosses(clubVisitor.getLosses()+1);
-                                clubVisitor.setPoints(clubVisitor.getPoints()+1); //ICI
+                                clubVisitor.setPoints(clubVisitor.getPoints());
                             }
                             else {
                                 if(scoreHome<scoreVisitor){
                                     clubHome.setLosses(clubHome.getLosses()+1);
-                                    clubHome.setPoints(clubHome.getPoints()+1); //ICI
+                                    clubHome.setPoints(clubHome.getPoints());
                                     clubVisitor.setWins(clubVisitor.getWins()+1);
-                                    clubVisitor.setPoints(clubVisitor.getPoints()+3); //ICI
+                                    clubVisitor.setPoints(clubVisitor.getWins()*3 + clubVisitor.getDraws());
                                 }
                                 else {
                                     clubHome.setDraws(clubHome.getDraws()+1);
-                                    clubHome.setPoints(clubHome.getPoints()+2); //ICI
+                                    clubHome.setPoints(clubHome.getPoints()+1);
                                     clubVisitor.setDraws(clubVisitor.getDraws()+1);
-                                    clubVisitor.setPoints(clubVisitor.getPoints()+2); //ICI
+                                    clubVisitor.setPoints(clubVisitor.getPoints()+1);
                                 }
                             }
 
