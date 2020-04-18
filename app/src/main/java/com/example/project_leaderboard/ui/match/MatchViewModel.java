@@ -48,11 +48,6 @@ public class MatchViewModel extends AndroidViewModel {
      }
  }
 
- public void  getAllMatches (){
-        repository.getAllMatches();
-
- }
-
 public void createMatch (Match match, OnAsyncEventListener callback){
      MatchRepository.getInstance().insert(match,callback);
 }

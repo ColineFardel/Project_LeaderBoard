@@ -34,13 +34,14 @@ public class ClubRepository {
 
     /**
      * Get one club by its id
-     * @param id
+     * @param
      * @return on club
      */
-    public LiveData<Club> getClub(String id){
+    public LiveData<Club> getClub(String leagueId, String clubId){
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Club")
-                .child(id);
+                .child(leagueId)
+                .child(clubId);
         return new ClubLiveData(reference);
     }
 

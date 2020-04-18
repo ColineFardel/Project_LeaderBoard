@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,6 +16,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,7 +33,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.adapter.ClubRecyclerAdapter;
+import com.example.project_leaderboard.adapter.MatchRecyclerAdapter;
+import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
+import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
+import com.example.project_leaderboard.ui.club.ClubFragment;
+import com.example.project_leaderboard.ui.club.ClubListViewModel;
+import com.example.project_leaderboard.ui.club.ClubViewModel;
+import com.example.project_leaderboard.ui.league.LeagueViewModel;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +50,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,6 +61,20 @@ import java.util.Locale;
  */
 
 public class MatchsOfClub extends AppCompatActivity {
+    private static final String TAG = "MatchsOfClub";
+
+    private ClubViewModel clubViewModel;
+    private ClubListViewModel clubListViewModel;
+    private MatchListViewModel matchListViewModel;
+
+    private TextView clubName;
+
+    private List<Match> matches;
+    private List<Club> allClubs;
+    private String leagueId;
+    private String clubId;
+
+    private MatchRecyclerAdapter matchRecyclerAdapter;
 
     private SharedPref sharedPref;
     private ImageButton imageButton;
@@ -65,39 +93,6 @@ public class MatchsOfClub extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Match");
-        listView =  findViewById(R.id.all_matchs);
-        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-        listView.setAdapter(arrayAdapter);
-        databaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String value = dataSnapshot.getValue(Match.class).toString();
-                arrayList.add(value);
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         /**
          * Loading the language from the preferences
          */
@@ -105,7 +100,7 @@ public class MatchsOfClub extends AppCompatActivity {
         String languageToLoad = sharedPref.getLanguage();
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
-        DisplayMetrics dm= getResources().getDisplayMetrics();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         Configuration config = getResources().getConfiguration();
         config.locale = locale;
         getResources().updateConfiguration(config, dm);
@@ -113,24 +108,97 @@ public class MatchsOfClub extends AppCompatActivity {
         /**
          * Loading the Night mode from the preferences
          */
-        if(sharedPref.loadNightMode()==true){
+        if (sharedPref.loadNightMode() == true) {
             setTheme(R.style.NightTheme);
-        }
-        else{
+        } else {
             setTheme(R.style.AppTheme);
         }
-
         setContentView(R.layout.activity_matchs_of_club);
 
-        /**
-         * Get the arguments from last activity et set the title
-         */
-        String value = getIntent().getExtras().getString("ClubName");
-        TextView title = findViewById(R.id.club_name);
-        title.setText(value);
+        clubName = findViewById(R.id.club_name);
 
         /**
-         * Set the button to open the add match fragment
+         * Getting the id of the club and the id of the league to set the title and get the matches from database
+         */
+        Intent i = getIntent();
+        clubId = i.getStringExtra("Club");
+        leagueId = i.getStringExtra("League");
+
+        ClubViewModel.Factory factory = new ClubViewModel.Factory(this.getApplication(),leagueId,clubId);
+        clubViewModel = new ViewModelProvider(this,factory).get(ClubViewModel.class);
+        clubViewModel.getClub().observe(this, club -> {
+            if(club!=null)
+                clubName.setText(club.getNameClub());
+        });
+
+        /**
+         * Firebase
+         */
+        RecyclerView recyclerView = findViewById(R.id.matchsrecyclerview);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        matches = new ArrayList<>();
+
+        /**
+         * Open new activity to show the matches of the club selected
+         */
+
+        matchRecyclerAdapter = new MatchRecyclerAdapter(new RecyclerViewItemClickListener() {
+            @Override
+            public void onItemLongClick(View v, int position) {
+                Log.d(TAG, "longClicked position:" + position);
+                Log.d(TAG, "longClicked on:" + matches.get(position).toString());
+            }
+
+            @Override
+            public void onItemClick(View view, int position) {
+                /*
+                String clubId = clubs.get(position).getClubId();
+                Bundle b = new Bundle();
+                b.putString("Club",clubId);
+                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
+                i.putExtras(b);
+                startActivity(i);
+
+                 */
+            }
+        });
+
+        /**
+         * Populate the list of clubs to have the names to display
+         */
+        ClubListViewModel.Factory fac = new ClubListViewModel.Factory(getApplication(), leagueId);
+        clubListViewModel = new ViewModelProvider(this, fac).get(ClubListViewModel.class);
+        clubListViewModel.getClubsByLeague(leagueId).observe(this, clubEntities -> {
+            if (clubEntities != null) {
+                allClubs = clubEntities;
+            }
+        });
+
+        /**
+         * Put the list of matches in the adapter to display it
+         */
+        MatchListViewModel.Factory fac1 = new MatchListViewModel.Factory(getApplication(),leagueId);
+        matchListViewModel = new ViewModelProvider(this,fac1).get(MatchListViewModel.class);
+        matchListViewModel.getMatches().observe(this, matchesEntities -> {
+            if(matchesEntities!=null){
+                matches = matchesEntities;
+                matches = filterMatches(matches,clubId);
+                List<Club> clubsHome;
+                List<Club> clubsVisitor;
+
+                clubsHome = filterClubsByHome(allClubs,matches);
+                clubsVisitor = filterClubsByVisitor(allClubs,matches);
+
+                matchRecyclerAdapter.setMatchData(matches);
+                matchRecyclerAdapter.setListClubs(clubsHome,clubsVisitor);
+            }
+        });
+
+        /**
+         * Setting the button to open the add match fragment -- Im doing that later
          */
         imageButton = findViewById(R.id.button_add);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -139,137 +207,74 @@ public class MatchsOfClub extends AppCompatActivity {
                 FragmentManager fm = getSupportFragmentManager();
                 MatchFragment fragment = new MatchFragment();
                 FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.matchs_of_club,fragment).commit();
+                ft.replace(R.id.matchs_of_club, fragment).commit();
+                /*
+                TextView title = findViewById(R.id.league_name);
+                String value = (String) title.getText();
+                Bundle b = new Bundle();
+                b.putString("League", value);
+                FragmentManager fm = getSupportFragmentManager();
+                ClubFragment fragment = new ClubFragment();
+                fragment.setArguments(b);
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.leader_clubs, fragment).commit();
+
+                 */
             }
         });
 
-        /**
-         * Putting random data in the strings
-         */
-        /*
-        String score_visitor[] = {"3","2","3","0","1"};
-        String score_home[] = {"0","3","1","1","0"};
-        String club_name_visitor[] = {"Liverpool","Arsenal","Arsenal","Arsenal","Manchester United"};
-        String club_name_home[] = {"Arsenal","Manchester United","Liverpool","Liverpool","Arsenal"};
-
-        club_name=club_name_home;
-*/
-        /**
-         * Putting the multi choice mode listener for the list view
-         */
-        ListView listView = findViewById(R.id.all_matchs);
-        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(modeListener);
-
-        /**
-         * Assign an adapter to the list view
-         */
-        /*
-        MyAdapter listViewAdapter = new MyAdapter(this, score_visitor,score_home,club_name_visitor,club_name_home);
-        listView.setAdapter(listViewAdapter);
-*/
+        recyclerView.setAdapter(matchRecyclerAdapter);
     }
 
     /**
-     * Setting the multi choice listener in order to delete multiple clubs or to modify one
+     * Create a list of home clubs
+     * @param allClubs
+     * @param matches
+     * @return
      */
-    AbsListView.MultiChoiceModeListener modeListener = new AbsListView.MultiChoiceModeListener() {
-        @Override
-        public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-            if(userSelection.contains(club_name[position])){
-                userSelection.remove(club_name[position]);
+    public List<Club> filterClubsByHome(List<Club> allClubs, List<Match> matches){
+        List<Club> filteredClubs = new ArrayList<>();
+        for(Match match : matches){
+            for(Club club : allClubs){
+                if(club.getClubId().equals(match.getIdClubHome())){
+                    filteredClubs.add(club);
+                }
             }
-            else{
-                userSelection.add(club_name[position]);
-            }
-            mode.setTitle(userSelection.size() + getString(R.string.item_selected));
         }
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater menuInflater = mode.getMenuInflater();
-            menuInflater.inflate(R.menu.delete_modify_menu,menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        /**
-         * Setting the action for the delete and the modify button
-         * @param mode
-         * @param item
-         * @return
-         */
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()){
-                case R.id.delete_bar:
-                    //call remove items from adapter
-                    break;
-                case R.id.modify_bar:
-                    if(userSelection.size()>1){
-                        String warning = getString(R.string.toast);
-                        Toast toast=Toast. makeText(MatchsOfClub.this,warning,Toast. LENGTH_SHORT);
-                        toast. setMargin(50,50);
-                        toast.setGravity(Gravity.CENTER, 0,0);
-                        toast. show();
-                    }
-                    else{
-                        Intent i;
-                        i = new Intent(getBaseContext(), ModifyMatch.class);
-                        startActivity(i);
-                    }
-
-                default:
-                    return false;
-            }
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-
-        }
-    };
+        return filteredClubs;
+    }
 
     /**
-     * Create an adapter for the list view
+     * Create a list of visitor clubs
+     * @param allClubs
+     * @param matches
+     * @return
      */
-    class MyAdapter extends ArrayAdapter {
-        Context context;
-        String score_visitor[];
-        String score_home[];
-        String club_name_visitor[];
-        String club_name_home[];
-
-        MyAdapter(Context c, String score_visitor[], String score_home[], String club_name_visitor[], String club_name_home[]) {
-            super(c, R.layout.row_match, R.id.club_home, club_name_home);
-            this.context = c;
-            this.score_home=score_home;
-            this.score_visitor=score_visitor;
-            this.club_name_home=club_name_home;
-            this.club_name_visitor=club_name_visitor;
+    public List<Club> filterClubsByVisitor(List<Club> allClubs, List<Match> matches){
+        List<Club> filteredClubs = new ArrayList<>();
+        for(Match match : matches){
+            for(Club club : allClubs){
+                if(club.getClubId().equals(match.getIdClubVisitor())){
+                    filteredClubs.add(club);
+                }
+            }
         }
+        return filteredClubs;
+    }
 
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = layoutInflater.inflate(R.layout.row_match, parent, false);
-            TextView myclub_home = row.findViewById(R.id.club_home);
-            TextView myclub_visitor = row.findViewById(R.id.club_visitor);
-            TextView myscore_visitor = row.findViewById(R.id.score_visitor_list);
-            TextView myscore_home = row.findViewById(R.id.score_home_list);
-
-            myclub_home.setText(club_name_home[position]);
-            myclub_visitor.setText(club_name_visitor[position]);
-            myscore_visitor.setText(score_visitor[position]);
-            myscore_home.setText(score_home[position]);
-
-            return row;
+    /**
+     * Method to get only the matches of the club chosen
+     * @param matches
+     * @param clubId
+     * @return
+     */
+    public List<Match> filterMatches(List<Match> matches, String clubId){
+        List<Match> filteredMatches = new ArrayList<>();
+        for(Match match : matches){
+            if(match.getIdClubHome().equals(clubId)||match.getIdClubVisitor().equals(clubId)){
+                filteredMatches.add(match);
+            }
         }
+        return filteredMatches;
     }
 }

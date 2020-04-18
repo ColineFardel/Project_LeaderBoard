@@ -61,35 +61,25 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         T item = mData.get(position);
-        if (item.getClass().equals(Club.class)) {
-            int wins = (((Club) item).getWins());
-            String winsString = String.valueOf(wins);
 
-            int draws = (((Club) item).getDraws());
-            String drawsString = String.valueOf(draws);
+        int wins = (((Club) item).getWins());
+        String winsString = String.valueOf(wins);
 
-            int points = (((Club) item).getPoints());
-            String pointsString = String.valueOf(points);
+        int draws = (((Club) item).getDraws());
+        String drawsString = String.valueOf(draws);
 
-            int losses = (((Club) item).getLosses());
-            String lossesString = String.valueOf(losses);
+        int points = (((Club) item).getPoints());
+        String pointsString = String.valueOf(points);
+
+        int losses = (((Club) item).getLosses());
+        String lossesString = String.valueOf(losses);
 
 
-            holder.name.setText(((Club) item).getNameClub());
-            holder.wins.setText(winsString);
-            holder.draws.setText(drawsString);
-            holder.losses.setText(lossesString);
-            holder.points.setText(pointsString);
-
-            /*
-            holder.name.setText("Test");
-            holder.wins.setText("test");
-            holder.draws.setText("test");
-            holder.losses.setText("test");
-            holder.points.setText("test");
-
-             */
-        }
+        holder.name.setText(((Club) item).getNameClub());
+        holder.wins.setText(winsString);
+        holder.draws.setText(drawsString);
+        holder.losses.setText(lossesString);
+        holder.points.setText(pointsString);
 
     }
 
@@ -99,45 +89,6 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
             return mData.size();
         } else {
             return 0;
-        }
-    }
-
-    public void setLeagueData(final List<League> data) {
-        if (mData == null) {
-            mData = (List<T>) data;
-            notifyItemRangeInserted(0, mData.size());
-        } else {
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-                @Override
-                public int getOldListSize() {
-                    return mData.size();
-                }
-
-                @Override
-                public int getNewListSize() {
-                    return data.size();
-                }
-
-                @Override
-                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    if (mData instanceof League) {
-                        return ((League) mData.get(oldItemPosition)).getLeagueName().equals(((League) data.get(newItemPosition)).getLeagueName());
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    if (mData instanceof League) {
-                        League oldLeague = (League) mData.get(newItemPosition);
-                        League newLeague = data.get(newItemPosition);
-                        return newLeague.getLeagueName().equals(oldLeague.getLeagueName());
-                    }
-                    return false;
-                }
-            });
-            mData = (List<T>) data;
-            result.dispatchUpdatesTo(this);
         }
     }
 

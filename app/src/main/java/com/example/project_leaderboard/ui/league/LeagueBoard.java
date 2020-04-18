@@ -18,6 +18,7 @@ import com.example.project_leaderboard.adapter.RecyclerAdapter;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
+import com.example.project_leaderboard.ui.match.MatchsOfClub;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,18 +46,18 @@ import java.util.Locale;
  * @author Coline Fardel
  */
 public class LeagueBoard extends AppCompatActivity{
-    private List<Club> clubs;
-    private ClubListViewModel viewModel;
-    private RecyclerAdapter<Club> recyclerAdapter;
     private static final String TAG = "LeagueBoard";
+
+    private List<Club> clubs;
+    private String leagueId;
+
+    private ClubListViewModel viewModel;
     private LeagueViewModel leagueViewModel;
 
     private SharedPref sharedPref;
     private ImageButton imageButton;
 
-
     private ClubRecyclerAdapter<Club> clubRecyclerAdapter;
-    private ClubAdapter clubAdapter;
 
 
     /*
@@ -104,7 +105,7 @@ public class LeagueBoard extends AppCompatActivity{
          * Getting the id of the league to set the title and get the clubs from database
          */
         Intent i = getIntent();
-        String leagueId = i.getStringExtra("leagueId");
+        leagueId = i.getStringExtra("leagueId");
 
         LeagueViewModel.Factory fac = new LeagueViewModel.Factory(this.getApplication(),leagueId);
         leagueViewModel = new ViewModelProvider(this,fac).get(LeagueViewModel.class);
@@ -127,21 +128,6 @@ public class LeagueBoard extends AppCompatActivity{
         /**
          * Open new activity to show the matches of the club selected
          */
-        /*
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String value = clubs[position];
-                Bundle b = new Bundle();
-                b.putString("ClubName",value);
-                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
-
-         */
-
         clubRecyclerAdapter = new ClubRecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
             public void onItemLongClick(View v, int position) {
@@ -151,10 +137,19 @@ public class LeagueBoard extends AppCompatActivity{
 
             @Override
             public void onItemClick(View view, int position) {
-
+                String clubId = clubs.get(position).getClubId();
+                Bundle b = new Bundle();
+                b.putString("Club",clubId);
+                b.putString("League",leagueId);
+                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
+                i.putExtras(b);
+                startActivity(i);
             }
         });
 
+        /**
+         * Put the list of clubs in the adapter to display it
+         */
         ClubListViewModel.Factory factory = new ClubListViewModel.Factory(getApplication(), leagueId);
         viewModel = new ViewModelProvider(this, factory).get(ClubListViewModel.class);
         viewModel.getClubsByLeague(leagueId).observe(this, clubEntities -> {
@@ -176,7 +171,6 @@ public class LeagueBoard extends AppCompatActivity{
                     }
                 });
                 clubRecyclerAdapter.setClubData(clubs);
-
             }
         });
 

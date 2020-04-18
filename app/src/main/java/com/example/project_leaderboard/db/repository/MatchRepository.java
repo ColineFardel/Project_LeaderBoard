@@ -53,9 +53,10 @@ public class MatchRepository {
      * Get all matches
      * @return the list of matches
      */
-    public LiveData<List<Match>> getAllMatches(){
+    public LiveData<List<Match>> getAllMatches(String leagueId){
         DatabaseReference reference = FirebaseDatabase.getInstance()
-                .getReference("Match");
+                .getReference("Match")
+                .child(leagueId);
         return new MatchListLiveData(reference);
     }
 
@@ -74,20 +75,6 @@ public class MatchRepository {
                         callback.onSuccess();
                     }
                 });
-        /*
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Match")
-                .child(match.getIdLeague());
-        String key = reference.push().getKey();
-        FirebaseDatabase.getInstance().getReference("League").child(match.getIdLeague()).child("matches").child(key)
-                .setValue(match, ((databaseError, databaseReference) -> {
-                    if(databaseError !=null){
-                        callback.onFailure(databaseError.toException());
-                    }else {
-                        callback.onSuccess();
-                    }
-                }));
-
-         */
     }
 
     public void update(final Match match, final OnAsyncEventListener callback) {

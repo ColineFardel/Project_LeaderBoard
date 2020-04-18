@@ -3,6 +3,7 @@ package com.example.project_leaderboard.ui.club;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -25,17 +26,17 @@ public class ClubViewModel extends AndroidViewModel {
     private String id;
 
 
-    public ClubViewModel(@NonNull Application application, ClubRepository clubRepository,String id) {
+    public ClubViewModel(@NonNull Application application, ClubRepository clubRepository, String leagueId, String clubId) {
         super(application);
 
-        this.id=id;
+        this.id=leagueId;
 
         repository = clubRepository;
 
         observableClub = new MediatorLiveData<>();
         observableClub.setValue(null);
 
-        LiveData<Club> club = repository.getClub(id);
+        LiveData<Club> club = repository.getClub(leagueId,clubId);
         observableClub.addSource(club, observableClub::setValue);
     }
 
@@ -44,18 +45,19 @@ public class ClubViewModel extends AndroidViewModel {
         @NonNull
         private final Application application;
         private final ClubRepository clubRepository;
-        private final String id;
+        private final String leagueId, clubId;
 
-        public Factory(@NonNull Application application,String id) {
+        public Factory(@NonNull Application application,String leagueId, String clubId) {
             this.application = application;
             clubRepository = ClubRepository.getInstance();
-            this.id = id;
+            this.leagueId = leagueId;
+            this.clubId=clubId;
         }
 
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new ClubViewModel(application, clubRepository,id);
+            return (T) new ClubViewModel(application, clubRepository,leagueId,clubId);
         }
     }
 

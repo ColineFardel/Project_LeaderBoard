@@ -24,7 +24,7 @@ public class MatchListLiveData extends LiveData<List<Match>> {
         reference = ref;
     }
 
-    protected void OnActive(){
+    protected void onActive(){
         Log.d(TAG,"onActive");
         reference.addValueEventListener(listener);
     }

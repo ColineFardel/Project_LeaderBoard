@@ -24,8 +24,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     private List<T> mData;
     private RecyclerViewItemClickListener mListener;
 
-
-
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView mTextView;
 
@@ -33,8 +31,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             super(textView);
             mTextView=textView;
         }
-
-
     }
     public RecyclerAdapter(RecyclerViewItemClickListener listener){
         mListener= listener;

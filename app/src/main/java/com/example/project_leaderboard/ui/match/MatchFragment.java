@@ -198,7 +198,7 @@ public class MatchFragment extends Fragment {
                             setClubsValues();
 
                             ClubViewModel clubViewModel;
-                            ClubViewModel.Factory fac = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
+                            ClubViewModel.Factory fac = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen, "");
                             clubViewModel = new ViewModelProvider(getActivity(),fac).get(ClubViewModel.class);
                             clubViewModel.updateClub(clubHome, new OnAsyncEventListener() {
                                 @Override
