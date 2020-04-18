@@ -25,6 +25,8 @@
     <string name="error_addclub">Please enter a club name</string>
     <string name="app_name">Project_LeaderBoard</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="club_created">Club created</string>
+    <string name="match_created">Math created</string>
     <string name="match_edited">Match edited</string>
     <string name="action_error">Something went wrong</string>
 

@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.ui.match;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,30 +43,29 @@ public class MatchFragment extends Fragment {
 
     private List<League> listLeagues;
     private List<Club> listClubs;
+
     private LeagueListViewModel leagueviewModel;
     private ClubListViewModel clubListViewModel;
-    private Spinner clubsHomeSpinner;
-    private Spinner clubsVisitorSpinner;
-    private Spinner leaguesSpinner;
+    private MatchViewModel matchViewModel;
 
-    private String leagueIdChosen;
-    private String clubHomeId;
-    private String clubVisitorId;
+    private Spinner clubsHomeSpinner, clubsVisitorSpinner, leaguesSpinner;
+    private EditText scoreHomeEditText, scoreVisitorEditText;
+    private Button addMatchButton;
+
+    private Context context;
+
+    private String leagueIdChosen, clubHomeId, clubVisitorId;
+    private int scoreHome, scoreVisitor;
+
+    private Match match;
+    private Club clubHome;
+    private Club clubVisitor;
 
     private static final String TAG = "AddMatch";
-    private Match match;
-    private boolean isEditable;
+
     private Toast statusToast;
-    EditText ScoreHome, ScoreVisitor;
-    private MatchViewModel matchViewModel;
+
     DatabaseReference databaseReference;
-
-
-
-
-
-    //private OnAsyncEventListener callback;
-    //private Application application;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,44 +75,18 @@ public class MatchFragment extends Fragment {
         MatchViewModel.Factory factory = new MatchViewModel.Factory(getActivity().getApplication());
         matchViewModel = new ViewModelProvider(getActivity(),factory).get(MatchViewModel.class);
 
-        /* matchViewModel = ViewModelProviders.of(this).get(MatchViewModel.class);
-        matchViewModel.getAllMatches().observe(getViewLifecycleOwner(), new Observer<List<Match>>() {
-            @Override
-            public void onChanged(List<Match> matches) {
-                matchListAdapter.setMatches(matches);
-            }
-        });
-        */
-        /*
-        ScoreHome = root.findViewById(R.id.score_home);
-        ScoreVisitor = root.findViewById(R.id.score_visitor);
-        add = root.findViewById(R.id.button_add);
-        */
-
-        /*add.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if(ScoreHome.getText().length()==0){
-                    add.setEnabled(false);
-                    add.setError("Please enter a score");
-                }
-                if(ScoreVisitor.getText().length()==0){
-                    add.setEnabled(false);
-                    add.setError("Please enter a score");
-                }
-                else{
-                    add.setEnabled(true);
-                }
-            }
-        });
-        */
+        context = getContext();
 
         /**
-         * Spinners
+         * Setting the ui components
          */
         leaguesSpinner = root.findViewById(R.id.league_spinner_modify_match);
         clubsHomeSpinner = root.findViewById(R.id.home_spinner_modify_match);
         clubsVisitorSpinner = root.findViewById(R.id.visitor_spinner_modify_match);
+
+        addMatchButton = root.findViewById(R.id.button_add_addmatch);
+        scoreHomeEditText = root.findViewById(R.id.score_home);
+        scoreVisitorEditText = root.findViewById(R.id.score_visitor);
 
         /**
          * Creating a list of leagues in order to get the id of the league chosen in the spinner
@@ -137,7 +111,7 @@ public class MatchFragment extends Fragment {
                     String leagueName = leagueSnapshot.child("LeagueName").getValue(String.class);
                     leagues.add(leagueName);
                 }
-                ArrayAdapter<String> leagueAdapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,leagues);
+                ArrayAdapter<String> leagueAdapter = new ArrayAdapter<>(context,R.layout.spinner_dropdown_layout,leagues);
                 leagueAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
                 leaguesSpinner.setAdapter(leagueAdapter);
             }
@@ -174,7 +148,6 @@ public class MatchFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
-
         /**
          * Setting the action for cancel button
          */
@@ -189,32 +162,28 @@ public class MatchFragment extends Fragment {
         /**
          * Setting the action for add button
          */
-        Button add_button = root.findViewById(R.id.button_add_addmatch);
-        ScoreHome = root.findViewById(R.id.score_home);
-        ScoreVisitor= root.findViewById(R.id.score_visitor);
-        add_button.setOnClickListener(new View.OnClickListener() {
+        addMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //add the club in the database
-                if (ScoreHome.length() == 0) {
-                    ScoreHome.setError("Please enter a score");
-                    if (ScoreVisitor.length() == 0) {
-                        ScoreVisitor.setError("Please enter a score");
+                //check if the scores are not null
+                if (scoreHomeEditText.length() == 0) {
+                    scoreHomeEditText.setError("Please enter a score");
+                    if (scoreVisitorEditText.length() == 0) {
+                        scoreVisitorEditText.setError("Please enter a score");
                     }
                 } else {
-                    Match match = new Match();
+                    //create the match and the clubs to put in the createMatch method
+                    match = new Match();
 
-                    Club clubVisitor =listClubs.get(clubsVisitorSpinner.getSelectedItemPosition());
-                    Club clubHome = listClubs.get(clubsHomeSpinner.getSelectedItemPosition());
-
-                    clubVisitor.setLeagueId(leagueIdChosen);
-                    clubHome.setLeagueId(leagueIdChosen);
+                    clubVisitor = listClubs.get(clubsVisitorSpinner.getSelectedItemPosition());
+                    clubHome = listClubs.get(clubsHomeSpinner.getSelectedItemPosition());
 
                     databaseReference = FirebaseDatabase.getInstance().getReference("Club");
+
                     clubHomeId = clubHome.getClubId();
                     clubVisitorId = clubVisitor.getClubId();
-                    int scoreVisitor = Integer.parseInt(ScoreVisitor.getText().toString());
-                    int scoreHome = Integer.parseInt(ScoreHome.getText().toString());
+                    scoreVisitor = Integer.parseInt(MatchFragment.this.scoreVisitorEditText.getText().toString());
+                    scoreHome = Integer.parseInt(MatchFragment.this.scoreHomeEditText.getText().toString());
 
                     match.setIdClubHome(clubHomeId);
                     match.setIdClubVisitor(clubVisitorId);
@@ -222,34 +191,11 @@ public class MatchFragment extends Fragment {
                     match.setScoreVisitor(scoreVisitor);
                     match.setScoreHome(scoreHome);
 
-                    matchViewModel.createMatch(match, new OnAsyncEventListener() {//SI SA PLANTE C A CAUSE DU UPDATE QUI A DECIDER DE ME CASSER LES COUILLES (tu peux check si tu veux apparemment le league id est null alors que je le set mais bon hyn sa marche jamais comme d'hab)
+                    matchViewModel.createMatch(match, new OnAsyncEventListener() {
                         @Override
                         public void onSuccess() {
                             Log.d(TAG, "createMatch: success");
-
-                            /**
-                             * Setting the values to update it
-                             */
-                            if(scoreHome>scoreVisitor){
-                                clubHome.setWins(clubHome.getWins()+1);
-                                clubHome.setPoints(clubHome.getWins()*3 + clubHome.getLosses());
-                                clubVisitor.setLosses(clubVisitor.getLosses()+1);
-                                clubVisitor.setPoints(clubVisitor.getPoints());
-                            }
-                            else {
-                                if(scoreHome<scoreVisitor){
-                                    clubHome.setLosses(clubHome.getLosses()+1);
-                                    clubHome.setPoints(clubHome.getPoints());
-                                    clubVisitor.setWins(clubVisitor.getWins()+1);
-                                    clubVisitor.setPoints(clubVisitor.getWins()*3 + clubVisitor.getDraws());
-                                }
-                                else {
-                                    clubHome.setDraws(clubHome.getDraws()+1);
-                                    clubHome.setPoints(clubHome.getPoints()+1);
-                                    clubVisitor.setDraws(clubVisitor.getDraws()+1);
-                                    clubVisitor.setPoints(clubVisitor.getPoints()+1);
-                                }
-                            }
+                            setClubsValues();
 
                             ClubViewModel clubViewModel;
                             ClubViewModel.Factory fac = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
@@ -264,17 +210,20 @@ public class MatchFragment extends Fragment {
                                         public void onSuccess() {
                                             Log.d(TAG, "updateClub: success");
                                             getActivity().onBackPressed();
+                                            setResponse(true);
                                         }
 
                                         @Override
                                         public void onFailure(Exception e) {
                                             Log.d(TAG, "updateClub: failure", e);
+                                            setResponse(false);
                                         }
                                     });
                                 }
                                 @Override
                                 public void onFailure(Exception e) {
                                     Log.d(TAG, "updateClub: failure", e);
+                                    setResponse(false);
                                 }
                             });
                         }
@@ -282,6 +231,7 @@ public class MatchFragment extends Fragment {
                         @Override
                         public void onFailure(Exception e) {
                             Log.d(TAG, "createMatch: failure", e);
+                            setResponse(false);
                         }
                     });
                 }
@@ -289,6 +239,33 @@ public class MatchFragment extends Fragment {
         });
         return root;
     }
+
+    /**
+     * Set the values in the clubs depending on the scores
+     */
+    public void setClubsValues(){
+        if(scoreHome> scoreVisitor){
+            clubHome.setWins(clubHome.getWins()+1);
+            clubHome.setPoints();
+            clubVisitor.setLosses(clubVisitor.getLosses()+1);
+            clubVisitor.setPoints();
+        }
+        else {
+            if(scoreHome< scoreVisitor){
+                clubHome.setLosses(clubHome.getLosses()+1);
+                clubHome.setPoints();
+                clubVisitor.setWins(clubVisitor.getWins()+1);
+                clubVisitor.setPoints();
+            }
+            else {
+                clubHome.setDraws(clubHome.getDraws()+1);
+                clubHome.setPoints();
+                clubVisitor.setDraws(clubVisitor.getDraws()+1);
+                clubVisitor.setPoints();
+            }
+        }
+    }
+
     /**
      * Put the list of clubs in the spinner depending of the league chosen
      * @param leagueId
@@ -299,12 +276,12 @@ public class MatchFragment extends Fragment {
         ref.child("Club").child(leagueId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final List<String> clubs = new ArrayList<String>();
+                final List<String> clubs = new ArrayList<>();
                 for(DataSnapshot clubSnapshot: dataSnapshot.getChildren()){
                     String clubName = clubSnapshot.child("nameClub").getValue(String.class);
                     clubs.add(clubName);
                 }
-                ArrayAdapter<String> clubAdapter = new ArrayAdapter<>(getContext(),R.layout.spinner_dropdown_layout,clubs);
+                ArrayAdapter<String> clubAdapter = new ArrayAdapter<>(context,R.layout.spinner_dropdown_layout,clubs);
                 clubAdapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
                 spinner.setAdapter(clubAdapter);
             }
@@ -317,62 +294,12 @@ public class MatchFragment extends Fragment {
     }
 
     /**
-     * Method to create a match
-     * @param IdLeague
-     * @param NameClubHome
-     * @param NameClubVisitor
-     * @param ScoreHome
-     * @param ScoreVisitor
-     */
-
-   /* private void createMatch(int IdLeague, String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor) {
-      viewModel.createMatch();
-    }
-*/
-
-
-    /**
-     * Method to update the database
-     * @param IdLeague
-     * @param NameClubHome
-     * @param NameClubVisitor
-     * @param ScoreHome
-     * @param ScoreVisitor
-     */
-    /*
-    private void saveChanges(int IdLeague, String NameClubHome, String NameClubVisitor, int ScoreHome, int ScoreVisitor) {
-
-        match.setIdLeague(IdLeague);
-        match.setNameClubHome(NameClubHome);
-        match.setNameClubVisitor(NameClubVisitor);
-        match.setScoreHome(ScoreHome);
-        match.setScoreVisitor(ScoreVisitor);
-
-        viewModel.updateMatch(match, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "updateMatch: success");
-                setResponse(true);
-                getActivity().onBackPressed();
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.d(TAG, "updateMatch: failure", e);
-                setResponse(false);
-            }
-        });
-    }
-
-     */
-
-    /**
      * Set the response depending if the update succeeded
      * @param response
      */
     private void setResponse(Boolean response) {
         if (response) {
-            statusToast = Toast.makeText(getActivity(), getString(R.string.match_edited), Toast.LENGTH_LONG);
+            statusToast = Toast.makeText(getActivity(), getString(R.string.match_created), Toast.LENGTH_LONG);
             statusToast.show();
         } else {
             statusToast = Toast.makeText(getActivity(), getString(R.string.action_error), Toast.LENGTH_LONG);

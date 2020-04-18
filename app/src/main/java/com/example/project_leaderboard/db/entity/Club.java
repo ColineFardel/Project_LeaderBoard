@@ -13,66 +13,64 @@ import java.util.Map;
  * @author Samuel Michellod
  */
 public class Club {
-    private String ClubId;
-    private String NameClub;
-    private String LeagueId;
+    private String clubId;
+    private String nameClub;
+    private String leagueId;
     private int points;
     private int wins;
     private int losses;
     private int draws;
 
     public Club (){
-
     }
 
-    public String getLeagueId(){
-        return LeagueId;
-    }
-
-    public void setLeagueId(String leagueId){
-        this.LeagueId=LeagueId;
-    }
-
+    /**
+     * Getters
+     */
     @Exclude
     public String getClubId() {
-        return ClubId;
+        return clubId;
     }
-
-    public void setClubId(String ClubId) {
-        this.ClubId = ClubId;
+    @Exclude
+    public String getLeagueId(){
+        return leagueId;
     }
-
     public String getNameClub() {
-        return NameClub;
+        return nameClub;
     }
-
-    public void setNameClub(String NameClub) {
-        this.NameClub = NameClub;
+    public int getLosses() {
+        return losses;
     }
-
-    public int getPoints(){return points;}
-
-    public void setPoints (Integer points) {this.points=points;};
-
+    public int getDraws() {
+        return draws;
+    }
+    public int getPoints(){
+        return points;
+    }
     public int getWins() {
         return wins;
     }
-
-    public void setWins(int victories) {
-        this.wins = wins;
+    /**
+     * Setters
+     */
+    public void setLeagueId(String leagueId){
+        this.leagueId = leagueId;
     }
-
-    public int getLosses() {
-        return losses;
+    public void setClubId(String ClubId) {
+        this.clubId = ClubId;
+    }
+    public void setNameClub(String NameClub) {
+        this.nameClub = NameClub;
+    }
+    public void setPoints () {
+        points = getWins()*3+getDraws();
+    };
+    public void setWins(int wins) {
+        this.wins = wins;
     }
     public void setLosses(int losses) {
         this.losses = losses;
     }
-
-    public int getDraws() {
-        return draws;
-    }
-
     public void setDraws(int draws) {
         this.draws = draws;
     }
@@ -85,7 +83,6 @@ public class Club {
         return c.getClubId().equals(this.getClubId());
     }
 
-
     public int compareTo(@NonNull Object o){
         return toString().compareTo(o.toString());
     }
@@ -93,15 +90,14 @@ public class Club {
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
-        result.put("Name",NameClub);
-        result.put("Id", ClubId);
-        result.put("Points", points);
-        result.put("Wins", wins);
-        result.put("Losses", losses);
-        result.put("Draws", draws);
+        result.put("nameClub", nameClub);
+        //result.put("clubId", clubId);
+        result.put("points", points);
+        result.put("wins", wins);
+        result.put("losses", losses);
+        result.put("draws", draws);
 
         return result;
  }
-
 }
 

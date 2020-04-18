@@ -22,10 +22,13 @@ public class ClubViewModel extends AndroidViewModel {
 
     private ClubRepository repository;
     private final MediatorLiveData<Club> observableClub;
+    private String id;
 
 
     public ClubViewModel(@NonNull Application application, ClubRepository clubRepository,String id) {
         super(application);
+
+        this.id=id;
 
         repository = clubRepository;
 
@@ -64,7 +67,7 @@ public class ClubViewModel extends AndroidViewModel {
         repository.insert(club,callback);
     }
     public void updateClub (Club club, OnAsyncEventListener callback){
-        repository.update(club,callback);
+        repository.update(club,callback,id);
     }
     public void deleteClub (Club club, OnAsyncEventListener callback){
         repository.delete(club,callback);

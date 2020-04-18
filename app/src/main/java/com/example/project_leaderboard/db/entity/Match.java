@@ -1,12 +1,6 @@
 package com.example.project_leaderboard.db.entity;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Fts4;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
 
 import com.google.firebase.database.Exclude;
 
@@ -20,77 +14,63 @@ import java.util.Map;
 
 public class Match{
 
-    private String MatchId;
-    private String IdClubHome;
-    private String IdClubVisitor;
-    private int ScoreHome;
-    private int ScoreVisitor;
-    private String IdLeague;
+    private String matchId;
+    private String idClubHome;
+    private String idClubVisitor;
+    private int scoreHome;
+    private int scoreVisitor;
+    private String idLeague;
 
-    public Match(){}
-
-    public Match(String IdClubHome, String IdClubVisitor, int ScoreHome, int ScoreVisitor,String IdLeague, String MatchId){
-        this.IdClubHome=IdClubHome;
-        this.IdClubVisitor=IdClubVisitor;
-        this.ScoreHome=ScoreHome;
-        this.ScoreVisitor=ScoreVisitor;
-        this.IdLeague=IdLeague;
-        this.MatchId=MatchId;
+    public Match(){
     }
 
+    /**
+     * Getters
+     */
     @Exclude
     public String getMatchId(){
-        return  MatchId;
+        return matchId;
     }
-
-    public void setMatchId(String matchId){
-        MatchId=matchId;
-    }
-
     public String getIdLeague(){
-        return IdLeague;
+        return idLeague;
     }
-
-    public void setIdLeague (String idLeague){
-        IdLeague=idLeague;
-    }
-
-
     public String getIdClubHome() {
-        return IdClubHome;
+        return idClubHome;
     }
-
+    public String getIdClubVisitor() {
+        return idClubVisitor;
+    }
+    public int getScoreHome() {
+        return scoreHome;
+    }
+    public int getScoreVisitor() {
+        return scoreVisitor;
+    }
+    /**
+     * Setters
+     */
+    public void setMatchId(String matchId){
+        this.matchId =matchId;
+    }
+    public void setIdLeague (String idLeague){
+        this.idLeague =idLeague;
+    }
     public void setIdClubHome(String IdClubHome) {
         IdClubHome = IdClubHome;
     }
-
-    public String getIdClubVisitor() {
-        return IdClubVisitor;
-    }
-
     public void setIdClubVisitor(String IdClubVisitor) {
         IdClubVisitor = IdClubVisitor;
     }
-
-    public int getScoreHome() {
-        return ScoreHome;
-    }
-
     public void setScoreHome(int scoreHome) {
-        ScoreHome = scoreHome;
+        this.scoreHome = scoreHome;
     }
-
-    public int getScoreVisitor() {
-        return ScoreVisitor;
-    }
-
     public void setScoreVisitor(int scoreVisitor) {
-        ScoreVisitor = scoreVisitor;
+        this.scoreVisitor = scoreVisitor;
     }
 
     @Override
     public String toString(){
-        return "Home " + ScoreHome + "- "+ "Visitor" + ScoreVisitor;
+        return "Home " + scoreHome + "- "+ "Visitor" + scoreVisitor;
     }
 
 
@@ -109,13 +89,11 @@ public class Match{
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
-        result.put("Club Home", IdClubHome);
-        result.put("Club Visitor", IdClubVisitor);
-        result.put("Score Home",ScoreHome);
-        result.put("Score Visitor", ScoreVisitor);
-        result.put("League", IdLeague);
+        result.put("Club Home", idClubHome);
+        result.put("Club Visitor", idClubVisitor);
+        result.put("scoreHome", scoreHome);
+        result.put("scoreVisitor", scoreVisitor);
+        //result.put("League", IdLeague);
         return result;
     }
-
-
 }

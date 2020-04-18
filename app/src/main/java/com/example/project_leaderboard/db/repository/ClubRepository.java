@@ -57,23 +57,26 @@ public class ClubRepository {
     }
 
     public void insert(final Club club, final OnAsyncEventListener callback){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Club");
-        String key = reference.push().getKey();
-        FirebaseDatabase.getInstance().getReference("League").child(club.getLeagueId()).child("Club").child(key)
-                .setValue(club, ((databaseError, databaseReference) -> {
-                    if(databaseError !=null){
+        String id = FirebaseDatabase.getInstance().getReference("Club")
+                .child(club.getLeagueId())
+                .push().getKey();
+
+        FirebaseDatabase.getInstance().getReference("Club")
+                .child(club.getLeagueId())
+                .child(id)
+                .setValue(club, (databaseError, databaseReference) -> {
+                    if (databaseError != null) {
                         callback.onFailure(databaseError.toException());
-                    }else {
+                    } else {
                         callback.onSuccess();
                     }
-                }));
+                });
     }
 
-    public void update(final Club club, final OnAsyncEventListener callback) {
-        String leagueId = club.getLeagueId();
+    public void update(final Club club, final OnAsyncEventListener callback,String leagueId) {
         FirebaseDatabase.getInstance()
                 .getReference("Club")
-                .child(club.getLeagueId())
+                .child(leagueId)
                 .child(club.getClubId())
                 .updateChildren(club.toMap(), (databaseError, databaseReference) -> {
                     if (databaseError != null) {

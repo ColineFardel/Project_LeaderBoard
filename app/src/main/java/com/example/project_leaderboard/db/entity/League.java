@@ -1,15 +1,6 @@
 package com.example.project_leaderboard.db.entity;
 
-
-
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Fts4;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
-
 import com.google.firebase.database.Exclude;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,25 +14,25 @@ public class League{
     private String LeagueId;
     private String LeagueName;
 
-    public League() {}
-
-    public League(String LeagueName) {
-        this.LeagueName = LeagueName;
+    public League() {
     }
 
+    /**
+     * Getters
+     */
     @Exclude
     public String getLeagueId() {
         return LeagueId;
     }
-
-    public void setLeagueId(String LeagueId) {
-        this.LeagueId = LeagueId;
-    }
-
     public String getLeagueName() {
         return LeagueName;
     }
-
+    /**
+     * Setters
+     */
+    public void setLeagueId(String LeagueId) {
+        this.LeagueId = LeagueId;
+    }
     public void setLeagueName(String LeagueName) {
         this.LeagueName = LeagueName;
     }
