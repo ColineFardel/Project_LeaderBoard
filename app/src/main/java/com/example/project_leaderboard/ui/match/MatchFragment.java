@@ -148,6 +148,49 @@ public class MatchFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
+        clubsVisitorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String club_home_selected = clubsHomeSpinner.getSelectedItem().toString();
+                String club_visitor_selected = clubsVisitorSpinner.getSelectedItem().toString();
+                if(club_home_selected.equals(club_visitor_selected)){
+                    addMatchButton.setEnabled(false);
+                    statusToast = Toast.makeText(getActivity(), getString(R.string.match_error), Toast.LENGTH_LONG);
+                    statusToast.show();
+                }
+                else{
+                    addMatchButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        clubsHomeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String club_home_selected = clubsHomeSpinner.getSelectedItem().toString();
+                String club_visitor_selected = clubsVisitorSpinner.getSelectedItem().toString();
+                if(club_home_selected.equals(club_visitor_selected)){
+                    addMatchButton.setEnabled(false);
+                    statusToast = Toast.makeText(getActivity(), getString(R.string.match_error), Toast.LENGTH_LONG);
+                    statusToast.show();
+                }
+                else{
+                    addMatchButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         /**
          * Setting the action for cancel button
          */
@@ -178,6 +221,8 @@ public class MatchFragment extends Fragment {
                     clubVisitor = listClubs.get(clubsVisitorSpinner.getSelectedItemPosition());
                     clubHome = listClubs.get(clubsHomeSpinner.getSelectedItemPosition());
 
+
+
                     databaseReference = FirebaseDatabase.getInstance().getReference("Club");
 
                     clubHomeId = clubHome.getClubId();
@@ -196,6 +241,7 @@ public class MatchFragment extends Fragment {
                         public void onSuccess() {
                             Log.d(TAG, "createMatch: success");
                             setClubsValues();
+
 
                             ClubViewModel clubViewModel;
                             ClubViewModel.Factory fac = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen, "");
