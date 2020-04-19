@@ -108,7 +108,6 @@ public class ClubFragment extends Fragment {
                     break;
             }
         }
-
          */
 
 

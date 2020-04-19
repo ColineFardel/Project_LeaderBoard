@@ -82,14 +82,13 @@ public class ClubListViewModel extends AndroidViewModel {
     public void insert (final Club club, OnAsyncEventListener callback, Application application){
         new CreateClub(application,callback).execute((Runnable) club);
     }
-
     public void update (final Club club, OnAsyncEventListener callback, Application application){
         new UpdateClub(application,callback).execute((Runnable) club);
     }
     public void delete (final Club club, OnAsyncEventListener callback, Application application){
         new DeleteClub(application,callback).execute((Runnable) club);
     }
-    
+
  */
 
 }

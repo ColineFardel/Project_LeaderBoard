@@ -100,20 +100,5 @@ public class ClubRepository {
                        callback.onSuccess();
                    }
                });
-       /*
-        FirebaseDatabase.getInstance().getReference("Club");
-        FirebaseDatabase.getInstance().getReference("league").child(club.getLeagueId()).child("clubs")
-                .removeValue ((databaseError, databaseReference) -> {
-                    if(databaseError !=null){
-                        callback.onFailure(databaseError.toException());
-                    }else {
-                        callback.onSuccess();
-                    }
-                });
-
-        */
     }
-
-
-
 }

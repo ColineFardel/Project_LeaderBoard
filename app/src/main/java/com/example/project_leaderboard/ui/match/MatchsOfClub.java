@@ -139,7 +139,6 @@ public class MatchsOfClub extends AppCompatActivity {
                 Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
                 i.putExtras(b);
                 startActivity(i);
-
                  */
             }
         });
@@ -199,7 +198,6 @@ public class MatchsOfClub extends AppCompatActivity {
                 fragment.setArguments(b);
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.leader_clubs, fragment).commit();
-
                  */
             }
         });

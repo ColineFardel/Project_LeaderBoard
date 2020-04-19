@@ -5,12 +5,21 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.db.entity.Match;
+import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.ui.settings.SharedPref;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Locale;
 
 /**
@@ -20,12 +29,37 @@ import java.util.Locale;
 public class ModifyMatch extends AppCompatActivity {
 
     SharedPref sharedPref;
+    MatchViewModel viewModel;
+    Match match;
+    private Toast statusToast;
+    DatabaseReference databaseReference;
+    private String matchId;
+    private EditText scoreHome,scoreVisitor;
+    int score_home, score_visitor;
+
+
+    private static final String TAG = "ModifyMatch";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        /**
+         * Getting the id of the match
+         */
+        databaseReference = FirebaseDatabase.getInstance().getReference("Match");
+        matchId = match.getMatchId();
+        score_home = match.getScoreHome();
+        score_visitor = match.getScoreVisitor();
+        String value = getIntent().getExtras().getString(matchId);
+        scoreHome = findViewById(R.id.score_home);
+        scoreVisitor = findViewById(R.id.score_visitor);
+        scoreHome.setText(score_home);
+        scoreVisitor.setText(score_visitor);
+
+
 
         /**
          * Loading the language from the preferences
@@ -88,7 +122,34 @@ public class ModifyMatch extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save the club in the database
+                viewModel.updateMatch(match, new OnAsyncEventListener() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, "updateClub: success");
+                        setResponse(true);
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Log.d(TAG, "updateClub: failure",e);
+                        setResponse(false);
+                    }
+                });
             }
         });
+    }
+
+    /**
+     * Set the response depending if the update succeeded
+     * @param response
+     */
+    private void setResponse(Boolean response) {
+        if (response) {
+            statusToast = Toast.makeText(getApplicationContext(), getString(R.string.match_updated), Toast.LENGTH_LONG);
+            statusToast.show();
+        } else {
+            statusToast = Toast.makeText(getApplicationContext(), getString(R.string.action_error), Toast.LENGTH_LONG);
+            statusToast.show();
+        }
     }
 }

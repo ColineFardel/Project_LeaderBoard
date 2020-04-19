@@ -16,6 +16,7 @@ import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
+import com.example.project_leaderboard.ui.club.ClubViewModel;
 import com.example.project_leaderboard.ui.club.ModifyClub;
 import com.example.project_leaderboard.ui.match.MatchListViewModel;
 import com.example.project_leaderboard.ui.match.MatchsOfClub;
@@ -71,8 +72,6 @@ public class LeagueBoard extends AppCompatActivity{
 
     /*
     private String[] clubs;
-
-
     private List<String> userSelection = new ArrayList<>();
     //private RecyclerAdapter<Club> recyclerAdapter;
     private ClubViewModel viewModel;
