@@ -89,7 +89,7 @@ public class ClubRepository {
     }
 
     public void delete(final Club club, final OnAsyncEventListener callback){
-       FirebaseDatabase.getInstance().getReference("clubs");
+       FirebaseDatabase.getInstance().getReference("Club");
         FirebaseDatabase.getInstance().getReference("league").child(club.getLeagueId()).child("clubs")
                 .removeValue ((databaseError, databaseReference) -> {
                     if(databaseError !=null){

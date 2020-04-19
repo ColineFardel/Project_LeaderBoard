@@ -71,6 +71,22 @@ public class ClubListViewModel extends AndroidViewModel {
     public LiveData<List<Club>> getClubsByLeague(String leagueId){
         return observableClub;
     }
+
+    public void deleteClubs(List<Club> clubs){
+        for(Club club : clubs){
+            repository.delete(club, new OnAsyncEventListener() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+
+                }
+            });
+        }
+    }
 /*
     public void insert (final Club club, OnAsyncEventListener callback, Application application){
         new CreateClub(application,callback).execute((Runnable) club);

@@ -1,9 +1,6 @@
 package com.example.project_leaderboard.ui.club;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.project_leaderboard.MainActivity;
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.adapter.ClubModel;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
-import com.example.project_leaderboard.db.repository.LeagueRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.ui.league.LeagueListViewModel;
-import com.example.project_leaderboard.ui.league.LeagueViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +48,7 @@ public class ClubFragment extends Fragment {
     private String leagueIdChosen;
     private Toast statusToast;
     private Club club;
+    private List<ClubModel> clubModelList;
 
     DatabaseReference databaseReference;
     private static final String TAG = "ClubFragment";

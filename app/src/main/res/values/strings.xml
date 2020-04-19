@@ -5,7 +5,7 @@
     <string name="add_match">Add match</string>
     <string name="leagues">Leagues</string>
     <string name="item_selected">items selected</string>
-    <string name="toast">You must select only one item to modify it</string>
+    <string name="tooMuchItems">You must select only one item to modify it</string>
     <string name="name">Name</string>
     <string name="league">League</string>
     <string name="cancel">Cancel</string>
@@ -29,6 +29,7 @@
     <string name="match_created">Math created</string>
     <string name="match_edited">Match edited</string>
     <string name="action_error">Something went wrong</string>
+    <string name="notEnoughItems">You have to select at least one item</string>
 
     <!--string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -4,16 +4,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_leaderboard.db.entity.Club;
-import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,12 +24,15 @@ import java.util.List;
 public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAdapter.ViewHolder> {
     private List<T> mData;
     private RecyclerViewItemClickListener mListener;
+    private List<ClubModel> clubModelList;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView name, wins, draws, points, losses;
+        View view;
 
         ViewHolder(View view){
             super(view);
+            this.view=view;
             name =view.findViewById(R.id.name);
             wins=view.findViewById(R.id.wins);
             points = view.findViewById(R.id.points);
@@ -61,6 +65,7 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         T item = mData.get(position);
+        final ClubModel clubModel = clubModelList.get(position);
 
         int wins = (((Club) item).getWins());
         String winsString = String.valueOf(wins);
@@ -81,6 +86,55 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
         holder.losses.setText(lossesString);
         holder.points.setText(pointsString);
 
+        //if(model.isSelected())
+            //holder.view.setBackgroundColor(Color.GREEN);
+        //holder.view.setBackgroundColor(model.isSelected() ? R.attr.selectedItem : R.attr.backgroundcolor);
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                clubModel.setSelected(!clubModel.isSelected());
+                String msg = getNumberSelected() + holder.view.getContext().getString(R.string.item_selected);
+                Toast statusToast = Toast.makeText(holder.view.getContext(), msg, Toast.LENGTH_LONG);
+                statusToast.show();
+                //if(model.isSelected())
+                    //holder.view.setBackgroundColor(Color.GREEN);
+                //holder.view.setBackgroundColor(model.isSelected() ? R.attr.selectedItem : R.attr.backgroundcolor);
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Method to get all the clubs selected
+     * @return
+     */
+    public List<Club> getSelectedClubs(){
+        List<Club> clubs = new ArrayList<>();
+        for(ClubModel clubModel : clubModelList){
+            if(clubModel.isSelected())
+                clubs.add(clubModel.getClub());
+        }
+        return clubs;
+    }
+
+    /**
+     * Method to get the club selected
+     * @return
+     */
+    public Club getSelectedClub(){
+        return getSelectedClubs().get(0);
+    }
+
+    /**
+     * Method to get the number of clubs selected
+     * @return
+     */
+    public int getNumberSelected(){
+        return getSelectedClubs().size();
+    }
+
+    public void setClubModelList(List<ClubModel> clubModelList){
+        this.clubModelList = clubModelList;
     }
 
     @Override

@@ -1,26 +1,23 @@
 package com.example.project_leaderboard.ui.league;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.project_leaderboard.adapter.ClubAdapter;
 import com.example.project_leaderboard.adapter.ClubRecyclerAdapter;
-import com.example.project_leaderboard.adapter.RecyclerAdapter;
+import com.example.project_leaderboard.adapter.ClubModel;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
+import com.example.project_leaderboard.ui.club.ModifyClub;
 import com.example.project_leaderboard.ui.match.MatchsOfClub;
 import com.example.project_leaderboard.ui.settings.SharedPref;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,6 +28,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.club.ClubFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,7 +54,10 @@ public class LeagueBoard extends AppCompatActivity{
     private LeagueViewModel leagueViewModel;
 
     private SharedPref sharedPref;
-    private ImageButton imageButton;
+    private ImageButton modifyButton;
+    private ImageButton deleteButton;
+    private FloatingActionButton addFloatButton;
+    private List<ClubModel> clubModelList;
 
     private ClubRecyclerAdapter<Club> clubRecyclerAdapter;
 
@@ -170,15 +172,79 @@ public class LeagueBoard extends AppCompatActivity{
                             return -1;
                     }
                 });
+                clubRecyclerAdapter.setClubModelList(getListData());
                 clubRecyclerAdapter.setClubData(clubs);
+            }
+        });
+
+        /**
+         * Setting the button to delete a club
+         */
+        deleteButton = findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(clubRecyclerAdapter.getNumberSelected()<1){
+                    String msg = getString(R.string.notEnoughItems);
+                    Toast statusToast = Toast.makeText(LeagueBoard.this, msg, Toast.LENGTH_LONG);
+                    statusToast.show();
+                }
+                else{
+                    //viewModel.deleteClubs();
+                    //delete
+                }
+
+            }
+        });
+
+        /**
+         * Setting the button to modify a club
+         */
+        modifyButton = findViewById(R.id.modifyButton);
+        modifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(clubRecyclerAdapter.getNumberSelected()>1){
+                    String msg = getString(R.string.tooMuchItems);
+                    Toast statusToast = Toast.makeText(LeagueBoard.this, msg, Toast.LENGTH_LONG);
+                    statusToast.show();
+                }
+                else{
+                    if(clubRecyclerAdapter.getNumberSelected()<1){
+                        String msg = getString(R.string.notEnoughItems);
+                        Toast statusToast = Toast.makeText(LeagueBoard.this, msg, Toast.LENGTH_LONG);
+                        statusToast.show();
+                    }
+                    else {
+                        Club clubselected = clubRecyclerAdapter.getSelectedClub();
+                        Bundle b = new Bundle();
+                        b.putString("clubId",clubselected.getClubId());
+                        Intent i;
+                        i = new Intent(getBaseContext(), ModifyClub.class);
+                        i.putExtras(b);
+                        startActivity(i);
+                    }
+                }
             }
         });
 
         /**
          * Setting the button to open the add club fragment
          */
-        imageButton = findViewById(R.id.button_add);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        addFloatButton = findViewById(R.id.floatAddButton);
+        addFloatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getSupportFragmentManager();
+                ClubFragment fragment = new ClubFragment();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.leader_clubs, fragment).commit();
+                addFloatButton.hide();
+            }
+        });
+        /*
+        modifyButton = findViewById(R.id.modifyButton);
+        modifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextView title = findViewById(R.id.league_name);
@@ -193,110 +259,20 @@ public class LeagueBoard extends AppCompatActivity{
             }
         });
 
-        /**
-         * Setting the multi choice listener in order to delete multiple clubs or to modify one
          */
-
-    /*
-    AbsListView.MultiChoiceModeListener modeListener = new AbsListView.MultiChoiceModeListener() {
-        @Override
-        public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-            //If the user click two times on the same club then it will remove it from userSelection
-            if(userSelection.contains(clubs[position])){
-                userSelection.remove(clubs[position]);
-            }
-            //If the user click one time on a club it will add it to userSelection
-            else{
-                userSelection.add(clubs[position]);
-            }
-            //Use the size of the array to show how many items the user selected
-            mode.setTitle(userSelection.size() + getString(R.string.item_selected));
-        }
-
-     */
-
-        /**
-         * Putting the multi choice mode listener for the list view
-         */
-        /*
-        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(modeListener);
-
-         */
-
-        /**
-         * Create the menu for the selection
-         * @param mode
-         * @param menu
-         * @return true
-         */
-    /*
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater menuInflater = mode.getMenuInflater();
-            menuInflater.inflate(R.menu.delete_modify_menu,menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-     */
-
-
-
-
-        /**
-         * Say what to do depending on what button the user click on
-         * @param mode
-         * @param item
-         * @return false
-         */
-        /*
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()){
-                //If the user click on the delete button it will delete the clubs from the database
-                case R.id.delete_bar:
-                    //delete the club(s) from the database
-                    break;
-                //If the user click on the modify button
-                case R.id.modify_bar:
-                    //If the user has selected more than one club it will show a toast
-                    if(userSelection.size()>1){
-                        String warning = getString(R.string.toast);
-                        Toast toast=Toast. makeText(LeagueBoard.this,warning,Toast. LENGTH_SHORT);
-                        toast. setMargin(50,50);
-                        toast.setGravity(Gravity.CENTER, 0,0);
-                        toast. show();
-                    }
-                    //If the user selected one item it will open the class ModifyClub and send to it the name of the club selected
-                    else{
-                        String value = userSelection.get(0);
-                        Bundle b = new Bundle();
-                        b.putString("ClubName",value);
-                        Intent i;
-                        i = new Intent(getBaseContext(), ModifyClub.class);
-                        i.putExtras(b);
-                        startActivity(i);
-                    }
-                default:
-                    return false;
-            }
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-        }
-    };
-
-         */
-
-
 
         recyclerView.setAdapter(clubRecyclerAdapter);
+    }
+
+    /**
+     * Method to populate the model list
+     * @return the model list
+     */
+    public List<ClubModel> getListData(){
+        clubModelList = new ArrayList<>();
+        for(Club club : clubs){
+            clubModelList.add(new ClubModel(club));
+        }
+        return clubModelList;
     }
 }

@@ -1,7 +1,5 @@
 package com.example.project_leaderboard.ui.match;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -10,48 +8,28 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.project_leaderboard.R;
-import com.example.project_leaderboard.adapter.ClubRecyclerAdapter;
 import com.example.project_leaderboard.adapter.MatchRecyclerAdapter;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
-import com.example.project_leaderboard.ui.club.ClubFragment;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
 import com.example.project_leaderboard.ui.club.ClubViewModel;
-import com.example.project_leaderboard.ui.league.LeagueViewModel;
 import com.example.project_leaderboard.ui.settings.SharedPref;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -195,12 +173,15 @@ public class MatchsOfClub extends AppCompatActivity {
                 matchRecyclerAdapter.setMatchData(matches);
                 matchRecyclerAdapter.setListClubs(clubsHome,clubsVisitor);
             }
+            else {
+                matchRecyclerAdapter.setMatchData(matches);
+            }
         });
 
         /**
          * Setting the button to open the add match fragment -- Im doing that later
          */
-        imageButton = findViewById(R.id.button_add);
+        imageButton = findViewById(R.id.modifyButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,8 +252,10 @@ public class MatchsOfClub extends AppCompatActivity {
     public List<Match> filterMatches(List<Match> matches, String clubId){
         List<Match> filteredMatches = new ArrayList<>();
         for(Match match : matches){
-            if(match.getIdClubHome().equals(clubId)||match.getIdClubVisitor().equals(clubId)){
-                filteredMatches.add(match);
+            if(match!=null){
+                if(match.getIdClubHome().equals(clubId)||match.getIdClubVisitor().equals(clubId)){
+                    filteredMatches.add(match);
+                }
             }
         }
         return filteredMatches;
