@@ -4,26 +4,55 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.example.project_leaderboard.adapter.SearchAdapter;
+import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Locale;
 /**
  * This is the main class of the project
  * @author Coline Fardel
  */
 public class MainActivity extends AppCompatActivity {
+
+    EditText search_edit_text;
+    RecyclerView recyclerView;
+    DatabaseReference databaseReference;
+    ArrayList<Club> list;
+    SearchView searchView;
+
+
 
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPref sharedPref;
@@ -36,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = new SharedPref(this);
+
+      //  databaseReference = FirebaseDatabase.getInstance().getReference().child("Club");
+    //    recyclerView = findViewById(R.id.searchrecyclerview);
+     //   searchView = findViewById(R.id.app_bar_search);
+
+
+
+
 
         /**
          * Loading the language from the preferences
@@ -111,12 +148,56 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-   /* public void toastMsg (String msg){
-        Toast toast = Toast.makeText(this,msg,Toast.LENGTH_LONG);
-        toast.show();
+    /*protected void onStart(){
+        super.onStart();
+        if(databaseReference!=null){
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        list=new ArrayList<>();
+                        for(DataSnapshot ds : dataSnapshot.getChildren())
+                        {
+                            list.add(ds.getValue(Club.class));
+                        }
+                        SearchAdapter searchAdapter = new SearchAdapter(list);
+                        recyclerView.setAdapter(searchAdapter);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(MainActivity.this,databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
+            if(searchView!=null){
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        search(newText);
+                        return true;
+                    }
+                });
+            }
+        }
     }
-    public void displayToastmsg(View v){
-        toastMsg("Match successfully added");
+    private void search(String s){
+        ArrayList<Club> myList = new ArrayList<>();
+
+        for(Club object : list){
+            if(object.getNameClub().toLowerCase().contains(s.toLowerCase())){
+                myList.add(object);
+            }
+        }
+        SearchAdapter searchAdapter = new SearchAdapter(myList);
+        recyclerView.setAdapter(searchAdapter);
     }
-    */
+
+*/
+
 }

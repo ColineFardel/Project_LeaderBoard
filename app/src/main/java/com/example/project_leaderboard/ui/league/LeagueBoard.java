@@ -14,6 +14,7 @@ import com.example.project_leaderboard.adapter.ClubModel;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
+import com.example.project_leaderboard.ui.club.ClubViewModel;
 import com.example.project_leaderboard.ui.club.ModifyClub;
 import com.example.project_leaderboard.ui.match.MatchsOfClub;
 import com.example.project_leaderboard.ui.settings.SharedPref;
@@ -64,8 +65,6 @@ public class LeagueBoard extends AppCompatActivity{
 
     /*
     private String[] clubs;
-
-
     private List<String> userSelection = new ArrayList<>();
     //private RecyclerAdapter<Club> recyclerAdapter;
     private ClubViewModel viewModel;
@@ -190,7 +189,7 @@ public class LeagueBoard extends AppCompatActivity{
                     statusToast.show();
                 }
                 else{
-                    //viewModel.deleteClubs();
+                    viewModel.deleteClubs(clubs);
                     //delete
                 }
 
@@ -258,7 +257,6 @@ public class LeagueBoard extends AppCompatActivity{
                 ft.replace(R.id.leader_clubs, fragment).commit();
             }
         });
-
          */
 
         recyclerView.setAdapter(clubRecyclerAdapter);

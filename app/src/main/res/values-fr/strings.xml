@@ -6,7 +6,7 @@
     <string name="add_match">Ajouter un match</string>
     <string name="leagues">Ligues</string>
     <string name="item_selected">items selectionnés</string>
-    <string name="tooMuchItems">Vous devez selectionner un seul item pour le modifier</string>
+    <string name="toast">Vous devez selectionner un seul item pour le modifier</string>
     <string name="name">Nom</string>
     <string name="league">Ligue</string>
     <string name="cancel">Annuler</string>
@@ -28,9 +28,12 @@
     <string name="app_name">Projet classement</string>
     <string name="nav_header_desc">Onglet de navigation</string>
     <string name="club_created">Club créé</string>
+    <string name="club_updated">Club mis à jour</string>
     <string name="match_created">Match créé</string>
     <string name="match_error">Un club ne peut pas jouer contre lui-même</string>
     <string name="match_edited">Match modifié</string>
+    <string name="match_updated">Match mis à jour</string>
     <string name="action_error">Une erreur est survenue</string>
-    <string name="notEnoughItems">Vous devez selectionner au moins 1 item</string>
+    <string name="notEnoughItems">Vous devez sélectionner au moins un élément</string>
+    <string name="tooMuchItems">Vous pouvez modifier un seul élément</string>
 </resources>

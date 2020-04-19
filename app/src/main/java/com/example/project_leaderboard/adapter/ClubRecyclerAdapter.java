@@ -87,7 +87,7 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
         holder.points.setText(pointsString);
 
         //if(model.isSelected())
-            //holder.view.setBackgroundColor(Color.GREEN);
+        //holder.view.setBackgroundColor(Color.GREEN);
         //holder.view.setBackgroundColor(model.isSelected() ? R.attr.selectedItem : R.attr.backgroundcolor);
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -97,7 +97,7 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
                 Toast statusToast = Toast.makeText(holder.view.getContext(), msg, Toast.LENGTH_LONG);
                 statusToast.show();
                 //if(model.isSelected())
-                    //holder.view.setBackgroundColor(Color.GREEN);
+                //holder.view.setBackgroundColor(Color.GREEN);
                 //holder.view.setBackgroundColor(model.isSelected() ? R.attr.selectedItem : R.attr.backgroundcolor);
                 return true;
             }
