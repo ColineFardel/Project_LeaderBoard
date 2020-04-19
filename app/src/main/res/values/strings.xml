@@ -26,7 +26,8 @@
     <string name="app_name">Project_LeaderBoard</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="club_created">Club created</string>
-    <string name="match_created">Math created</string>
+    <string name="match_created">Match created</string>
+    <string name="match_error">A club cannot play against himself</string>
     <string name="match_edited">Match edited</string>
     <string name="action_error">Something went wrong</string>
     <string name="notEnoughItems">You have to select at least one item</string>
@@ -53,78 +54,26 @@
     <string name="action_edit">Edit</string>
     <string name="action_create_club">Create Club</string-->
 
+
+    <string-array name="language">
+        <item>Français</item>
+        <item>English</item>
+    </string-array>
+
     <string-array name="league">
-        <item>Premier League</item>
         <item>Bundesliga</item>
-        <item>Ligue 1</item>
+        <item>Premier League</item>
         <item>Serie A</item>
+        <item>Ligue 1</item>
+
+
     </string-array>
 
-
-    <string-array name="clubs_premierLeague">
+    <string-array name="query_suggestions">
         <item>Arsenal</item>
-        <item>Cheslea</item>
-        <item>Liverpool</item>
-        <item>Tottenham</item>
         <item>Manchester United</item>
-        <item>Leicester</item>
-        <item>Wolves</item>
-        <item>Sheffield United</item>
-        <item>Burnley</item>
-        <item>Crystal Palace</item>
-        <item>Everton</item>
-        <item>Newcastle</item>
-        <item>Southampton</item>
-        <item>Brighton</item>
-        <item>West Ham</item>
-        <item>Watford</item>
-        <item>Bournemouth</item>
-        <item>Aston Villa</item>
-        <item>Norwich</item>
-    </string-array>
+        <item>Serie A</item>
 
-    <string-array name="clubs_budesliga">
-        <item>Bayern</item>
-        <item>Dortmund</item>
-        <item>Leipzig</item>
-        <item>Leverkusen</item>
-        <item>Möchengladbach</item>
-        <item>Schalke</item>
-        <item>Wolfsbourg</item>
-        <item>Fribourg</item>
-        <item>Hoffenheim</item>
-        <item>Cologne</item>
-        <item>Union Berlin</item>
-        <item>Eintracht</item>
-        <item>Herta BSC</item>
-        <item>Augsbourg</item>
-        <item>Mainz 05</item>
-        <item>Düsseldorf</item>
-        <item>Werder</item>
-        <item>Padeborn 07</item>
-    </string-array>
-
-    <string-array name="clubs_ligue1">
-        <item>Paris-SG</item>
-        <item>Marseille</item>
-        <item>Rennes</item>
-        <item>Lille</item>
-        <item>Reims</item>
-        <item>Nice</item>
-        <item>Lyon</item>
-        <item>Montpellier</item>
-        <item>Monaco</item>
-        <item>Angers</item>
-        <item>Strasbourg</item>
-        <item>Bordeaux</item>
-        <item>Nantes</item>
-        <item>Brest</item>
-        <item>Metz</item>
-        <item>Dijon</item>
-        <item>Saint-Etienne</item>
-        <item>Nîmes</item>
-        <item>Amiens</item>
-        <item>Toulouse</item>
     </string-array>
 
     <string-array name="clubs_seria">
@@ -151,17 +100,75 @@
     </string-array>
 
 
-    <string-array name="language">
-        <item>Français</item>
-        <item>English</item>
+    <string-array name="clubs_ligue1">
+        <item>Paris-SG</item>
+        <item>Marseille</item>
+        <item>Rennes</item>
+        <item>Lille</item>
+        <item>Reims</item>
+        <item>Nice</item>
+        <item>Lyon</item>
+        <item>Montpellier</item>
+        <item>Monaco</item>
+        <item>Angers</item>
+        <item>Strasbourg</item>
+        <item>Bordeaux</item>
+        <item>Nantes</item>
+        <item>Brest</item>
+        <item>Metz</item>
+        <item>Dijon</item>
+        <item>Saint-Etienne</item>
+        <item>Nîmes</item>
+        <item>Amiens</item>
+        <item>Toulouse</item>
     </string-array>
 
-    <string-array name="query_suggestions">
+
+    <string-array name="clubs_budesliga">
+        <item>Bayern</item>
+        <item>Dortmund</item>
+        <item>Leipzig</item>
+        <item>Leverkusen</item>
+        <item>Möchengladbach</item>
+        <item>Schalke</item>
+        <item>Wolfsbourg</item>
+        <item>Fribourg</item>
+        <item>Hoffenheim</item>
+        <item>Cologne</item>
+        <item>Union Berlin</item>
+        <item>Eintracht</item>
+        <item>Herta BSC</item>
+        <item>Augsbourg</item>
+        <item>Mainz 05</item>
+        <item>Düsseldorf</item>
+        <item>Werder</item>
+        <item>Padeborn 07</item>
+    </string-array>
+
+
+    <string-array name="clubs_premierLeague">
         <item>Arsenal</item>
+        <item>Cheslea</item>
+        <item>Liverpool</item>
+        <item>Tottenham</item>
         <item>Manchester United</item>
-        <item>Serie A</item>
-
+        <item>Leicester</item>
+        <item>Wolves</item>
+        <item>Sheffield United</item>
+        <item>Burnley</item>
+        <item>Crystal Palace</item>
+        <item>Everton</item>
+        <item>Newcastle</item>
+        <item>Southampton</item>
+        <item>Brighton</item>
+        <item>West Ham</item>
+        <item>Watford</item>
+        <item>Bournemouth</item>
+        <item>Aston Villa</item>
+        <item>Norwich</item>
     </string-array>
+
+
 
 
     <item name="menu_search" type="id" />

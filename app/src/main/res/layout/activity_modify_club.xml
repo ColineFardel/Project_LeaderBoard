@@ -84,7 +84,6 @@
         android:layout_marginTop="260dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:entries="@array/league"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:backgroundTint="?attr/tintcolor"

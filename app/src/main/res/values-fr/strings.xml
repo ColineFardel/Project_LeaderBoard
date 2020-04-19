@@ -28,7 +28,8 @@
     <string name="app_name">Projet classement</string>
     <string name="nav_header_desc">Onglet de navigation</string>
     <string name="club_created">Club créé</string>
-    <string name="match_created">Math créé</string>
+    <string name="match_created">Match créé</string>
+    <string name="match_error">Un club ne peut pas jouer contre lui-même</string>
     <string name="match_edited">Match modifié</string>
     <string name="action_error">Une erreur est survenue</string>
     <string name="notEnoughItems">Vous devez selectionner au moins 1 item</string>
