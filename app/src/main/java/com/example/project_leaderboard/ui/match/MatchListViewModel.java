@@ -13,6 +13,7 @@ import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.repository.ClubRepository;
 import com.example.project_leaderboard.db.repository.MatchRepository;
+import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
 
 import java.util.List;
@@ -63,5 +64,11 @@ public class MatchListViewModel extends AndroidViewModel {
      */
     public LiveData<List<Match>> getMatches(){
         return observableMatch;
+    }
+
+    public void deleteMatches(List<Match> matches, OnAsyncEventListener listener){
+        for(Match match : matches){
+            repository.delete(match, listener,leagueId);
+        }
     }
 }

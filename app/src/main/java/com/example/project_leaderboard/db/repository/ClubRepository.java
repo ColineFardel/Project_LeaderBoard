@@ -88,8 +88,20 @@ public class ClubRepository {
                 });
     }
 
-    public void delete(final Club club, final OnAsyncEventListener callback){
-       FirebaseDatabase.getInstance().getReference("Club");
+    public void delete(final Club club, final OnAsyncEventListener callback, String leagueId){
+       FirebaseDatabase.getInstance()
+               .getReference("Club")
+               .child(leagueId)
+               .child(club.getClubId())
+               .removeValue((databaseError, databaseReference) -> {
+                   if (databaseError != null) {
+                       callback.onFailure(databaseError.toException());
+                   } else {
+                       callback.onSuccess();
+                   }
+               });
+       /*
+        FirebaseDatabase.getInstance().getReference("Club");
         FirebaseDatabase.getInstance().getReference("league").child(club.getLeagueId()).child("clubs")
                 .removeValue ((databaseError, databaseReference) -> {
                     if(databaseError !=null){
@@ -98,6 +110,8 @@ public class ClubRepository {
                         callback.onSuccess();
                     }
                 });
+
+        */
     }
 
 

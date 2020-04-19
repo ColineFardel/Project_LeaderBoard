@@ -56,9 +56,6 @@ public class ClubFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_club,container,false);
 
-        ClubViewModel.Factory factory = new ClubViewModel.Factory(getActivity().getApplication(),"asdlf","hjl");
-        clubViewModel = new ViewModelProvider(getActivity(),factory).get(ClubViewModel.class);
-
         /**
          * Setting the ui components
          */
@@ -168,6 +165,8 @@ public class ClubFragment extends Fragment {
                 club.setPoints();
                 club.setLeagueId(leagueIdChosen);
 
+                ClubViewModel.Factory factory = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
+                clubViewModel = new ViewModelProvider(getActivity(),factory).get(ClubViewModel.class);
                 clubViewModel.createClub(club, new OnAsyncEventListener() {
                     @Override
                     public void onSuccess() {

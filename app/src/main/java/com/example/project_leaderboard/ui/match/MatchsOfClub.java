@@ -102,9 +102,9 @@ public class MatchsOfClub extends AppCompatActivity {
         clubId = i.getStringExtra("Club");
         leagueId = i.getStringExtra("League");
 
-        ClubViewModel.Factory factory = new ClubViewModel.Factory(this.getApplication(),leagueId,clubId);
+        ClubViewModel.Factory factory = new ClubViewModel.Factory(this.getApplication(),leagueId);
         clubViewModel = new ViewModelProvider(this,factory).get(ClubViewModel.class);
-        clubViewModel.getClub().observe(this, club -> {
+        clubViewModel.getClub( leagueId,clubId).observe(this, club -> {
             if(club!=null)
                 clubName.setText(club.getNameClub());
         });

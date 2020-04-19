@@ -137,7 +137,7 @@ public class MatchFragment extends Fragment {
                  */
                 ClubListViewModel.Factory factory = new ClubListViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
                 clubListViewModel = new ViewModelProvider(getActivity(),factory).get(ClubListViewModel.class);
-                clubListViewModel.getClubs().observe(getActivity(), clubs -> {
+                clubListViewModel.getClubsByLeague(leagueIdChosen).observe(getActivity(), clubs -> {
                     if(clubs!=null){
                         listClubs = clubs;
                     }
@@ -221,8 +221,6 @@ public class MatchFragment extends Fragment {
                     clubVisitor = listClubs.get(clubsVisitorSpinner.getSelectedItemPosition());
                     clubHome = listClubs.get(clubsHomeSpinner.getSelectedItemPosition());
 
-
-
                     databaseReference = FirebaseDatabase.getInstance().getReference("Club");
 
                     clubHomeId = clubHome.getClubId();
@@ -244,7 +242,7 @@ public class MatchFragment extends Fragment {
 
 
                             ClubViewModel clubViewModel;
-                            ClubViewModel.Factory fac = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen, "");
+                            ClubViewModel.Factory fac = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
                             clubViewModel = new ViewModelProvider(getActivity(),fac).get(ClubViewModel.class);
                             clubViewModel.updateClub(clubHome, new OnAsyncEventListener() {
                                 @Override

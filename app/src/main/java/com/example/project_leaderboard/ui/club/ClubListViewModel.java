@@ -2,6 +2,7 @@ package com.example.project_leaderboard.ui.club;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -72,19 +73,9 @@ public class ClubListViewModel extends AndroidViewModel {
         return observableClub;
     }
 
-    public void deleteClubs(List<Club> clubs){
+    public void deleteClubs(List<Club> clubs, OnAsyncEventListener listener){
         for(Club club : clubs){
-            repository.delete(club, new OnAsyncEventListener() {
-                @Override
-                public void onSuccess() {
-
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-
-                }
-            });
+            repository.delete(club, listener,leagueId);
         }
     }
 /*

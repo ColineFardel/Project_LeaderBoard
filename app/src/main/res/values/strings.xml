@@ -25,6 +25,7 @@
     <string name="error_addclub">Please enter a club name</string>
     <string name="app_name">Project_LeaderBoard</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="club_deleted">Club(s) deleted</string>
     <string name="club_created">Club created</string>
     <string name="match_created">Match created</string>
     <string name="match_error">A club cannot play against himself</string>

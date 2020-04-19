@@ -54,9 +54,12 @@ public void createMatch (Match match, OnAsyncEventListener callback){
 public void updateMatch(Match match, OnAsyncEventListener callback){
      repository.update(match, callback);
 }
+/*
 public void deleteMatch(Match match, OnAsyncEventListener callback){
      repository.delete(match,callback);
 }
+
+ */
 
 
 }

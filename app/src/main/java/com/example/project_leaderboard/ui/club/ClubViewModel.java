@@ -24,20 +24,24 @@ public class ClubViewModel extends AndroidViewModel {
     private ClubRepository repository;
     private final MediatorLiveData<Club> observableClub;
     private String id;
+    private String clubId;
 
 
-    public ClubViewModel(@NonNull Application application, ClubRepository clubRepository, String leagueId, String clubId) {
+    public ClubViewModel(@NonNull Application application, ClubRepository clubRepository, String leagueId) {
         super(application);
 
         this.id=leagueId;
 
         repository = clubRepository;
 
+
         observableClub = new MediatorLiveData<>();
         observableClub.setValue(null);
-
+        /*
         LiveData<Club> club = repository.getClub(leagueId,clubId);
         observableClub.addSource(club, observableClub::setValue);
+
+         */
     }
 
 
@@ -45,24 +49,24 @@ public class ClubViewModel extends AndroidViewModel {
         @NonNull
         private final Application application;
         private final ClubRepository clubRepository;
-        private final String leagueId, clubId;
+        private final String leagueId;
 
-        public Factory(@NonNull Application application,String leagueId, String clubId) {
+        public Factory(@NonNull Application application,String leagueId) {
             this.application = application;
             clubRepository = ClubRepository.getInstance();
             this.leagueId = leagueId;
-            this.clubId=clubId;
         }
 
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new ClubViewModel(application, clubRepository,leagueId,clubId);
+            return (T) new ClubViewModel(application, clubRepository,leagueId);
         }
     }
 
-    public LiveData<Club> getClub(){
-        return observableClub;
+    public LiveData<Club> getClub(String leagueId ,String clubId){
+        this.clubId=clubId;
+        return repository.getClub(leagueId,clubId);
     }
 
     public void createClub (Club club, OnAsyncEventListener callback){
@@ -72,7 +76,7 @@ public class ClubViewModel extends AndroidViewModel {
         repository.update(club,callback,id);
     }
     public void deleteClub (Club club, OnAsyncEventListener callback){
-        repository.delete(club,callback);
+        repository.delete(club,callback, id);
     }
 
 

@@ -90,7 +90,20 @@ public class MatchRepository {
                 });
     }
 
-    public void delete(final Match match, final OnAsyncEventListener callback){
+    public void delete(final Match match, final OnAsyncEventListener callback, String leagueId){
+        FirebaseDatabase.getInstance()
+                .getReference("Match")
+                .child(leagueId)
+                .child(match.getMatchId())
+                .removeValue((databaseError, databaseReference) -> {
+                    if (databaseError != null) {
+                        callback.onFailure(databaseError.toException());
+                    } else {
+                        callback.onSuccess();
+                    }
+                });
+
+        /*
         FirebaseDatabase.getInstance().getReference("matches");
         FirebaseDatabase.getInstance().getReference("matches").child(match.getMatchId())
                 .removeValue ((databaseError, databaseReference) -> {
@@ -100,6 +113,8 @@ public class MatchRepository {
                         callback.onSuccess();
                     }
                 });
+
+         */
     }
 
 

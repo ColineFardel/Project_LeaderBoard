@@ -12,9 +12,12 @@ import android.widget.Toast;
 import com.example.project_leaderboard.adapter.ClubRecyclerAdapter;
 import com.example.project_leaderboard.adapter.ClubModel;
 import com.example.project_leaderboard.db.entity.Club;
+import com.example.project_leaderboard.db.entity.Match;
+import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
 import com.example.project_leaderboard.ui.club.ModifyClub;
+import com.example.project_leaderboard.ui.match.MatchListViewModel;
 import com.example.project_leaderboard.ui.match.MatchsOfClub;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 
@@ -48,16 +51,20 @@ public class LeagueBoard extends AppCompatActivity{
     private static final String TAG = "LeagueBoard";
 
     private List<Club> clubs;
+    private List<String> clubsId;
+    private List<Match> matches;
     private String leagueId;
 
     private ClubListViewModel viewModel;
     private LeagueViewModel leagueViewModel;
+    private MatchListViewModel matchListViewModel;
 
     private SharedPref sharedPref;
     private ImageButton modifyButton;
     private ImageButton deleteButton;
     private FloatingActionButton addFloatButton;
     private List<ClubModel> clubModelList;
+    private Toast statusToast;
 
     private ClubRecyclerAdapter<Club> clubRecyclerAdapter;
 
@@ -190,10 +197,47 @@ public class LeagueBoard extends AppCompatActivity{
                     statusToast.show();
                 }
                 else{
-                    //viewModel.deleteClubs();
-                    //delete
-                }
+                    clubsId = getClubsId(clubRecyclerAdapter.getSelectedClubs());
+                    viewModel.deleteClubs(clubRecyclerAdapter.getSelectedClubs(), new OnAsyncEventListener() {
+                        @Override
+                        public void onSuccess() {
+                            Log.d(TAG, "deleteClubs: success");
+                            setResponse(true);
 
+                            MatchListViewModel.Factory fac1 = new MatchListViewModel.Factory(getApplication(),leagueId);
+                            matchListViewModel = new ViewModelProvider(LeagueBoard.this,fac1).get(MatchListViewModel.class);
+                            matchListViewModel.getMatches().observe(LeagueBoard.this, matchesEntities -> {
+                                if (matchesEntities != null) {
+                                    matches = matchesEntities;
+                                    matches = filterMatches(matches,clubsId);
+                                    //getClubsofmatches
+                                    //filterbyclubsid
+                                    //updateclubs
+                                    matchListViewModel.deleteMatches(matches, new OnAsyncEventListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Log.d(TAG, "deleteMatches: success");
+                                            //update the clubs
+                                            onBackPressed();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Exception e) {
+                                            Log.d(TAG, "deleteMatches: failure",e);
+                                            setResponse(false);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Log.d(TAG, "deleteClubs: failure",e);
+                            setResponse(false);
+                        }
+                    });
+                }
             }
         });
 
@@ -242,26 +286,83 @@ public class LeagueBoard extends AppCompatActivity{
                 addFloatButton.hide();
             }
         });
-        /*
-        modifyButton = findViewById(R.id.modifyButton);
-        modifyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView title = findViewById(R.id.league_name);
-                String value = (String) title.getText();
-                Bundle b = new Bundle();
-                b.putString("League", value);
-                FragmentManager fm = getSupportFragmentManager();
-                ClubFragment fragment = new ClubFragment();
-                fragment.setArguments(b);
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.leader_clubs, fragment).commit();
-            }
-        });
-
-         */
-
         recyclerView.setAdapter(clubRecyclerAdapter);
+    }
+
+
+    /**
+     * Set the values in the clubs depending on the scores
+     */
+    /*
+    public void setClubsValues(int scoreHome, int scoreVisitor, Club clubHome, Club clubVisitor){
+        if(scoreHome> scoreVisitor){
+            clubHome.setWins(clubHome.getWins()+1);
+            clubHome.setPoints();
+            clubVisitor.setLosses(clubVisitor.getLosses()+1);
+            clubVisitor.setPoints();
+        }
+        else {
+            if(scoreHome< scoreVisitor){
+                clubHome.setLosses(clubHome.getLosses()+1);
+                clubHome.setPoints();
+                clubVisitor.setWins(clubVisitor.getWins()+1);
+                clubVisitor.setPoints();
+            }
+            else {
+                clubHome.setDraws(clubHome.getDraws()+1);
+                clubHome.setPoints();
+                clubVisitor.setDraws(clubVisitor.getDraws()+1);
+                clubVisitor.setPoints();
+            }
+        }
+    }
+
+     */
+
+
+    /**
+     * Method to filter the matches by the clubs id
+     * @param matches
+     * @param clubsId
+     * @return
+     */
+    public List<Match> filterMatches(List<Match> matches, List<String> clubsId){
+        List<Match> filteredMatches = new ArrayList<>();
+        for(Match match : matches){
+            for(String clubId : clubsId){
+                if(match.getIdClubVisitor().equals(clubId)||match.getIdClubHome().equals(clubId)){
+                    filteredMatches.add(match);
+                }
+            }
+        }
+        return filteredMatches;
+    }
+
+    /**
+     * Method to get the id of the clubs selected in order to delete their matches
+     * @param clubs
+     * @return
+     */
+    private List<String> getClubsId(List<Club> clubs){
+        List<String> clubsId = new ArrayList<>();
+        for(Club club : clubs){
+            clubsId.add(club.getClubId());
+        }
+        return clubsId;
+    }
+
+    /**
+     * Method to show the user if the action succeeded or not
+     * @param response
+     */
+    private void setResponse(Boolean response) {
+        if (response) {
+            statusToast = Toast.makeText(this, getString(R.string.club_deleted), Toast.LENGTH_LONG);
+            statusToast.show();
+        } else {
+            statusToast = Toast.makeText(this, getString(R.string.action_error), Toast.LENGTH_LONG);
+            statusToast.show();
+        }
     }
 
     /**
