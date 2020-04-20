@@ -10,16 +10,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import com.example.project_leaderboard.MainActivity;
 import com.example.project_leaderboard.R;
 import java.util.Locale;
@@ -68,7 +62,9 @@ public class SettingsFragment extends Fragment {
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         coloredSpinner.setAdapter(adapter);
 
-        //Loading the spinner default position
+        /**
+         * Loading the spinner default position
+         */
         if(sharedPref.getLanguage().equals("fr")){
             coloredSpinner.setSelection(0);
         }

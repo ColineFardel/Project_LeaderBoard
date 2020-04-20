@@ -5,24 +5,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is used to adapt a RecyclerView
- * @author Samuel Michellod
+ * This class is used to adapt the recycler view of a list of clubs
+ * @author Coline Fardel
  */
-public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAdapter.ViewHolder> {
-    private List<T> mData;
+public class ClubRecyclerAdapter extends RecyclerView.Adapter<ClubRecyclerAdapter.ViewHolder> {
+    private List<Club> mData;
     private RecyclerViewItemClickListener mListener;
     private List<ClubModel> clubModelList;
 
@@ -47,8 +44,6 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
     @NonNull
     @Override
     public ClubRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //create a new view
-
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row, parent, false);
 
@@ -64,31 +59,28 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        T item = mData.get(position);
+        Club item = mData.get(position);
         final ClubModel clubModel = clubModelList.get(position);
 
-        int wins = (((Club) item).getWins());
+        int wins = item.getWins();
         String winsString = String.valueOf(wins);
 
-        int draws = (((Club) item).getDraws());
+        int draws = item.getDraws();
         String drawsString = String.valueOf(draws);
 
-        int points = (((Club) item).getPoints());
+        int points = item.getPoints();
         String pointsString = String.valueOf(points);
 
-        int losses = (((Club) item).getLosses());
+        int losses = item.getLosses();
         String lossesString = String.valueOf(losses);
 
 
-        holder.name.setText(((Club) item).getNameClub());
+        holder.name.setText(item.getNameClub());
         holder.wins.setText(winsString);
         holder.draws.setText(drawsString);
         holder.losses.setText(lossesString);
         holder.points.setText(pointsString);
 
-        //if(model.isSelected())
-        //holder.view.setBackgroundColor(Color.GREEN);
-        //holder.view.setBackgroundColor(model.isSelected() ? R.attr.selectedItem : R.attr.backgroundcolor);
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -96,9 +88,6 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
                 String msg = getNumberSelected() + holder.view.getContext().getString(R.string.item_selected);
                 Toast statusToast = Toast.makeText(holder.view.getContext(), msg, Toast.LENGTH_LONG);
                 statusToast.show();
-                //if(model.isSelected())
-                //holder.view.setBackgroundColor(Color.GREEN);
-                //holder.view.setBackgroundColor(model.isSelected() ? R.attr.selectedItem : R.attr.backgroundcolor);
                 return true;
             }
         });
@@ -148,7 +137,7 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
 
     public void setClubData(final List<Club> data) {
         if (mData == null) {
-            mData = (List<T>) data;
+            mData = data;
             notifyItemRangeInserted(0, mData.size());
         } else {
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
@@ -165,7 +154,7 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
                     if (mData instanceof Club) {
-                        return ((Club) mData.get(oldItemPosition)).getNameClub().equals(((Club) data.get(newItemPosition)).getNameClub());
+                        return mData.get(oldItemPosition).getNameClub().equals( data.get(newItemPosition).getNameClub());
                     }
                     return false;
                 }
@@ -173,17 +162,15 @@ public class ClubRecyclerAdapter<T> extends RecyclerView.Adapter<ClubRecyclerAda
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                     if (mData instanceof Club) {
-                        Club oldClub = (Club) mData.get(newItemPosition);
+                        Club oldClub = mData.get(newItemPosition);
                         Club newClub = data.get(newItemPosition);
                         return newClub.getNameClub().equals(oldClub.getNameClub());
                     }
                     return false;
                 }
             });
-            mData = (List<T>) data;
+            mData = data;
             result.dispatchUpdatesTo(this);
         }
     }
-
-
 }

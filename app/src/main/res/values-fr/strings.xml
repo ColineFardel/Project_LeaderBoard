@@ -19,8 +19,8 @@
     <string name="score">Score</string>
 
     <string name="club_name">Nom du club</string>
-    <string name="wins">Vic</string>
-    <string name="loses">Déf</string>
+    <string name="wins">Vict</string>
+    <string name="loses">Défaites</string>
     <string name="draws">Egal</string>
     <string name="points">Points</string>
     <string name="error_addclub">Entrez un nom de club</string>

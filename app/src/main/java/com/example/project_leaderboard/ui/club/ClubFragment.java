@@ -11,11 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.adapter.ClubModel;
 import com.example.project_leaderboard.db.entity.Club;
@@ -27,7 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +45,6 @@ public class ClubFragment extends Fragment {
     private String leagueIdChosen;
     private Toast statusToast;
     private Club club;
-    private List<ClubModel> clubModelList;
 
     DatabaseReference databaseReference;
     private static final String TAG = "ClubFragment";
@@ -84,33 +80,6 @@ public class ClubFragment extends Fragment {
 
             }
         });
-
-        /**
-         * Looking for arguments from previous activity
-         */
-        /*
-        Bundle b = getArguments();
-        String league;
-        if(b!=null){
-            league =b.getString("League");
-            switch (league){
-                case "Premier league":
-                    leagueSpinner.setSelection(0);
-                    break;
-                case "Bundesliga":
-                    leagueSpinner.setSelection(1);
-                    break;
-                case "Ligue 1":
-                    leagueSpinner.setSelection(2);
-                    break;
-                case "Serie A":
-                    leagueSpinner.setSelection(3);
-                    break;
-            }
-        }
-         */
-
-
 
         /**
          * Creating a list of leagues in order to get the id of the league chosen in the spinner

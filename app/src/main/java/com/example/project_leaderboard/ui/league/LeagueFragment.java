@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_leaderboard.R;
-import com.example.project_leaderboard.adapter.RecyclerAdapter;
+import com.example.project_leaderboard.adapter.LeagueRecyclerAdapter;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.List;
 public class LeagueFragment extends Fragment {
     private List<League> leagues;
     private LeagueListViewModel viewModel;
-    private RecyclerAdapter<League> recyclerAdapter;
+    private LeagueRecyclerAdapter leagueRecyclerAdapter;
     private static final String TAG = "League Fragment";
 
     @Nullable
@@ -44,7 +44,7 @@ public class LeagueFragment extends Fragment {
 
         leagues = new ArrayList<>();
 
-        recyclerAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener(){
+        leagueRecyclerAdapter = new LeagueRecyclerAdapter(new RecyclerViewItemClickListener(){
             @Override
             public void onItemLongClick(View v, int position) {
                 Log.d(TAG, "longClicked position:" + position);
@@ -69,11 +69,11 @@ public class LeagueFragment extends Fragment {
         viewModel.getAllLeagues().observe(getActivity(),league -> {
             if(league!=null){
                 leagues = league;
-                recyclerAdapter.setLeagueData(leagues);
+                leagueRecyclerAdapter.setLeagueData(leagues);
             }
         });
 
-        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setAdapter(leagueRecyclerAdapter);
 
         return view;
     }

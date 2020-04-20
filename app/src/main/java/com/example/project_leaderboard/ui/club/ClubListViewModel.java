@@ -78,17 +78,10 @@ public class ClubListViewModel extends AndroidViewModel {
             repository.delete(club, listener,leagueId);
         }
     }
-/*
-    public void insert (final Club club, OnAsyncEventListener callback, Application application){
-        new CreateClub(application,callback).execute((Runnable) club);
-    }
-    public void update (final Club club, OnAsyncEventListener callback, Application application){
-        new UpdateClub(application,callback).execute((Runnable) club);
-    }
-    public void delete (final Club club, OnAsyncEventListener callback, Application application){
-        new DeleteClub(application,callback).execute((Runnable) club);
-    }
 
- */
-
+    public void updateClubs(List<Club> clubs, OnAsyncEventListener listener){
+        for(Club club : clubs){
+            repository.update(club, listener,leagueId);
+        }
+    }
 }

@@ -1,17 +1,12 @@
 package com.example.project_leaderboard.db.repository;
 
-import android.app.Application;
-import android.content.Context;
-
 import androidx.lifecycle.LiveData;
-
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.firebase.ClubListLiveData;
 import com.example.project_leaderboard.db.firebase.ClubLiveData;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 /**
  * Repository class for clubs
