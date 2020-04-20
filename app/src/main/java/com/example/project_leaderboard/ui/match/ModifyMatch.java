@@ -14,16 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.ui.club.ClubViewModel;
+import com.example.project_leaderboard.ui.league.LeagueListViewModel;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -33,14 +37,21 @@ import java.util.Locale;
 public class ModifyMatch extends AppCompatActivity {
 
     SharedPref sharedPref;
-    MatchViewModel viewModel;
+    MatchViewModel matchViewModel;
     Match match;
     private Toast statusToast;
-    MatchViewModel matchViewModel;
+    MatchViewModel matchListViewModel;
     DatabaseReference databaseReference;
-    private String matchId, clubId;
+    MatchListViewModel viewModel;
+    private String matchId;
+    private String leagueId;
+    private String clubId;
     private EditText scoreHome,scoreVisitor;
-    int score_home, score_visitor;
+    private TextView leagueName, clubHome, clubVisitor;
+    private LeagueListViewModel leagueviewModel;
+    private List<League> listLeagues;
+    int ScoreHome, ScoreVisitor;
+
 
 
     private static final String TAG = "ModifyMatch";
@@ -54,18 +65,21 @@ public class ModifyMatch extends AppCompatActivity {
         /**
          * Getting the id of the match
          */
-     /*   Intent i = getIntent();
-        matchId = i.getStringExtra("MatchId");
-        clubId = i.getStringExtra("clubId");
+        Intent i = getIntent();
+        matchId = i.getStringExtra("matchId");
+        scoreVisitor = findViewById(R.id.score_visitor);
+        scoreHome = findViewById(R.id.score_home);
 
         MatchViewModel.Factory factory = new MatchViewModel.Factory(this.getApplication());
         matchViewModel = new ViewModelProvider(this,factory).get(MatchViewModel.class);
-        matchViewModel.getMatch( matchId,clubId).observe(this, matchEntity -> {
+        matchViewModel.getMatch( matchId).observe(this, matchEntity -> {
             if(matchEntity!=null)
                 match = matchEntity;
-            clubName.setText(club.getNameClub());
+            ScoreVisitor = match.getScoreVisitor();
+            ScoreHome = match.getScoreHome();
+            scoreVisitor.setText(match.getScoreVisitor());
+            scoreHome.setText(match.getScoreHome());
         });
-*/
 
 
         /**
@@ -92,9 +106,51 @@ public class ModifyMatch extends AppCompatActivity {
 
         setContentView(R.layout.activity_modify_match);
 
+        leagueName = findViewById(R.id.league_modify_match2);
+        clubHome = findViewById(R.id.club_home);
+        clubVisitor = findViewById(R.id.club_visitor);
+        scoreHome = findViewById(R.id.score_home);
+        scoreVisitor = findViewById(R.id.score_visitor);
+
+
+        /**
+         * Creating a list of leagues in order to get the id of the league chosen in the spinner
+         */
+        LeagueListViewModel.Factory fac = new LeagueListViewModel.Factory(this.getApplication());
+        leagueviewModel = new ViewModelProvider(this,fac).get(LeagueListViewModel.class);
+        leagueviewModel.getAllLeagues().observe(this,league -> {
+            if(league!=null){
+                listLeagues = league;
+                leagueName.setText(getNameOfChosenLeague(leagueId,listLeagues));
+            }
+        });
+
+
+        /**
+         * Creating a list of leagues in order to get the id of the league chosen in the spinner
+         */
+
+        Intent intent = getIntent();;
+        matchId = intent.getStringExtra("MatchId");
+
+        MatchViewModel.Factory fact = new MatchViewModel.Factory(this.getApplication());
+        matchViewModel = new ViewModelProvider(this,fact).get(MatchViewModel.class);
+        matchViewModel.getMatch(matchId).observe(this,matchEntity -> {
+            if(matchEntity!=null){
+                match = matchEntity;
+              // clubVisitor.setText(club_visitor);
+             //  clubHome.setText(club_home);
+             //  scoreVisitor.setText(match.getScoreVisitor());
+            //   scoreHome.setText(match.getScoreHome());
+                clubHome.setText(matchId);
+            }
+        });
+
+
         /**
          * Customized spinners
          */
+        /*
         Spinner leaguespinner = findViewById(R.id.league_spinner_modify_match);
         String[] list = getResources().getStringArray(R.array.league);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_layout, list);
@@ -109,7 +165,7 @@ public class ModifyMatch extends AppCompatActivity {
 
         Spinner clubvisitor = findViewById(R.id.visitor_spinner_modify_match);
         clubvisitor.setAdapter(adapter2);
-
+*/
         /**
          * Setting the action for cancel button
          */
@@ -128,21 +184,31 @@ public class ModifyMatch extends AppCompatActivity {
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //save the club in the database
-                viewModel.updateMatch(match, new OnAsyncEventListener() {
+                //save the match in the database
+                match.setScoreVisitor(ScoreVisitor);
+                match.setScoreHome(ScoreHome);
+                matchViewModel.updateMatch(match, new OnAsyncEventListener() {
                     @Override
                     public void onSuccess() {
-                        Log.d(TAG, "updateClub: success");
+                        Log.d(TAG, "updateMatch: success");
                         setResponse(true);
                     }
                     @Override
                     public void onFailure(Exception e) {
-                        Log.d(TAG, "updateClub: failure",e);
+                        Log.d(TAG, "updateMatch: failure",e);
                         setResponse(false);
                     }
                 });
             }
         });
+    }
+
+    private String getNameOfChosenLeague(String leagueId, List<League> list){
+        for(League league : list){
+            if(league.getLeagueId().equals(leagueId))
+                return league.getLeagueName();
+        }
+        return "";
     }
 
     /**

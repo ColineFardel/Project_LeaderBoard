@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPref = new SharedPref(this);
 
-      //  databaseReference = FirebaseDatabase.getInstance().getReference().child("Club");
-    //    recyclerView = findViewById(R.id.searchrecyclerview);
-     //   searchView = findViewById(R.id.app_bar_search);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Club");
+        recyclerView = findViewById(R.id.searchrecyclerview);
+        searchView = findViewById(R.id.app_bar_search);
 
 
 
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    /*protected void onStart(){
+  /*  protected void onStart(){
         super.onStart();
         if(databaseReference!=null){
             databaseReference.addValueEventListener(new ValueEventListener() {
@@ -186,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+   */
     private void search(String s){
         ArrayList<Club> myList = new ArrayList<>();
 
@@ -198,6 +200,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(searchAdapter);
     }
 
-*/
+
 
 }

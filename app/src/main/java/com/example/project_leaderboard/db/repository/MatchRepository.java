@@ -5,7 +5,9 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
+import com.example.project_leaderboard.db.firebase.ClubLiveData;
 import com.example.project_leaderboard.db.firebase.MatchListLiveData;
 import com.example.project_leaderboard.db.firebase.MatchLiveData;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
@@ -42,7 +44,7 @@ public class MatchRepository {
      * @param id
      * @return one match
      */
-    public LiveData<Match> getMatch(final String id){
+    public LiveData<Match> getMatch(final String id{
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Match")
                 .child(id);
@@ -59,6 +61,8 @@ public class MatchRepository {
                 .child(leagueId);
         return new MatchListLiveData(reference);
     }
+
+
 
     public void insert(final Match match, final OnAsyncEventListener callback){
         String id = FirebaseDatabase.getInstance().getReference("Match")

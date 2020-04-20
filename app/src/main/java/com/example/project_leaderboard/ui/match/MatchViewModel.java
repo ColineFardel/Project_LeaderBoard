@@ -4,10 +4,12 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.repository.MatchRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
@@ -20,6 +22,7 @@ public class MatchViewModel extends AndroidViewModel {
 
  private MatchRepository repository;
  private final MediatorLiveData<Match> observableMatch;
+ private String matchId;
 
  public MatchViewModel (@NonNull Application application, MatchRepository matchRepository){
      super(application);
@@ -54,6 +57,11 @@ public void createMatch (Match match, OnAsyncEventListener callback){
 public void updateMatch(Match match, OnAsyncEventListener callback){
      repository.update(match, callback);
 }
+
+    public LiveData<Match> getMatch(String matchId){
+        this.matchId=matchId;
+        return repository.getMatch(matchId);
+    }
 /*
 public void deleteMatch(Match match, OnAsyncEventListener callback){
      repository.delete(match,callback);
