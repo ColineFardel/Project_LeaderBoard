@@ -40,12 +40,12 @@ import java.util.List;
  * @author Samuel Michellod
  */
 public class MatchFragment extends Fragment {
+    private static final String TAG = "AddMatch";
 
     private List<League> listLeagues;
     private List<Club> listClubs;
 
     private LeagueListViewModel leagueviewModel;
-    private ClubListViewModel clubListViewModel;
     private MatchViewModel matchViewModel;
 
     private Spinner clubsHomeSpinner, clubsVisitorSpinner, leaguesSpinner;
@@ -61,11 +61,9 @@ public class MatchFragment extends Fragment {
     private Club clubHome;
     private Club clubVisitor;
 
-    private static final String TAG = "AddMatch";
-
     private Toast statusToast;
 
-    DatabaseReference databaseReference;
+    private DatabaseReference databaseReference;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -128,6 +126,7 @@ public class MatchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int index, long id) {
                 leagueIdChosen=listLeagues.get(index).getLeagueId();
+                String prout = leagueIdChosen;
 
                 chargeClubSpinner(leagueIdChosen,clubsHomeSpinner);
                 chargeClubSpinner(leagueIdChosen,clubsVisitorSpinner);
@@ -135,6 +134,7 @@ public class MatchFragment extends Fragment {
                 /**
                  * Creating a list of clubs in order to get the id of the club chosen in the spinner
                  */
+                ClubListViewModel clubListViewModel;
                 ClubListViewModel.Factory factory = new ClubListViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
                 clubListViewModel = new ViewModelProvider(getActivity(),factory).get(ClubListViewModel.class);
                 clubListViewModel.getClubsByLeague(leagueIdChosen).observe(getActivity(), clubs -> {
@@ -190,7 +190,6 @@ public class MatchFragment extends Fragment {
             }
         });
 
-
         /**
          * Setting the action for cancel button
          */
@@ -239,7 +238,6 @@ public class MatchFragment extends Fragment {
                         public void onSuccess() {
                             Log.d(TAG, "createMatch: success");
                             setClubsValues();
-
 
                             ClubViewModel clubViewModel;
                             ClubViewModel.Factory fac = new ClubViewModel.Factory(getActivity().getApplication(),leagueIdChosen);

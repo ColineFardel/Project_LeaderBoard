@@ -70,7 +70,7 @@ public class ClubListViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Club>> getClubsByLeague(String leagueId){
-        return observableClub;
+        return repository.getClubsByLeague(leagueId);
     }
 
     public void deleteClubs(List<Club> clubs, OnAsyncEventListener listener){

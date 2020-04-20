@@ -77,7 +77,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <Spinner
+    <TextView
+        android:id="@+id/leagueName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="?attr/tintcolor"
+        android:foregroundTint="?attr/tintcolor"
+        android:text="LeagueName"
+        android:textSize="30sp"
+        />
+    <!--Spinner
         android:id="@+id/league_spinner_modify"
         android:layout_width="187dp"
         android:layout_height="50dp"
@@ -87,5 +101,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:backgroundTint="?attr/tintcolor"
-        android:foregroundTint="?attr/tintcolor"/>
+        android:foregroundTint="?attr/tintcolor"/>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

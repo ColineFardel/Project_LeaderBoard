@@ -18,15 +18,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.adapter.ClubModel;
+import com.example.project_leaderboard.adapter.MatchModel;
 import com.example.project_leaderboard.adapter.MatchRecyclerAdapter;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
+import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
+import com.example.project_leaderboard.ui.club.ClubFragment;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
 import com.example.project_leaderboard.ui.club.ClubViewModel;
+import com.example.project_leaderboard.ui.club.ModifyClub;
+import com.example.project_leaderboard.ui.league.LeagueBoard;
 import com.example.project_leaderboard.ui.settings.SharedPref;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
@@ -44,25 +52,23 @@ public class MatchsOfClub extends AppCompatActivity {
     private ClubViewModel clubViewModel;
     private ClubListViewModel clubListViewModel;
     private MatchListViewModel matchListViewModel;
+    private MatchRecyclerAdapter matchRecyclerAdapter;
 
     private TextView clubName;
 
     private List<Match> matches;
     private List<Club> allClubs;
+    private List<MatchModel> matchModelList;
+
     private String leagueId;
     private String clubId;
 
-    private MatchRecyclerAdapter matchRecyclerAdapter;
+    private ImageButton modifyButton;
+    private ImageButton deleteButton;
+    private FloatingActionButton addFloatButton;
 
     private SharedPref sharedPref;
-    private ImageButton imageButton;
-    private List<String> userSelection = new ArrayList<>();
-    private String club_name[];
-    ListView listView;
-    DatabaseReference databaseReference;
-    ArrayList <String> arrayList = new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
-
+    private Toast statusToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,30 +126,6 @@ public class MatchsOfClub extends AppCompatActivity {
         matches = new ArrayList<>();
 
         /**
-         * Open new activity to show the matches of the club selected
-         */
-
-        matchRecyclerAdapter = new MatchRecyclerAdapter(new RecyclerViewItemClickListener() {
-            @Override
-            public void onItemLongClick(View v, int position) {
-                Log.d(TAG, "longClicked position:" + position);
-                Log.d(TAG, "longClicked on:" + matches.get(position).toString());
-            }
-
-            @Override
-            public void onItemClick(View view, int position) {
-                /*
-                String clubId = clubs.get(position).getClubId();
-                Bundle b = new Bundle();
-                b.putString("Club",clubId);
-                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
-                i.putExtras(b);
-                startActivity(i);
-                 */
-            }
-        });
-
-        /**
          * Populate the list of clubs to have the names to display
          */
         ClubListViewModel.Factory fac = new ClubListViewModel.Factory(getApplication(), leagueId);
@@ -170,38 +152,115 @@ public class MatchsOfClub extends AppCompatActivity {
                 clubsVisitor = filterClubsByVisitor(allClubs,matches);
 
                 matchRecyclerAdapter.setMatchData(matches);
+                matchRecyclerAdapter.setMatchModelList(getListData());
                 matchRecyclerAdapter.setListClubs(clubsHome,clubsVisitor);
             }
             else {
                 matchRecyclerAdapter.setMatchData(matches);
+                matchRecyclerAdapter.setMatchModelList(getListData());
             }
         });
 
         /**
-         * Setting the button to open the add match fragment -- Im doing that later
+         * Setting the button to delete a club
          */
-        imageButton = findViewById(R.id.modifyButton);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        deleteButton = findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(matchRecyclerAdapter.getNumberSelected()<1){
+                    String msg = getString(R.string.notEnoughItems);
+                    Toast statusToast = Toast.makeText(MatchsOfClub.this, msg, Toast.LENGTH_LONG);
+                    statusToast.show();
+                }
+                else{
+                    matchListViewModel.deleteMatches(matches, new OnAsyncEventListener() {
+                        @Override
+                        public void onSuccess() {
+                            Log.d(TAG, "deleteMatches: success");
+                            //update the clubs
+                            onBackPressed();
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Log.d(TAG, "deleteClubs: failure",e);
+                            setResponse(false);
+                        }
+                    });
+                }
+            }
+        });
+
+        /**
+         * Setting the button to modify a club
+         */
+        modifyButton = findViewById(R.id.modifyButton);
+        modifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(matchRecyclerAdapter.getNumberSelected()>1){
+                    String msg = getString(R.string.tooMuchItems);
+                    Toast statusToast = Toast.makeText(MatchsOfClub.this, msg, Toast.LENGTH_LONG);
+                    statusToast.show();
+                }
+                else{
+                    if(matchRecyclerAdapter.getNumberSelected()<1){
+                        String msg = getString(R.string.notEnoughItems);
+                        Toast statusToast = Toast.makeText(MatchsOfClub.this, msg, Toast.LENGTH_LONG);
+                        statusToast.show();
+                    }
+                    else {
+                        Match matchselected = matchRecyclerAdapter.getSelectedMatch();
+                        Bundle b = new Bundle();
+                        b.putString("matchId",matchselected.getMatchId());
+                        b.putString("leagueId",leagueId);
+                        Intent i;
+                        i = new Intent(getBaseContext(), ModifyMatch.class);
+                        i.putExtras(b);
+                        startActivity(i);
+                    }
+                }
+            }
+        });
+
+        /**
+         * Setting the button to open the add match fragment
+         */
+        addFloatButton = findViewById(R.id.floatAddButton);
+        addFloatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
                 MatchFragment fragment = new MatchFragment();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.matchs_of_club, fragment).commit();
-                /*
-                TextView title = findViewById(R.id.league_name);
-                String value = (String) title.getText();
-                Bundle b = new Bundle();
-                b.putString("League", value);
-                FragmentManager fm = getSupportFragmentManager();
-                ClubFragment fragment = new ClubFragment();
-                fragment.setArguments(b);
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.leader_clubs, fragment).commit();
-                 */
+                addFloatButton.hide();
             }
         });
 
+        /**
+         * Open new activity to show the matches of the club selected
+         */
+        matchRecyclerAdapter = new MatchRecyclerAdapter(new RecyclerViewItemClickListener() {
+            @Override
+            public void onItemLongClick(View v, int position) {
+                Log.d(TAG, "longClicked position:" + position);
+                Log.d(TAG, "longClicked on:" + matches.get(position).toString());
+            }
+
+            @Override
+            public void onItemClick(View view, int position) {
+                /*
+                String clubId = clubs.get(position).getClubId();
+                Bundle b = new Bundle();
+                b.putString("Club",clubId);
+                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
+                i.putExtras(b);
+                startActivity(i);
+                 */
+            }
+        });
         recyclerView.setAdapter(matchRecyclerAdapter);
     }
 
@@ -257,5 +316,62 @@ public class MatchsOfClub extends AppCompatActivity {
             }
         }
         return filteredMatches;
+    }
+
+    /**
+     * Method to filter the matches by the clubs id
+     * @param matches
+     * @param clubsId
+     * @return
+     */
+    public List<Match> filterMatches(List<Match> matches, List<String> clubsId){
+        List<Match> filteredMatches = new ArrayList<>();
+        for(Match match : matches){
+            for(String clubId : clubsId){
+                if(match.getIdClubVisitor().equals(clubId)||match.getIdClubHome().equals(clubId)){
+                    filteredMatches.add(match);
+                }
+            }
+        }
+        return filteredMatches;
+    }
+
+    /**
+     * Method to get the id of the clubs selected in order to delete their matches
+     * @param clubs
+     * @return
+     */
+    private List<String> getClubsId(List<Club> clubs){
+        List<String> clubsId = new ArrayList<>();
+        for(Club club : clubs){
+            clubsId.add(club.getClubId());
+        }
+        return clubsId;
+    }
+
+    /**
+     * Method to show the user if the action succeeded or not
+     * @param response
+     */
+    private void setResponse(Boolean response) {
+        if (response) {
+            statusToast = Toast.makeText(this, getString(R.string.club_deleted), Toast.LENGTH_LONG);
+            statusToast.show();
+        } else {
+            statusToast = Toast.makeText(this, getString(R.string.action_error), Toast.LENGTH_LONG);
+            statusToast.show();
+        }
+    }
+
+    /**
+     * Method to populate the model list
+     * @return the model list
+     */
+    public List<MatchModel> getListData(){
+        matchModelList = new ArrayList<>();
+        for(Match match : matches){
+            matchModelList.add(new MatchModel(match));
+        }
+        return matchModelList;
     }
 }
