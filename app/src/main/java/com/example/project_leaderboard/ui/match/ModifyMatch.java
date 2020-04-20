@@ -18,15 +18,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_leaderboard.R;
+import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
+import com.example.project_leaderboard.ui.club.ClubListViewModel;
 import com.example.project_leaderboard.ui.club.ClubViewModel;
 import com.example.project_leaderboard.ui.league.LeagueListViewModel;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,11 +41,13 @@ public class ModifyMatch extends AppCompatActivity {
 
     SharedPref sharedPref;
     MatchViewModel matchViewModel;
+    ClubViewModel clubViewModel;
     Match match;
+    Club club;
+    private Club clubs;
+    private Club clubsHome;
+    private Club clubsVisitor;
     private Toast statusToast;
-    MatchViewModel matchListViewModel;
-    DatabaseReference databaseReference;
-    MatchListViewModel viewModel;
     private String matchId;
     private String leagueId;
     private String clubId;
@@ -50,7 +55,7 @@ public class ModifyMatch extends AppCompatActivity {
     private TextView leagueName, clubHome, clubVisitor;
     private LeagueListViewModel leagueviewModel;
     private List<League> listLeagues;
-    int ScoreHome, ScoreVisitor;
+    int ScoreHome , ScoreVisitor;
 
 
 
@@ -78,12 +83,27 @@ public class ModifyMatch extends AppCompatActivity {
                 match = matchEntity;
                 ScoreVisitor = match.getScoreVisitor();
                 ScoreHome = match.getScoreHome();
+                clubsHome = filterClubsByHome(club);
+                clubsVisitor = filterClubsByVisitor(club);
 
                 //Ici faut cast le int en string sinon tu peux pas set text
                 scoreVisitor.setText(Integer.toString(ScoreVisitor));
                 scoreHome.setText(Integer.toString(ScoreHome));
+
             }
         });
+
+        /**
+         * Populate the list of clubs to have the names to display
+         */
+        ClubListViewModel.Factory fac = new ClubListViewModel.Factory(getApplication(), leagueId);
+        clubViewModel = new ViewModelProvider(this, fac).get(ClubViewModel.class);
+        clubViewModel.getClub(leagueId,clubId).observe(this, clubEntities -> {
+            if (clubEntities != null) {
+                clubs = clubEntities;
+            }
+        });
+
 
 
         /**
@@ -120,8 +140,8 @@ public class ModifyMatch extends AppCompatActivity {
         /**
          * Creating a list of leagues in order to get the id of the league chosen in the spinner
          */
-        LeagueListViewModel.Factory fac = new LeagueListViewModel.Factory(this.getApplication());
-        leagueviewModel = new ViewModelProvider(this,fac).get(LeagueListViewModel.class);
+        LeagueListViewModel.Factory factory1 = new LeagueListViewModel.Factory(this.getApplication());
+        leagueviewModel = new ViewModelProvider(this,factory1).get(LeagueListViewModel.class);
         leagueviewModel.getAllLeagues().observe(this,league -> {
             if(league!=null){
                 listLeagues = league;
@@ -130,46 +150,9 @@ public class ModifyMatch extends AppCompatActivity {
         });
 
 
-        /**
-         * Creating a list of leagues in order to get the id of the league chosen in the spinner
-         */
-
-        //Intent intent = getIntent();;
-        //matchId = intent.getStringExtra("MatchId");
-
-        MatchViewModel.Factory fact = new MatchViewModel.Factory(this.getApplication(),leagueId);
-        matchViewModel = new ViewModelProvider(this,fact).get(MatchViewModel.class);
-        matchViewModel.getMatch(matchId).observe(this,matchEntity -> {
-            if(matchEntity!=null){
-                match = matchEntity;
-              // clubVisitor.setText(club_visitor);
-             //  clubHome.setText(club_home);
-             //  scoreVisitor.setText(match.getScoreVisitor());
-            //   scoreHome.setText(match.getScoreHome());
-                clubHome.setText(matchId);
-            }
-        });
 
 
-        /**
-         * Customized spinners
-         */
-        /*
-        Spinner leaguespinner = findViewById(R.id.league_spinner_modify_match);
-        String[] list = getResources().getStringArray(R.array.league);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_layout, list);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
-        leaguespinner.setAdapter(adapter);
 
-        Spinner clubhome = findViewById(R.id.home_spinner_modify_match);
-        String[] list2 = getResources().getStringArray(R.array.clubs_premierLeague); //changer par rapport au choix du premier spinner !!!
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.spinner_dropdown_layout, list2);
-        adapter2.setDropDownViewResource(R.layout.spinner_dropdown_layout);
-        clubhome.setAdapter(adapter2);
-
-        Spinner clubvisitor = findViewById(R.id.visitor_spinner_modify_match);
-        clubvisitor.setAdapter(adapter2);
-*/
         /**
          * Setting the action for cancel button
          */
@@ -181,6 +164,8 @@ public class ModifyMatch extends AppCompatActivity {
             }
         });
 
+
+
         /**
          * Setting the action for save button
          */
@@ -189,6 +174,8 @@ public class ModifyMatch extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save the match in the database
+                ScoreVisitor= match.getScoreVisitor();
+                ScoreHome= match.getScoreHome();
                 match.setScoreVisitor(ScoreVisitor);
                 match.setScoreHome(ScoreHome);
                 matchViewModel.updateMatch(match, new OnAsyncEventListener() {
@@ -214,6 +201,32 @@ public class ModifyMatch extends AppCompatActivity {
         }
         return "";
     }
+
+    /**
+     * Create a list of home clubs
+     * @param club
+     * @return
+     */
+    public Club filterClubsByHome(Club club){
+        if(club.getClubId().equals(match.getIdClubHome())){
+            match.setIdClubHome(club.getNameClub());
+        }
+        return club;
+    }
+
+    /**
+     * Create a list of visitor clubs
+     * @param club
+     * @return
+     */
+    public Club filterClubsByVisitor(Club club){
+        if(club.getClubId().equals(match.getIdClubVisitor())){
+            match.setIdClubVisitor(club.getNameClub());
+        }
+
+        return club;
+    }
+
 
     /**
      * Set the response depending if the update succeeded
