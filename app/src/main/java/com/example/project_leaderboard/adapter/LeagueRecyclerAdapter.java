@@ -3,25 +3,21 @@ package com.example.project_leaderboard.adapter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This class is used to adapt a RecyclerView
  * @author Samuel Michellod
  */
-public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    private List<T> mData;
+public class LeagueRecyclerAdapter extends RecyclerView.Adapter<LeagueRecyclerAdapter.ViewHolder> {
+    private List<League> mData;
     private RecyclerViewItemClickListener mListener;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -32,15 +28,13 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             mTextView=textView;
         }
     }
-    public RecyclerAdapter(RecyclerViewItemClickListener listener){
+    public LeagueRecyclerAdapter(RecyclerViewItemClickListener listener){
         mListener= listener;
     }
 
     @NonNull
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //create a new view
-
+    public LeagueRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view, parent, false);
         final ViewHolder viewHolder = new ViewHolder(v);
@@ -54,11 +48,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        T item = mData.get(position);
-        if (item.getClass().equals(League.class))
-            holder.mTextView.setText(((League) item).getLeagueName());
-        if (item.getClass().equals(Club.class))
-            holder.mTextView.setText(((Club) item).getNameClub());
+        League item = mData.get(position);
+        holder.mTextView.setText(item.getLeagueName());
     }
 
     @Override
@@ -72,7 +63,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
     public void setLeagueData(final List<League> data) {
         if (mData == null) {
-            mData = (List<T>) data;
+            mData = data;
             notifyItemRangeInserted(0, mData.size());
         } else {
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
@@ -89,7 +80,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
                     if (mData instanceof League) {
-                        return ((League) mData.get(oldItemPosition)).getLeagueName().equals(((League) data.get(newItemPosition)).getLeagueName());
+                        return  mData.get(oldItemPosition).getLeagueName().equals(data.get(newItemPosition).getLeagueName());
                     }
                     return false;
                 }
@@ -97,56 +88,15 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                     if (mData instanceof League) {
-                        League oldLeague = (League) mData.get(newItemPosition);
+                        League oldLeague = mData.get(newItemPosition);
                         League newLeague = data.get(newItemPosition);
                         return newLeague.getLeagueName().equals(oldLeague.getLeagueName());
                     }
                     return false;
                 }
             });
-            mData = (List<T>) data;
+            mData = data;
             result.dispatchUpdatesTo(this);
         }
     }
-
-    public void setClubData(final List<Club> data) {
-        if (mData == null) {
-            mData = (List<T>) data;
-            notifyItemRangeInserted(0, mData.size());
-        } else {
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-                @Override
-                public int getOldListSize() {
-                    return RecyclerAdapter.this.mData.size();
-                }
-
-                @Override
-                public int getNewListSize() {
-                    return data.size();
-                }
-
-                @Override
-                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    if (mData instanceof Club) {
-                        return ((Club) mData.get(oldItemPosition)).getNameClub().equals(((Club) data.get(newItemPosition)).getNameClub());
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    if (mData instanceof Club) {
-                        Club oldClub = (Club) mData.get(newItemPosition);
-                        Club newClub = data.get(newItemPosition);
-                        return newClub.getNameClub().equals(oldClub.getNameClub());
-                    }
-                    return false;
-                }
-            });
-            mData = (List<T>) data;
-            result.dispatchUpdatesTo(this);
-        }
-    }
-
-
 }

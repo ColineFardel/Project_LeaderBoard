@@ -1,6 +1,5 @@
 package com.example.project_leaderboard.adapter;
 
-import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
 
 /**

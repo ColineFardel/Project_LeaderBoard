@@ -7,36 +7,26 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.project_leaderboard.R;
-import com.example.project_leaderboard.adapter.ClubModel;
 import com.example.project_leaderboard.adapter.MatchModel;
 import com.example.project_leaderboard.adapter.MatchRecyclerAdapter;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
-import com.example.project_leaderboard.ui.club.ClubFragment;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
 import com.example.project_leaderboard.ui.club.ClubViewModel;
-import com.example.project_leaderboard.ui.club.ModifyClub;
-import com.example.project_leaderboard.ui.league.LeagueBoard;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DatabaseReference;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -58,6 +48,8 @@ public class MatchsOfClub extends AppCompatActivity {
 
     private List<Match> matches;
     private List<Club> allClubs;
+    private List<Club> clubsHome;
+    private List<Club> clubsVisitor;
     private List<MatchModel> matchModelList;
 
     private String leagueId;
@@ -145,8 +137,6 @@ public class MatchsOfClub extends AppCompatActivity {
             if(matchesEntities!=null){
                 matches = matchesEntities;
                 matches = filterMatches(matches,clubId);
-                List<Club> clubsHome;
-                List<Club> clubsVisitor;
 
                 clubsHome = filterClubsByHome(allClubs,matches);
                 clubsVisitor = filterClubsByVisitor(allClubs,matches);
@@ -178,7 +168,6 @@ public class MatchsOfClub extends AppCompatActivity {
                         @Override
                         public void onSuccess() {
                             Log.d(TAG, "deleteMatches: success");
-                            //update the clubs
                             onBackPressed();
                         }
 
@@ -242,6 +231,7 @@ public class MatchsOfClub extends AppCompatActivity {
         /**
          * Open new activity to show the matches of the club selected
          */
+
         matchRecyclerAdapter = new MatchRecyclerAdapter(new RecyclerViewItemClickListener() {
             @Override
             public void onItemLongClick(View v, int position) {
@@ -251,14 +241,7 @@ public class MatchsOfClub extends AppCompatActivity {
 
             @Override
             public void onItemClick(View view, int position) {
-                /*
-                String clubId = clubs.get(position).getClubId();
-                Bundle b = new Bundle();
-                b.putString("Club",clubId);
-                Intent i = new Intent(getBaseContext(), MatchsOfClub.class);
-                i.putExtras(b);
-                startActivity(i);
-                 */
+
             }
         });
         recyclerView.setAdapter(matchRecyclerAdapter);
@@ -316,37 +299,6 @@ public class MatchsOfClub extends AppCompatActivity {
             }
         }
         return filteredMatches;
-    }
-
-    /**
-     * Method to filter the matches by the clubs id
-     * @param matches
-     * @param clubsId
-     * @return
-     */
-    public List<Match> filterMatches(List<Match> matches, List<String> clubsId){
-        List<Match> filteredMatches = new ArrayList<>();
-        for(Match match : matches){
-            for(String clubId : clubsId){
-                if(match.getIdClubVisitor().equals(clubId)||match.getIdClubHome().equals(clubId)){
-                    filteredMatches.add(match);
-                }
-            }
-        }
-        return filteredMatches;
-    }
-
-    /**
-     * Method to get the id of the clubs selected in order to delete their matches
-     * @param clubs
-     * @return
-     */
-    private List<String> getClubsId(List<Club> clubs){
-        List<String> clubsId = new ArrayList<>();
-        for(Club club : clubs){
-            clubsId.add(club.getClubId());
-        }
-        return clubsId;
     }
 
     /**

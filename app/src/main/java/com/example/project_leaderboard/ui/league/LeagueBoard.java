@@ -67,7 +67,7 @@ public class LeagueBoard extends AppCompatActivity{
     private List<ClubModel> clubModelList;
     private Toast statusToast;
 
-    private ClubRecyclerAdapter<Club> clubRecyclerAdapter;
+    private ClubRecyclerAdapter clubRecyclerAdapter;
 
 
     /*
@@ -136,7 +136,7 @@ public class LeagueBoard extends AppCompatActivity{
         /**
          * Open new activity to show the matches of the club selected
          */
-        clubRecyclerAdapter = new ClubRecyclerAdapter<>(new RecyclerViewItemClickListener() {
+        clubRecyclerAdapter = new ClubRecyclerAdapter(new RecyclerViewItemClickListener() {
             @Override
             public void onItemLongClick(View v, int position) {
                 Log.d(TAG, "longClicked position:" + position);

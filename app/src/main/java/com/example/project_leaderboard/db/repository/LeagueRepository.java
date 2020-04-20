@@ -1,16 +1,11 @@
 package com.example.project_leaderboard.db.repository;
 
-import android.app.Application;
-import android.content.Context;
-
 import androidx.lifecycle.LiveData;
-
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.firebase.LeagueListLiveData;
 import com.example.project_leaderboard.db.firebase.LeagueLiveData;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 /**
  * Repository class for leagues

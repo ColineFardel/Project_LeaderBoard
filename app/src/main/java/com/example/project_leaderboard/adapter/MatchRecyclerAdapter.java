@@ -5,21 +5,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
-import com.example.project_leaderboard.ui.club.ClubViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to adapt the recycler view of a list of matches
+ * @author Coline Fardel
+ */
 public class MatchRecyclerAdapter extends RecyclerView.Adapter<MatchRecyclerAdapter.ViewHolder> {
 
     private List<Match> mData;
@@ -48,8 +47,6 @@ public class MatchRecyclerAdapter extends RecyclerView.Adapter<MatchRecyclerAdap
     @NonNull
     @Override
     public MatchRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //create a new view
-
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_match, parent, false);
 
@@ -157,27 +154,18 @@ public class MatchRecyclerAdapter extends RecyclerView.Adapter<MatchRecyclerAdap
 
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    if (mData instanceof Club) {
-                        return (mData.get(oldItemPosition)).getMatchId().equals(data.get(newItemPosition).getMatchId());
-                    }
-                    return false;
+                    return (mData.get(oldItemPosition)).getMatchId().equals(data.get(newItemPosition).getMatchId());
                 }
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    if (mData instanceof Club) {
-                        Match oldMatch = mData.get(newItemPosition);
-                        Match newMatch = data.get(newItemPosition);
-                        return newMatch.getMatchId().equals(oldMatch.getMatchId());
-                    }
-                    return false;
+                    Match oldMatch = mData.get(newItemPosition);
+                    Match newMatch = data.get(newItemPosition);
+                    return newMatch.getMatchId().equals(oldMatch.getMatchId());
                 }
             });
             mData = data;
             result.dispatchUpdatesTo(this);
         }
     }
-
-
-
 }
