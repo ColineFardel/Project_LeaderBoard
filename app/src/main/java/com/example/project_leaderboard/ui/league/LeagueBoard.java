@@ -262,6 +262,7 @@ public class LeagueBoard extends AppCompatActivity{
                         Club clubselected = clubRecyclerAdapter.getSelectedClub();
                         Bundle b = new Bundle();
                         b.putString("clubId",clubselected.getClubId());
+                        b.putString("leagueId",leagueId);
                         Intent i;
                         i = new Intent(getBaseContext(), ModifyClub.class);
                         i.putExtras(b);
