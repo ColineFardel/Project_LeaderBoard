@@ -70,7 +70,7 @@ public class MatchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View root = inflater.inflate(R.layout.fragment_match,container,false);
 
-        MatchViewModel.Factory factory = new MatchViewModel.Factory(getActivity().getApplication());
+        MatchViewModel.Factory factory = new MatchViewModel.Factory(getActivity().getApplication(),leagueIdChosen);
         matchViewModel = new ViewModelProvider(getActivity(),factory).get(MatchViewModel.class);
 
         context = getContext();

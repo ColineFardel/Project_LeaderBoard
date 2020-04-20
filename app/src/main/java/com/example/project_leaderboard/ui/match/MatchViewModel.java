@@ -23,11 +23,13 @@ public class MatchViewModel extends AndroidViewModel {
  private MatchRepository repository;
  private final MediatorLiveData<Match> observableMatch;
  private String matchId;
+ private String leagueId;
 
- public MatchViewModel (@NonNull Application application, MatchRepository matchRepository){
+ public MatchViewModel (@NonNull Application application, MatchRepository matchRepository, String leagueId){
      super(application);
 
      repository=matchRepository;
+     this.leagueId = leagueId;
 
      observableMatch = new MediatorLiveData<>();
      observableMatch.setValue(null);
@@ -36,18 +38,19 @@ public class MatchViewModel extends AndroidViewModel {
  public static class Factory extends ViewModelProvider.NewInstanceFactory{
      @NonNull
      private final Application application;
-
+     private final String leagueId;
      private final MatchRepository repository;
 
-     public Factory (@NonNull Application application){
+     public Factory (@NonNull Application application, String leagueId){
          this.application=application;
+         this.leagueId  =leagueId;
          repository= MatchRepository.getInstance();
      }
 
      @Override
      public <T extends ViewModel> T create(Class<T> modelClass) {
          //noinspection unchecked
-         return (T) new MatchViewModel(application, repository);
+         return (T) new MatchViewModel(application, repository,leagueId);
      }
  }
 
@@ -60,7 +63,7 @@ public void updateMatch(Match match, OnAsyncEventListener callback){
 
     public LiveData<Match> getMatch(String matchId){
         this.matchId=matchId;
-        return repository.getMatch(matchId);
+        return repository.getMatch(matchId,leagueId);
     }
 /*
 public void deleteMatch(Match match, OnAsyncEventListener callback){

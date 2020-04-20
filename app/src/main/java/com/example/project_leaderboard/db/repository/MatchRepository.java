@@ -42,9 +42,10 @@ public class MatchRepository {
      * @param id
      * @return one match
      */
-    public LiveData<Match> getMatch(final String id){
+    public LiveData<Match> getMatch(final String id, String leagueId){
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Match")
+                .child(leagueId)
                 .child(id);
         return new MatchLiveData(reference);
     }

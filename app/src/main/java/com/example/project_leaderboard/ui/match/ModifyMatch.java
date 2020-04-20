@@ -67,18 +67,22 @@ public class ModifyMatch extends AppCompatActivity {
          */
         Intent i = getIntent();
         matchId = i.getStringExtra("matchId");
+        leagueId = i.getStringExtra("leagueId");
         scoreVisitor = findViewById(R.id.score_visitor);
         scoreHome = findViewById(R.id.score_home);
 
-        MatchViewModel.Factory factory = new MatchViewModel.Factory(this.getApplication());
+        MatchViewModel.Factory factory = new MatchViewModel.Factory(this.getApplication(),leagueId);
         matchViewModel = new ViewModelProvider(this,factory).get(MatchViewModel.class);
         matchViewModel.getMatch( matchId).observe(this, matchEntity -> {
-            if(matchEntity!=null)
+            if(matchEntity!=null) {
                 match = matchEntity;
-            ScoreVisitor = match.getScoreVisitor();
-            ScoreHome = match.getScoreHome();
-            scoreVisitor.setText(match.getScoreVisitor());
-            scoreHome.setText(match.getScoreHome());
+                ScoreVisitor = match.getScoreVisitor();
+                ScoreHome = match.getScoreHome();
+
+                //Ici faut cast le int en string sinon tu peux pas set text
+                scoreVisitor.setText(Integer.toString(ScoreVisitor));
+                scoreHome.setText(Integer.toString(ScoreHome));
+            }
         });
 
 
@@ -130,10 +134,10 @@ public class ModifyMatch extends AppCompatActivity {
          * Creating a list of leagues in order to get the id of the league chosen in the spinner
          */
 
-        Intent intent = getIntent();;
-        matchId = intent.getStringExtra("MatchId");
+        //Intent intent = getIntent();;
+        //matchId = intent.getStringExtra("MatchId");
 
-        MatchViewModel.Factory fact = new MatchViewModel.Factory(this.getApplication());
+        MatchViewModel.Factory fact = new MatchViewModel.Factory(this.getApplication(),leagueId);
         matchViewModel = new ViewModelProvider(this,fact).get(MatchViewModel.class);
         matchViewModel.getMatch(matchId).observe(this,matchEntity -> {
             if(matchEntity!=null){
