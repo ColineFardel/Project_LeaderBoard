@@ -2,6 +2,9 @@ package com.example.project_leaderboard.ui.match;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
+import com.example.project_leaderboard.ui.club.ClubViewModel;
 import com.example.project_leaderboard.ui.settings.SharedPref;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -32,8 +36,9 @@ public class ModifyMatch extends AppCompatActivity {
     MatchViewModel viewModel;
     Match match;
     private Toast statusToast;
+    MatchViewModel matchViewModel;
     DatabaseReference databaseReference;
-    private String matchId;
+    private String matchId, clubId;
     private EditText scoreHome,scoreVisitor;
     int score_home, score_visitor;
 
@@ -49,16 +54,18 @@ public class ModifyMatch extends AppCompatActivity {
         /**
          * Getting the id of the match
          */
-        databaseReference = FirebaseDatabase.getInstance().getReference("Match");
-        matchId = match.getMatchId();
-        score_home = match.getScoreHome();
-        score_visitor = match.getScoreVisitor();
-        String value = getIntent().getExtras().getString(matchId);
-        scoreHome = findViewById(R.id.score_home);
-        scoreVisitor = findViewById(R.id.score_visitor);
-        scoreHome.setText(score_home);
-        scoreVisitor.setText(score_visitor);
+     /*   Intent i = getIntent();
+        matchId = i.getStringExtra("MatchId");
+        clubId = i.getStringExtra("clubId");
 
+        MatchViewModel.Factory factory = new MatchViewModel.Factory(this.getApplication());
+        matchViewModel = new ViewModelProvider(this,factory).get(MatchViewModel.class);
+        matchViewModel.getMatch( matchId,clubId).observe(this, matchEntity -> {
+            if(matchEntity!=null)
+                match = matchEntity;
+            clubName.setText(club.getNameClub());
+        });
+*/
 
 
         /**
@@ -128,7 +135,6 @@ public class ModifyMatch extends AppCompatActivity {
                         Log.d(TAG, "updateClub: success");
                         setResponse(true);
                     }
-
                     @Override
                     public void onFailure(Exception e) {
                         Log.d(TAG, "updateClub: failure",e);

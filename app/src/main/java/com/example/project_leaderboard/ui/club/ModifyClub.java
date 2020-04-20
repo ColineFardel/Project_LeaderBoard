@@ -1,5 +1,6 @@
 package com.example.project_leaderboard.ui.club;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,11 +20,18 @@ import android.widget.Toast;
 
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Club;
+import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
+import com.example.project_leaderboard.ui.league.LeagueListViewModel;
 import com.example.project_leaderboard.ui.settings.SharedPref;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -39,8 +48,12 @@ public class ModifyClub extends AppCompatActivity {
 
     private ClubViewModel clubViewModel;
     private Club club;
+    private List<League> listLeagues;
+    private LeagueListViewModel leagueviewModel;
 
     private Toast statusToast;
+    private Spinner leagueSpinner;
+    private String leagueIdChosen;
     DatabaseReference databaseReference;
 
 
@@ -76,6 +89,36 @@ public class ModifyClub extends AppCompatActivity {
         setContentView(R.layout.activity_modify_club);
 
         clubName = findViewById(R.id.modify_club_name);
+        leagueSpinner = findViewById(R.id.league_spinner_modify);
+
+
+/**
+ * Creating a list of leagues in order to get the id of the league chosen in the spinner
+ */
+        LeagueListViewModel.Factory fac = new LeagueListViewModel.Factory(this.getApplication());
+        leagueviewModel = new ViewModelProvider(this,fac).get(LeagueListViewModel.class);
+        leagueviewModel.getAllLeagues().observe(this,league -> {
+            if(league!=null){
+                listLeagues = league;
+            }
+        });
+
+        /**
+         * Setting a listener on the spinner to know the id of the league chosen
+         */
+        leagueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                leagueIdChosen=listLeagues.get(position).getLeagueId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
         /**
          * Get the club from firebase with the id from last activity
@@ -89,11 +132,13 @@ public class ModifyClub extends AppCompatActivity {
         clubViewModel.getClub( leagueId,clubId).observe(this, clubEntity -> {
             if(clubEntity!=null)
                 club = clubEntity;
-                clubName.setText(club.getNameClub());
+            clubName.setText(club.getNameClub());
+            club.setLeagueId(leagueId);
         });
 
-        //sa je sais pas a quoi sa sert je l'ai laisser
-        databaseReference = FirebaseDatabase.getInstance().getReference("Club");
+
+
+
 
 
         /**
@@ -115,6 +160,7 @@ public class ModifyClub extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save the club in the database
+                club.setNameClub(clubName.getText().toString().trim());
                 clubViewModel.updateClub(club, new OnAsyncEventListener() {
                     @Override
                     public void onSuccess() {
