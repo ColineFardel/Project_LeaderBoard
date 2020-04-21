@@ -7,6 +7,7 @@ import com.example.project_leaderboard.db.firebase.LeagueLiveData;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
+
 /**
  * Repository class for leagues
  * @author Samuel Michellod
@@ -16,7 +17,6 @@ public class LeagueRepository {
     private static LeagueRepository instance;
 
     public LeagueRepository(){
-
     }
 
     public static LeagueRepository getInstance() {

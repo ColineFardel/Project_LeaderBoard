@@ -1,19 +1,14 @@
 package com.example.project_leaderboard.ui.league;
 
 import android.app.Application;
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.repository.LeagueRepository;
-
-import java.util.List;
 
 /**
  * This class is the view model for one league
@@ -57,15 +52,6 @@ public LeagueViewModel (@NonNull Application application, LeagueRepository leagu
     public LiveData<League> getLeague(){
         return observableLeague;
     }
-    /*
-    public LiveData<List<String>> getLeagueName(Context context) {
-        return  repository.getLeagueName(context);
-    }
-    public LiveData<League> getLeagueByName(Context context, String leagueName){
-        return repository.getLeagueByName(context,leagueName);
-    }
-
-     */
 }
 
 

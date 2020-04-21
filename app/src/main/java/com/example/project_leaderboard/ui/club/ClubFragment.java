@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.project_leaderboard.R;
-import com.example.project_leaderboard.adapter.ClubModel;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;

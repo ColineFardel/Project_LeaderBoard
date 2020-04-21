@@ -86,8 +86,7 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="?attr/tintcolor"
-        android:foregroundTint="?attr/tintcolor"
+        android:textColor="?attr/textcolor"
         android:text="LeagueName"
         android:textSize="30sp"
         />

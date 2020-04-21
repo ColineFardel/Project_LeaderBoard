@@ -1,21 +1,17 @@
 package com.example.project_leaderboard.ui.club;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.repository.ClubRepository;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
-
 import java.util.List;
+
 /**
  * ViewModel class for list of clubs
  * @author Samuel Michellod
@@ -57,13 +53,12 @@ public class ClubListViewModel extends AndroidViewModel {
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
-            //noinspection unchecked
             return (T) new ClubListViewModel(application, clubRepository, leagueId);
         }
     }
 
     /**
-     * Expose the LiveData ClubEntity query so the UI can observe it.
+     * Expose the LiveData Club query so the UI can observe it.
      */
     public LiveData<List<Club>> getClubs() {
         return observableClub;

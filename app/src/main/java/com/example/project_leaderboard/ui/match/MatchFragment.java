@@ -12,11 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
@@ -30,7 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,7 +123,6 @@ public class MatchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int index, long id) {
                 leagueIdChosen=listLeagues.get(index).getLeagueId();
-                String prout = leagueIdChosen;
 
                 chargeClubSpinner(leagueIdChosen,clubsHomeSpinner);
                 chargeClubSpinner(leagueIdChosen,clubsVisitorSpinner);

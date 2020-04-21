@@ -17,7 +17,7 @@
         android:textColor="?attr/textcolor"
         android:textColorHint="?attr/tintcolor"
         android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/modifyButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/deleteButton"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,26 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/row" />
-<!--
-    <ListView
-        android:id="@+id/all_matchs"
-        android:layout_width="409dp"
-        android:layout_height="543dp"
-        android:layout_marginTop="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <ImageButton
-        android:id="@+id/modifyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:src="@drawable/ic_modify"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/deleteButton"

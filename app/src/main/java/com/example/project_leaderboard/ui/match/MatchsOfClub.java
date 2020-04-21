@@ -50,12 +50,13 @@ public class MatchsOfClub extends AppCompatActivity {
     private List<Club> allClubs;
     private List<Club> clubsHome;
     private List<Club> clubsVisitor;
+    private List<Club> clubsHomeToUpdate;
+    private List<Club> clubsVisitorToUpdate;
     private List<MatchModel> matchModelList;
 
     private String leagueId;
     private String clubId;
 
-    private ImageButton modifyButton;
     private ImageButton deleteButton;
     private FloatingActionButton addFloatButton;
 
@@ -152,7 +153,7 @@ public class MatchsOfClub extends AppCompatActivity {
         });
 
         /**
-         * Setting the button to delete a club
+         * Setting the button to delete a match
          */
         deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -164,11 +165,43 @@ public class MatchsOfClub extends AppCompatActivity {
                     statusToast.show();
                 }
                 else{
-                    matchListViewModel.deleteMatches(matches, new OnAsyncEventListener() {
+                    List<Match> matchesToDelete = matchRecyclerAdapter.getSelectedMatches();
+
+                    clubsVisitorToUpdate = clubsVisitor;
+                    clubsHomeToUpdate = clubsHome;
+
+                    clubsHomeToUpdate = filterClubsByHome(clubsHomeToUpdate ,matchesToDelete);
+                    clubsVisitorToUpdate = filterClubsByVisitor(clubsVisitorToUpdate ,matchesToDelete);
+
+                    clubsHomeToUpdate = setClubsHomeValues(clubsHomeToUpdate, matchesToDelete);
+                    clubsVisitorToUpdate = setClubsVisitorValues(clubsVisitorToUpdate, matchesToDelete);
+
+                    matchListViewModel.deleteMatches(matchesToDelete, new OnAsyncEventListener() {
                         @Override
                         public void onSuccess() {
                             Log.d(TAG, "deleteMatches: success");
-                            onBackPressed();
+                            clubListViewModel.updateClubs(clubsVisitorToUpdate, new OnAsyncEventListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.d(TAG, "updateClubs: success");
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+
+                                }
+                            });
+                            clubListViewModel.updateClubs(clubsHomeToUpdate, new OnAsyncEventListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.d(TAG, "updateClubs: success");
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+
+                                }
+                            });
                         }
 
                         @Override
@@ -177,38 +210,6 @@ public class MatchsOfClub extends AppCompatActivity {
                             setResponse(false);
                         }
                     });
-                }
-            }
-        });
-
-        /**
-         * Setting the button to modify a club
-         */
-        modifyButton = findViewById(R.id.modifyButton);
-        modifyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(matchRecyclerAdapter.getNumberSelected()>1){
-                    String msg = getString(R.string.tooMuchItems);
-                    Toast statusToast = Toast.makeText(MatchsOfClub.this, msg, Toast.LENGTH_LONG);
-                    statusToast.show();
-                }
-                else{
-                    if(matchRecyclerAdapter.getNumberSelected()<1){
-                        String msg = getString(R.string.notEnoughItems);
-                        Toast statusToast = Toast.makeText(MatchsOfClub.this, msg, Toast.LENGTH_LONG);
-                        statusToast.show();
-                    }
-                    else {
-                        Match matchselected = matchRecyclerAdapter.getSelectedMatch();
-                        Bundle b = new Bundle();
-                        b.putString("matchId",matchselected.getMatchId());
-                        b.putString("leagueId",leagueId);
-                        Intent i;
-                        i = new Intent(getBaseContext(), ModifyMatch.class);
-                        i.putExtras(b);
-                        startActivity(i);
-                    }
                 }
             }
         });
@@ -245,6 +246,50 @@ public class MatchsOfClub extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(matchRecyclerAdapter);
+    }
+
+    /**
+     * Method to set the points in the home clubs wich matches are deleted
+     * @param clubs
+     * @param matches
+     * @return
+     */
+    public List<Club> setClubsVisitorValues(List<Club> clubs, List<Match> matches){
+        for(int i =0; i<matches.size();i++){
+            if(matches.get(i).getScoreHome()<matches.get(i).getScoreVisitor()){
+                clubs.get(i).setWins(clubs.get(i).getWins()-1);
+            }
+            if(matches.get(i).getScoreHome()>matches.get(i).getScoreVisitor()){
+                clubs.get(i).setLosses(clubs.get(i).getLosses()-1);
+            }
+            if(matches.get(i).getScoreVisitor()==matches.get(i).getScoreHome()){
+                clubs.get(i).setDraws(clubs.get(i).getDraws()-1);
+            }
+            clubs.get(i).setPoints();
+        }
+        return clubs;
+    }
+
+    /**
+     * Method to set the points in the home clubs wich matches are deleted
+     * @param clubs
+     * @param matches
+     * @return
+     */
+    public List<Club> setClubsHomeValues(List<Club> clubs, List<Match> matches){
+        for(int i =0; i<matches.size();i++){
+            if(matches.get(i).getScoreHome()>matches.get(i).getScoreVisitor()){
+                clubs.get(i).setWins(clubs.get(i).getWins()-1);
+            }
+            if(matches.get(i).getScoreHome()<matches.get(i).getScoreVisitor()){
+                clubs.get(i).setLosses(clubs.get(i).getLosses()-1);
+            }
+            if(matches.get(i).getScoreVisitor()==matches.get(i).getScoreHome()){
+                clubs.get(i).setDraws(clubs.get(i).getDraws()-1);
+            }
+            clubs.get(i).setPoints();
+        }
+        return clubs;
     }
 
     /**

@@ -8,6 +8,7 @@ import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
+
 /**
  * Repository class for clubs
  * @author Samuel Michellod

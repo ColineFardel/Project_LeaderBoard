@@ -3,7 +3,6 @@ package com.example.project_leaderboard.ui.club;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,15 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.db.entity.Club;
 import com.example.project_leaderboard.db.entity.League;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.ui.league.LeagueListViewModel;
 import com.example.project_leaderboard.ui.settings.SharedPref;
-import com.google.firebase.database.DatabaseReference;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -45,7 +41,6 @@ public class ModifyClub extends AppCompatActivity {
     private LeagueListViewModel leagueviewModel;
 
     private Toast statusToast;
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +137,6 @@ public class ModifyClub extends AppCompatActivity {
                         setResponse(false);
                     }
                 });
-
             }
         });
     }

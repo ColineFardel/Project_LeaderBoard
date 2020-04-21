@@ -1,4 +1,5 @@
 package com.example.project_leaderboard.ui.league;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.project_leaderboard.adapter.ClubRecyclerAdapter;
 import com.example.project_leaderboard.adapter.ClubModel;
 import com.example.project_leaderboard.db.entity.Club;
@@ -16,12 +16,10 @@ import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.example.project_leaderboard.db.util.RecyclerViewItemClickListener;
 import com.example.project_leaderboard.ui.club.ClubListViewModel;
-import com.example.project_leaderboard.ui.club.ClubViewModel;
 import com.example.project_leaderboard.ui.club.ModifyClub;
 import com.example.project_leaderboard.ui.match.MatchListViewModel;
 import com.example.project_leaderboard.ui.match.MatchsOfClub;
 import com.example.project_leaderboard.ui.settings.SharedPref;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,7 +31,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_leaderboard.R;
 import com.example.project_leaderboard.ui.club.ClubFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,16 +65,6 @@ public class LeagueBoard extends AppCompatActivity{
     private Toast statusToast;
 
     private ClubRecyclerAdapter clubRecyclerAdapter;
-
-
-    /*
-    private String[] clubs;
-    private List<String> userSelection = new ArrayList<>();
-    //private RecyclerAdapter<Club> recyclerAdapter;
-    private ClubViewModel viewModel;
-    //private List<Club> clubs;
-    private static final String TAG = "Leaderboard Fragment";
-     */
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

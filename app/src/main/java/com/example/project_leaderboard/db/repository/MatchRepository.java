@@ -1,17 +1,12 @@
 package com.example.project_leaderboard.db.repository;
 
-import android.app.Application;
-import android.content.Context;
-
 import androidx.lifecycle.LiveData;
-
 import com.example.project_leaderboard.db.entity.Match;
 import com.example.project_leaderboard.db.firebase.MatchListLiveData;
 import com.example.project_leaderboard.db.firebase.MatchLiveData;
 import com.example.project_leaderboard.db.util.OnAsyncEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 
 /**
@@ -21,10 +16,6 @@ import java.util.List;
 public class MatchRepository {
 
     private static MatchRepository instance;
-    private Context context;
-    public MatchRepository(){
-
-    }
 
     public static MatchRepository getInstance(){
         if(instance==null){
@@ -42,7 +33,7 @@ public class MatchRepository {
      * @param id
      * @return one match
      */
-    public LiveData<Match> getMatch(final String id, String leagueId){
+    public LiveData<Match> getMatch( String id, String leagueId){
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Match")
                 .child(leagueId)
@@ -103,21 +94,5 @@ public class MatchRepository {
                         callback.onSuccess();
                     }
                 });
-
-        /*
-        FirebaseDatabase.getInstance().getReference("matches");
-        FirebaseDatabase.getInstance().getReference("matches").child(match.getMatchId())
-                .removeValue ((databaseError, databaseReference) -> {
-                    if(databaseError !=null){
-                        callback.onFailure(databaseError.toException());
-                    }else {
-                        callback.onSuccess();
-                    }
-                });
-
-         */
     }
-
-
-
 }
