@@ -19,7 +19,6 @@
         <activity android:name=".ui.league.LeagueBoard"/>
         <activity android:name=".ui.match.MatchsOfClub"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ui.match.ModifyMatch" />
 
     </application>
 
